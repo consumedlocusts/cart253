@@ -2,11 +2,9 @@ function setup() {
   createCanvas(375,400);
   // Paint the background once.
   background("brown")
-  describe('A circle on a brown background. The circle follows the mouse as the user moves, leaving a trail. The circle changes color to green when the user double clicks.');
+  describe('wormhole, continous, keep drawing and double click for a strange olive');
 }
-
 function draw() {
-
   // Draw circles repeatedly.
   circle(mouseX,mouseY,40)
 }

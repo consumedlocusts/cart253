@@ -27,8 +27,12 @@ stroke(43, 84, 39)
 // shading the circle outlines
 strokeWeight(2)
 // kura, the boundless sky
-circle(mouseX,mouseY,40);
+circle(mouseX,mouseY,100);
+// temporary dragon
+textSize(300)
+text("🐉",89,280)
 }
+
 
 
 

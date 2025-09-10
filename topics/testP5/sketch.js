@@ -13,4 +13,3 @@ isLooping
 function doubleClicked() {
   fill('olive');
 }
-

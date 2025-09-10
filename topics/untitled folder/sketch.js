@@ -13,13 +13,8 @@ function setup() {
  * sets background, draws the eye
 */
 function draw() {
-//the void
-background("#00000")
-Fill(255,0,0);
-ellipse(20,20,20,20);
 
-// the eye
-drawEye();
+    
 
 
 }

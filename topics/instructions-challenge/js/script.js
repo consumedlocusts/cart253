@@ -44,8 +44,6 @@ function drawEye() {
     ellipse(200,200,300,25);
     pop();
 
- 
-
     push();
     noStroke();
     fill("brown");
@@ -59,8 +57,5 @@ function drawEye() {
     ellipse(200,200,25);
     pop();
     
-  
-
-
 
 }

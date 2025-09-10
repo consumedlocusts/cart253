@@ -9,16 +9,23 @@ function setup() {
     background(0,45,0)
 }
 
-"use strict";
 
 /**
  * sets background, draws the eye
 */
 function draw() {
 //the void
-background("#00000")
-Fill(255,0,0);
+background("brown");
+
+push();
+fill(255,0,0);
 ellipse(20,20,20,20);
+pop();
+
+stroke(255);
+strokeWeight(4);
+fill(255,121,0);
+rect(100,100,50,30);
 
 // the eye
 drawEye();

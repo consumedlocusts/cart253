@@ -5,8 +5,8 @@
  *  Creates the canvas
  */
 function setup() {
-    createCanvas (800, 400)
-    background(0,45,0)
+    createCanvas (400, 400)
+
 }
 
 
@@ -15,7 +15,7 @@ function setup() {
 */
 function draw() {
 //the void
-background("brown");
+background("#000000");
 
 push();
 fill(255,0,0);
@@ -25,10 +25,42 @@ pop();
 stroke(255);
 strokeWeight(4);
 fill(255,121,0);
-rect(100,100,50,30);
+
 
 // the eye
 drawEye();
+
+
+}
+
+/**
+ * draws void eye
+ */
+function drawEye() {
+    //eyeball
+      push();
+    noStroke();
+    fill("white");
+    ellipse(200,200,300,25);
+    pop();
+
+ 
+
+    push();
+    noStroke();
+    fill("brown");
+    ellipse(200,200,200,25);
+    pop();
+
+    //retina
+    push();
+    noStroke();
+    fill("#000000");
+    ellipse(200,200,25);
+    pop();
+    
+  
+
 
 
 }

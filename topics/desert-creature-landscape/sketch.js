@@ -13,13 +13,13 @@ function draw() {
     background("#e9dcb4ff");
      
     push();
-    fill("#000000ff");
+    fill("#cf0101ee");
    noStroke();
    triangle(200,300,300,200,8,100)
     pop();
 
      push();
-    fill("#000000ff");
+    fill("#000000f3");
    noStroke();
    triangle(200,10,300,300,800,500)
     pop();

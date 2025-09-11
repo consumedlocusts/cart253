@@ -19,9 +19,9 @@ function draw() {
     pop();
 
      push();
-    fill("#00000071");
+    fill("#000000ff");
    noStroke();
-   triangle(200,200,200,10,800,600)
+   triangle(200,10,300,300,800,500)
     pop();
 
    push();

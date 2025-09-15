@@ -8,18 +8,21 @@
 "use strict";
 
 // Our UFO
-let ufo = {
-    // Position
+let ufo = {// Position
     x: 200,
-    y: 375,
+    y: 375, 
     // Dimensions
-    width: 150,
+    width: {
+    size:150,
     maxWidth: 400,
-    height: 50,
+    },
+    
+    height: {size:50,
     maxHeight: 400,
-    // Fill colour (greyscale)
+},
+// Fill colour (greyscale)
     fill: 255
-};
+}
 
 // Shade to fill the sky (background)
 let skyShade = 0;

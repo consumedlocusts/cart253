@@ -14,7 +14,9 @@ let ufo = {
     y: 375,
     // Dimensions
     width: 150,
+    maxWidth: 400,
     height: 50,
+    maxHeight: 400,
     // Fill colour (greyscale)
     fill: 255
 };
@@ -41,7 +43,7 @@ ufo.x=ufo.x+0.5;
 ufo.fill=ufo.fill*0.995;
 ufo.width=ufo.width/1.005;
 ufo.height=ufo.height/1.005;
-    // Draw the UFO based on its properties, mouseX and Y added
+    // Draw the UFO xbased on its properties, mouseX and Y added
     push();
     fill(ufo.fill);
     noStroke();

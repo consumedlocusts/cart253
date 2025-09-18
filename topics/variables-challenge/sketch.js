@@ -28,30 +28,41 @@ function draw() {
   
   push();
   if (mouseIsPressed === true) {
+
     fill("#f9f511ff");
   strokeWeight(90);
   stroke("#f9f511ff");
   ellipse(mouseX, mouseY, scope.x, scope.y, scope.size, scope.size);
-  pop();
-
+  
   //scope level 2
 
-  push();
+
   fill("#4fb419ff");
   strokeWeight(90);
   stroke("#4fb419ff");
   ellipse(mouseX, mouseY, scope2.x, scope2.y, scope2.size, scope2.size);
+    
   
+  fill("#4fb419ff");
+  strokeWeight(190);
+  stroke("#000000ff");
+  ellipse(mouseX, mouseY,140,20,0,20);
+
   stroke("#000000");
   strokeWeight(80)
   fill("#ff0000");
   ellipse(mouseX, mouseY, pointer.x, pointer.y, pointer.size, pointer.size);
-  
+   
+  fill("#ffda35ff");
+ noStroke();
+  ellipse(mouseX, mouseY, 10, 200, 0, 5);
+fill("#ffda35ff");
+ noStroke();
+ellipse(mouseX, mouseY, 200, 10, 5, 0);
+
+
   } else {
-  
-  stroke("#ffffff");
-  strokeWeight(10);
-  line(200,200,200,200,20)
+
 
   fill("#f9f511ff");
   strokeWeight(170);
@@ -74,9 +85,9 @@ function draw() {
   fill("#000000ff");
   ellipse(mouseX, mouseY,200,200,0);
   
+  pop();
+
   }
- 
-  //scope level 1
  
   
 }

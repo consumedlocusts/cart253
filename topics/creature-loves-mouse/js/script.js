@@ -37,6 +37,8 @@ function setup() {
 /**
  * Fills the background, displays the creature 
  */
+
+
 function draw() {
     background(255, 200, 127);
 
@@ -49,11 +51,23 @@ function draw() {
  */
 function checkInput() {
     // We'll need to figure this out
+    if (mouseIsPressed){
+        //from its bored state of black "fill" to one of the moods/color in "fills"
+        creature.fill = creature.fills.happy;
+    }
+    else if (keyIsPressed) {
+        creature.fill = creature.fills.angry;
+    }
+    else {
+        creature.fill = creature.fills.bored;
+    }
 }
 
 /**
  * Draws the creature
  */
+
+
 function drawCreature() {
     push();
     noStroke();

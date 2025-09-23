@@ -2,7 +2,7 @@
 let rectVar = {x:200,
   y:20,
   rectSize:50,
-  rectFill:255}
+  rectFill:"#ff0000ff"}
 
 let scope2 = {
   x: 200,
@@ -45,6 +45,7 @@ function draw() {
     rectVar.rectFill = 255
   }
   push();
+
   if (mouseIsPressed === true) {
 
     fill("#f9f511ff");
@@ -66,9 +67,9 @@ function draw() {
   stroke("#000000ff");
   ellipse(mouseX, mouseY,140,20,0,20);
 
-  stroke("#000000");
+  stroke("#000000d3");
   strokeWeight(80)
-  fill("#ff00008c");
+  fill("#ff0000ff");
   ellipse(mouseX, mouseY, pointer.x, pointer.y, pointer.size, pointer.size);
    
   fill("#ffda35ff");

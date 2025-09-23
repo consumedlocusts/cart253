@@ -31,7 +31,7 @@ const creature = {
     //How bored
     boredomLevel: 0,
     //max boredom before death
-    deathbyBoredomThreshold: 500 
+    deathByBoredomThreshold: 500 
 };
 
 /**
@@ -50,7 +50,6 @@ function draw() {
     checkInput();
     drawCreature();
 }
-
 
 /**
  * Creature is happy if being massaged and otherwise bored
@@ -83,7 +82,7 @@ function checkInput() {
         creature.fill = creature.fills.bored;
         //getting bored...
         creature.boredomLevel += 1;
-        if(creature.boredomLevel > creature.deathbyBoredomThreshold) {
+        if(creature.boredomLevel > creature.deathByBoredomThreshold) {
             //dies
             creature.alive = false;
             //corpse pose

@@ -6,13 +6,10 @@
  */
 
 "use strict";
-
-let targetX; 
-let targetY; 
-let target = {
-  targetSize: 50,
-  targetFill:"#ff0000ff"}
-let targetDistance = dist(mouseX, mouseY, target.x, target.y);
+let rectVar = {x:200,
+  y:20,
+  rectSize:50,
+  rectFill:"#ff0000ff"}
 
 let scope2 = {
   x: 200,
@@ -33,31 +30,28 @@ let pointer = {
 };
 
 function setup() {
-  createCanvas(640, 640);
+  createCanvas(400, 400);
   background("#000000");
-  
 }
-function checkInput(){  
- 
- const mouseIsOverlapping = (target.targetDistance < target.targetSize / 2);
- const mouseIsMoving = (movedX !== 0 || movedY !== 0);
-
- if (mouseIsOverlapping && mouseIsMoving){ 
-  targetX= random(0,width);
-  targetY = random(0,height);
-}
-  else {
-    target.targetFill = "#ffdd00ff"
-  }
-  }
-
 //sorry I am still working on this and plan to change the rectVar to a "target".
 function draw() {
   background("#000000");
-push();
+ 
+  fill(rectVar.rectFill)
+  rect(rectVar.x,rectVar.y,rectVar.rectSize)
 
-fill(target.targetFill)
-  rect(target.x,target.y,target.targetSize)
+  // if mouse x is greater than left of box
+  if(mouseX && mouseY > rectVar.x){
+// if mouse x is less than right of box
+    if(mouseX && mouseY < rectVar.x+rectVar.rectSize){
+      rectVar.rectFill = 0
+  }
+
+}
+  else{
+    rectVar.rectFill = 255
+  }
+  push();
 
   if (mouseIsPressed === true) {
 

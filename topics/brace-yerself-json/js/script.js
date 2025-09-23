@@ -4,7 +4,9 @@
  * 
  * drawing with text 
  */
-
+//I want to have the scope pointer x ray the target on contact, 
+// have the target move randomly around the frame - contact then release mouse then move i mean**
+//
 "use strict";
 
 let targetX; 

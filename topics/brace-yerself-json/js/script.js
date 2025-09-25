@@ -8,13 +8,13 @@
 // have the target move randomly around the frame - contact then release mouse then move i mean**
 //
 "use strict";
-
-let targetX; 
-let targetY; 
 let target = {
   targetSize: 50,
-  targetFill:"#ff0000ff"}
-let targetDistance = dist(mouseX, mouseY, target.x, target.y);
+  targetFill:"#ff0000ff",
+  x:0,
+  y:0
+}
+
 
 let scope2 = {
   x: 200,
@@ -37,16 +37,17 @@ let pointer = {
 function setup() {
   createCanvas(640, 640);
   background("#000000");
-  
+  target.x= random(0,width);
+  target.y = random(0,height);
 }
 function checkInput(){  
- 
- const mouseIsOverlapping = (target.targetDistance < target.targetSize / 2);
+ let targetDistance = dist(mouseX, mouseY, target.x, target.y);
+ const mouseIsOverlapping = (targetDistance < target.targetSize / 2);
  const mouseIsMoving = (movedX !== 0 || movedY !== 0);
 
  if (mouseIsOverlapping && mouseIsMoving){ 
-  targetX= random(0,width);
-  targetY = random(0,height);
+  target.x= random(0,width);
+  target.y = random(0,height);
 }
   else {
     target.targetFill = "#ffdd00ff"
@@ -56,6 +57,7 @@ function checkInput(){
 //sorry I am still working on this and plan to change the rectVar to a "target".
 function draw() {
   background("#000000");
+  checkInput();
 push();
 
 fill(target.targetFill)

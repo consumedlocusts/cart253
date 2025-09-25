@@ -23,7 +23,7 @@ let pointer = {
 };
 
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(640, 640);
   background("#000000");
 }
 //sorry I am still working on this and plan to change the rectVar to a "target".

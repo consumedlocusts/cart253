@@ -11,11 +11,6 @@ let test1= { testString:"¯(ツ)_/¯", x: 200, y: 200
  }  
 let test2=  {test2String:"12345678", x:200, y:200,
 }
-
-
-
-
-
 let font;
 let mouseOverlapsText = 0
 let chars =[] // empty list == group
@@ -24,9 +19,10 @@ let chars =[] // empty list == group
 
 
 
-let distance2 = dist (mouseX,mouseY,test2.x,test2.y);
+//let distance2 = dist (mouseX,mouseY,test2.x,test2.y);
 function preload() {
   font = loadFont('/assets/SpecialElite-Regular.ttf');
+ // billy= loadImage ()
 }
 
 function setup() { 

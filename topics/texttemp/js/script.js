@@ -16,23 +16,24 @@ let test2=  {test2String:"12345678", x:200, y:200,
 
 
 
-let font;
+//let font;
 let mouseOverlapsText = 0
 let chars =[] // empty list == group
   let startString = "¯(ツ)_/¯"
-  let otherString = "_.a$$$$$a.    ,$$$$$$$$$$$$$. ,$$$$$$$$$$$$$$$$$"
+  let otherString = "12345678"
 
 
 
 let distance2 = dist (mouseX,mouseY,test2.x,test2.y);
-function preload() {
-  font = loadFont('/assets/SpecialElite-Regular.ttf');
+function preload() { 
+  
+//font = loadFont('/assets/SpecialElite-Regular.ttf');
 }
 
 function setup() { 
   createCanvas(640,640);
   background(0)
-textFont(font);
+//textFont(font);
   textSize(36);
 
 

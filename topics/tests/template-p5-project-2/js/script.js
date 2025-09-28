@@ -18,7 +18,7 @@ let chars =[]; // empty list == group
   let otherString = "qwertyuioplkjhgfdsazxcvbnmkiuytgvbhgfderf"
 
 
-//function preload() { billy= loadImage('/Users/s_hojabr/Documents/GitHub/cart253/topics/texttemp/assets/istockphoto-614744860-612x612.jpg')
+//function preload() { sy= loadImage('/Users/s_hojabr/Documents/GitHub/cart253/topics/texttemp/assets/istockphoto-614744860-612x612.jpg')
 
 //font = loadFont('/assets/SpecialElite-Regular.ttf');
 //}

@@ -17,8 +17,9 @@ let test2=  {test2String:"12345678", x:200, y:200,
 let startIndex = 0;
 let mouseOverlapsText = 0
 let chars =[] // empty list == group
-  let startString = "¯(ツ)_/¯"
-  let otherString = "12345678"
+  let startString = "¯\_(ツ)_/¯¯\_(ツ)_/¯"
+  let otherString = "12345678901234567890"
+  
 
 
 
@@ -33,31 +34,35 @@ function setup() {
   background(0)
 //textFont(font);
   textSize(36);
+textAlign(LEFT, TOP); //idk might change with wrap
 
 
+//text in columns and rows to cover the canvas using approx width/height of each character
+let charWid= textWidth ("M");
+let charHi= textAscent(); + textDescent();
+let vert = floor(width / charWid);
+let horz = floor(height / charHi);
+let grid = vert * horz
 //console.log(startString[1]) 
 //loop - repeat code inside the {} 7 times
-for(let counter =0; 
-  counter<startString.length;
-  counter =counter+1)
+for(let counter =0; counter<grid; counter =counter+1)
 {
   console.log(startString[counter]);
   // add character to list
   chars.push({
-    listString:startString[counter], 
-    x:counter*50, 
-    y:50,
-    otherListString:otherString[counter]
-  })
+    listString: startString[counter % startString.length], 
+      x: vert * charWidth, 
+      y: horz * charHeight,
+      otherListString: otherString[counter % otherString.length]
+    });
+  }
 
 
 }
 
-}
+
 function checkInput() {  
-    for(let counter =0; 
-  counter<startString.length;
-  counter =counter+1)
+    for(let counter =0; counter<startString.length; counter =counter+1)
 {
   // calculate distance for each letter
     const distance = dist(mouseX,mouseY,chars[counter].x,chars[counter].y); 
@@ -74,18 +79,14 @@ function checkInput() {
 
 }
 
-/**
- * OOPS I DIDN'T DESCRIBE WHAT MY DRAW DOES!
-*/
+//draws the text 
 function draw() { 
     background (0);
     checkInput()
    
     fill("#1d9925b7"); 
     
-    for(let counter =0; 
-  counter<startString.length;
-  counter =counter+1)
+    for(let counter =0; counter<startString.length; counter =counter+1)
 {
    push();
     text(chars[counter].listString, chars[counter].x, chars[counter].y);

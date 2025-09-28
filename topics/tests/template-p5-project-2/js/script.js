@@ -14,7 +14,7 @@ let startIndex = 0;
 let mouseOverlapsText = 0;
 let chars =[]; // empty list == group
   let startString = "1234567890123456789012345678901234567890"
-  let otherString = "qwertyuioplkjhgfdsazxcvbnmkiuytgvbhgfderf"
+  let otherString;
 
 function preload() {sama = loadImage('assets/sama.png');
 //font = loadFont('/assets/SpecialElite-Regular.ttf');
@@ -25,14 +25,14 @@ function setup() {
   background(0)
 
 sama.loadPixels();
-sama.resize(64,69);//chars per row,column
+sama.resize(100,0);//chars per row,column
 
 textSize(10);
 textAlign(LEFT, TOP); //align as one would read/type text 
 
 
 //text in columns and rows to cover the canvas using approx width/height of each character
-let charWid= textWidth ("M"); //after prolonged research on why this wasnt working it was because
+let charWid= textWidth ("W"); //after prolonged research on why this wasnt working it was because
 //it needs the widest char of all time not just in my text for an average
 let charHi= textAscent()+textDescent(); //this is the height of each character, it differs per letter 
 let horz = floor(width/charWid); //floor rounds down to the nearest integer, making the row a whole number because i need array index 
@@ -55,14 +55,14 @@ let me = (h * sama.width + v) * 4; //where the first coordinate (at the first ro
 let r = sama.pixels[me];//red pixel channel
 let g = sama.pixels[me + 1];//red+1=green pix chanl
 let b = sama.pixels[me + 2];//red+2=blue pix chanl
-sama.updatePixels();
+//sama.updatePixels();
 //average of the rbg scale to get grey scale, "brightness"index
 //is just whichever char's density is closest to the actual "pixel size"(rgb channel)
 let brightness = (r + g + b) / 3;
-let charPaint = "@#%*+=-:. "; // my ASCII char palette index, 
+const charPaint = "Ñ@#W$9876543210?!abc;:+=-,._ "; 
 // any chars i want will get "greyscaled" into my image(dont forget space/empty)!!
 let charIndex = floor(map(brightness, 0, 255, 0, charPaint.length)); //mapping...
-if (charIndex >= charPaint.length) charIndex = charPaint.length - 1;
+//if (charIndex >= charPaint.length) charIndex = charPaint.length - 1;
 let mappedChar = charPaint[charIndex];
   // add character to list
   chars.push({

@@ -8,8 +8,7 @@
  */
 //note: i keep getting columns and rows mixed up in the notes sorry 
 "use strict";
-let green = fill("#1d9925b7"); 
-let red = fill("#c60606ff");
+
 let sama;
 let startIndex = 0;
 let mouseOverlapsText = 0;
@@ -24,7 +23,6 @@ function preload() {sama = loadImage('assets/sama.png');
 function setup() { 
   createCanvas(640,640);
   background(0)
-
 sama.loadPixels();
 sama.resize(100,0);//chars per row,column
 
@@ -70,7 +68,7 @@ let mappedChar = charPaint[charIndex];
     listString: startString[counter%startString.length], //length because of text orientation
       x: h*charWid, 
       y: v*charHi,
-      otherListString: mappedChar //otherString[counter%otherString.length]
+      otherListString: mappedChar 
     });
   }
 }
@@ -82,7 +80,7 @@ function checkInput() {
   // calculate distance for each letter
     const distance = dist(mouseX,mouseY,chars[counter].x,chars[counter].y); 
      mouseOverlapsText = (distance < 30 );
-     // if overlap
+     // if hovering with mouse
      if(mouseOverlapsText){
         console.log(chars[counter].listString)
         // switch to other string
@@ -91,7 +89,6 @@ function checkInput() {
      }
    
 }
-
 
 }
 
@@ -104,7 +101,7 @@ function draw() {
         counter < chars.length; 
         counter = counter + 1) {
     if (chars[counter].mouseOverlapsText && mouseIsPressed) {
-      fill("#c60606ff"); // red when hovered + pressed
+      fill("#c60606ff"); // red when hovered + pressed 
     } 
     else if (chars[counter].mouseOverlapsText) {
       fill("#1d9925b7"); 
@@ -126,3 +123,5 @@ function draw() {
     pop()
 }
 
+//reference youtube: https://www.youtube.com/watch?v=55iwMYv8tGI
+//reference youtube: https://www.youtube.com/watch?v=4IyeLc6J1Uo

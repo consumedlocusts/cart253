@@ -8,7 +8,7 @@
  */
 //note: i keep getting columns and rows mixed up in the notes sorry 
 "use strict";
-
+let font;
 let sama;
 let startIndex = 0;
 let mouseOverlapsText = 0;
@@ -16,18 +16,18 @@ let chars =[]; // empty list == group
   let startString = "1234567890123456789012345678901234567890"
   let otherString; 
 
-function preload() {sama = loadImage('assets/sama.png');
-//font = loadFont('/assets/SpecialElite-Regular.ttf');
+function preload() {sama = loadImage('assets/code.png');
+font = loadFont('assets/Bomb!.ttf');
 }
 
 function setup() { 
   createCanvas(640,640);
   background(0)
 
-//sama.resize(0,0);//chars per row,column
+sama.resize(64,0);//chars per row,column
 sama.loadPixels();
-
-textSize(10);
+textFont(font);
+textSize(15);
 textAlign(LEFT, TOP); //align as one would read/type text 
 
 
@@ -59,7 +59,7 @@ let b = sama.pixels[me + 2];//red+2=blue pix chanl
 //average of the rbg scale to get grey scale, "brightness"index
 //is just whichever char's density is closest to the actual "pixel size"(rgb channel)
 let brightness = (r + g + b) / 3;
-const charPaint = "Ñ@#W$9876543210?!abc;:+=-,._ "; 
+const charPaint = "@#W$9876543210?!abc;:+=-,._ "; 
 // any chars i want will get "greyscaled" into my image(dont forget space/empty)!!
 let charIndex = floor(map(brightness, 0, 255, 0, charPaint.length)); //mapping...
 //if (charIndex >= charPaint.length) charIndex = charPaint.length - 1;

@@ -23,8 +23,9 @@ function preload() {sama = loadImage('assets/sama.png');
 function setup() { 
   createCanvas(640,640);
   background(0)
+
+//sama.resize(0,0);//chars per row,column
 sama.loadPixels();
-sama.resize(100,0);//chars per row,column
 
 textSize(10);
 textAlign(LEFT, TOP); //align as one would read/type text 
@@ -36,7 +37,7 @@ let charWid= textWidth ("W"); //after prolonged research on why this wasnt worki
 let charHi= textAscent()+textDescent(); //this is the height of each character, it differs per letter 
 let horz = floor(width/charWid); //floor rounds down to the nearest integer, making the row a whole number because i need array index 
 let vert = floor(height/charHi); //floor also makes it so they dont overlap
-let grid = vert*horz //basic area 
+let grid = horz*vert//basic area 
 
 //loop - repeat code inside the {} 
 //this loop is considering the individual details of the above
@@ -49,7 +50,7 @@ for(let counter =0;
   let v = floor(counter/horz); //hours googling this calc still made no sense 
   console.log(startString[counter]);
   //how these pixels shall spawn 
-let me = (h * sama.width + v) * 4; //where the first coordinate (at the first row, offset column) to allow
+let me = (v * sama.width + h) * 4; //where the first coordinate (at the first row, offset column) to allow
 // my pixels to be arrayed , * 4 because each pixel is made up of 4 components: RGBA (photoshop theory)
 let r = sama.pixels[me];//red pixel channel
 let g = sama.pixels[me + 1];//red+1=green pix chanl
@@ -100,14 +101,14 @@ function draw() {
     for (let counter = 0; 
         counter < chars.length; 
         counter = counter + 1) {
-    if (chars[counter].mouseOverlapsText && mouseIsPressed) {
+    if (mouseOverlapsText && mouseIsPressed) {
       fill("#c60606ff"); // red when hovered + pressed 
     } 
     else if (chars[counter].mouseOverlapsText) {
       fill("#1d9925b7"); 
     } 
     else {
-      fill(200);
+       fill("#1d9925b7"); 
     }
    
     text(chars[counter].listString, chars[counter].x, chars[counter].y);

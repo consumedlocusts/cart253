@@ -59,7 +59,7 @@ let b = sama.pixels[me + 2];//red+2=blue pix chanl
 //average of the rbg scale to get grey scale, "brightness"index
 //is just whichever char's density is closest to the actual "pixel size"(rgb channel)
 let brightness = (r + g + b) / 3;
-const charPaint = "@#W$9876543210?!abc;:+=-,._ "; 
+const charPaint = "abL+@W9876j54II0?abc;:JNN "; 
 // any chars i want will get "greyscaled" into my image(dont forget space/empty)!!
 let charIndex = floor(map(brightness, 0, 255, 0, charPaint.length)); //mapping...
 //if (charIndex >= charPaint.length) charIndex = charPaint.length - 1;

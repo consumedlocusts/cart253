@@ -1,5 +1,5 @@
 /**
- * tired me2
+ * ASCII and Array Project
  * sama
  * 
  * Drawing with altering one text string into another
@@ -33,7 +33,7 @@ textAlign(LEFT, TOP); //align as one would read/type text
 
 //text in columns and rows to cover the canvas using approx width/height of each character
 let charWid= textWidth ("W"); //after prolonged research on why this wasnt working it was because
-//it needs the widest char of all time not just in my text for an average
+//it needs the widest char in the alphabet of all time not just in my text for an average
 let charHi= textAscent()+textDescent(); //this is the height of each character, it differs per letter 
 let horz = floor(width/charWid); //floor rounds down to the nearest integer, making the row a whole number because i need array index 
 let vert = floor(height/charHi); //floor also makes it so they dont overlap
@@ -121,3 +121,5 @@ function draw() {
 
 //reference youtube: https://www.youtube.com/watch?v=55iwMYv8tGI
 //reference youtube: https://www.youtube.com/watch?v=4IyeLc6J1Uo
+//reference codes: https://editor.p5js.org/codingtrain/sketches/ytK7J7d5j 
+//https://editor.p5js.org/codingtrain/sketches/LNBpdYQHP

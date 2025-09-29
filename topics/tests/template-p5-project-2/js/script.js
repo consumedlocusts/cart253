@@ -109,19 +109,14 @@ function draw() {
     else {
       fill(200);
     }
-
-    push();
+   
     text(chars[counter].listString, chars[counter].x, chars[counter].y);
-    pop();
+    
   }
+   
 }
    
-      
-{
-   push();
-    text(chars[counter].listString, chars[counter].x, chars[counter].y);
-    pop()
-}
+    
 
 //reference youtube: https://www.youtube.com/watch?v=55iwMYv8tGI
 //reference youtube: https://www.youtube.com/watch?v=4IyeLc6J1Uo

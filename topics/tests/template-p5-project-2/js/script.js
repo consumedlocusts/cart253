@@ -8,13 +8,14 @@
  */
 //note: i keep getting columns and rows mixed up in the notes sorry 
 "use strict";
-
+let green = fill("#1d9925b7"); 
+let red = fill("#c60606ff");
 let sama;
 let startIndex = 0;
 let mouseOverlapsText = 0;
 let chars =[]; // empty list == group
   let startString = "1234567890123456789012345678901234567890"
-  let otherString;
+  let otherString; 
 
 function preload() {sama = loadImage('assets/sama.png');
 //font = loadFont('/assets/SpecialElite-Regular.ttf');
@@ -83,11 +84,10 @@ function checkInput() {
      mouseOverlapsText = (distance < 30 );
      // if overlap
      if(mouseOverlapsText){
-      
         console.log(chars[counter].listString)
         // switch to other string
         chars[counter].listString = chars[counter].otherListString
-         
+        
      }
    
 }
@@ -98,27 +98,31 @@ function checkInput() {
 //draws the text 
 function draw() { 
     background (0);
-    checkInput()
+    checkInput();
+
+    for (let counter = 0; 
+        counter < chars.length; 
+        counter = counter + 1) {
+    if (chars[counter].mouseOverlapsText && mouseIsPressed) {
+      fill("#c60606ff"); // red when hovered + pressed
+    } 
+    else if (chars[counter].mouseOverlapsText) {
+      fill("#1d9925b7"); 
+    } 
+    else {
+      fill(200);
+    }
+
+    push();
+    text(chars[counter].listString, chars[counter].x, chars[counter].y);
+    pop();
+  }
+}
    
-    fill("#f22424ff");
-    
-    for(let counter =0; 
-      counter<chars.length; 
-      counter =counter+1)
       
 {
    push();
-   fill("#1d9925b7"); 
     text(chars[counter].listString, chars[counter].x, chars[counter].y);
     pop()
 }
-//     if(mouseOverlapsText){ test1.testString = test2.test2String }
-//    push();
-//     fill("#1d9925b7"); 
-// //text(test1, pmouseX, pmouseY, mouseX, mouseY);
-// text(test1.testString,test1.x,test1.y)
-//   pop(); 
-// push();
-// fill("#b80b0bff")
-// text(test2.testString2,test2.x,test1.y);
-}
+

@@ -1,3 +1,12 @@
+/**
+ * im da bomb, ASCII and Array Project
+ * sama
+ * 
+ * Drawing with altering one text string into another
+ * Each string is still joined, but "ungrouped" to be altered 
+ * per character in the string(image/pixel variation)
+ */
+//note: i keep getting columns and rows mixed up in the notes sorry 
 "use strict";
 
 //let font;

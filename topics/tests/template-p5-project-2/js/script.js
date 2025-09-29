@@ -101,8 +101,8 @@ function draw() {
     for (let counter = 0; 
         counter < chars.length; 
         counter = counter + 1) {
-    if (mouseOverlapsText && mouseIsPressed) {
-      fill("#c60606ff"); // red when hovered + pressed 
+    if (mouseOverlapsText) {
+      fill("#c60606ff"); // red when hovered + pressed in the bottom right corner
     } 
     else if (chars[counter].mouseOverlapsText) {
       fill("#1d9925b7"); 
@@ -117,7 +117,7 @@ function draw() {
    
 }
    
-    
+    //&& mouseIsPressed
 
 //reference youtube: https://www.youtube.com/watch?v=55iwMYv8tGI
 //reference youtube: https://www.youtube.com/watch?v=4IyeLc6J1Uo

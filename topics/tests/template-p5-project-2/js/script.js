@@ -1,5 +1,5 @@
 /**
- * ASCII and Array Project
+ * im da bomb, ASCII and Array Project
  * sama
  * 
  * Drawing with altering one text string into another
@@ -102,7 +102,7 @@ function draw() {
         counter < chars.length; 
         counter = counter + 1) {
     if (mouseOverlapsText) {
-      fill("#c60606ff"); // red when hovered + pressed in the bottom right corner
+      fill("#c60606ff"); // red when hovered in the bottom right corner for a scare
     } 
     else if (chars[counter].mouseOverlapsText) {
       fill("#1d9925b7"); 

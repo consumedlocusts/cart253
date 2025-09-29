@@ -1,12 +1,4 @@
 "use strict";
-let test1= { testString:"¯(ツ)_/¯", x: 200, y: 200
- }  
-let test2=  {test2String:"12345678", x:200, y:200,
-}
-
-
-
-
 
 //let font;
 
@@ -18,7 +10,7 @@ let chars =[] // empty list == group
   let otherString;
 
 //let distance2 = dist (mouseX,mouseY,test2.x,test2.y);
-function preload() { billy= loadImage("assets/8ball.jpg");
+function preload() { billy= loadImage('assets/8ball.jpg');
 
 //font = loadFont('/assets/SpecialElite-Regular.ttf');
 }

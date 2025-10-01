@@ -1,16 +1,14 @@
 # TITLE OF PROJECT
 
-AUTHOR NAME
+SAMA HOJABRI
 
-[View this project online](URL_FOR_THE_RUNNING_PROJECT)
+[View this project online](https://consumedlocusts.github.io/cart253/topics/billy-ball)
 
 ## Description
 
-This description should help the reader understand what the program is, anything they should know to be able to experience it (controls, special features, etc.), and what the desired user experience is. For example:
+> _billy-ball_ is a portrait of an 8ball named "billy", draw using text "erasure". It is less a portrait, rather a subconscious desire to learn a mastery level of the game pool ('8 ball').
 
-> *The Mayor of Clown Town* is a simulator experience that allows the user to control a small town populated entirely by clowns.
-
-> The experience is controlled via the mouse, with left click selecting a clown and bringing up a menu of options such as "slip of banana peel" or "get into impossible capacious clown-car."
+> Using the mouse, simply hover over the text rapidly to reveal a greyscaled drawing of the imported image of billy. If the mouse is pressed, a "transparent" red circle appears directed by the cursor. Using this feature and billy's appearance, locate the best point to hit him, call your shot...coming soon...
 
 > The project is meant to give the user a sense of what it would be the mayor of a town of clowns, eventually getting the sense that clowns are not taking their civic duties seriously.
 

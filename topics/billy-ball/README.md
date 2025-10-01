@@ -7,9 +7,9 @@ SAMA HOJABRI
 
 ## Description
 
-> _billy-ball_ is a portrait of an 8ball named "billy", draw using text "erasure". It is less a portrait, rather a subconscious desire to learn a mastery level of the game pool ('8 ball').
+> _billy-ball_ is a portrait of an 8ball named "billy", draw using text "erasure" and the "ASCII" style. It is less a portrait, rather a subconscious desire to learn a mastery level of the game pool ('8 ball').
 
-> Using the mouse, simply hover over the text rapidly to reveal a greyscaled drawing of the imported image of billy. If the mouse is pressed, a "transparent" red circle appears directed by the cursor. Using this feature and billy's appearance, locate the best point to hit him, call your shot...coming soon...
+> Using the mouse, simply hover over the text rapidly to reveal a greyscaled (ASCII) drawing of the imported image of billy. If the mouse is pressed, a "transparent" red circle appears directed by the cursor. Using this feature and billy's appearance, locate the best point to hit him, call your shot...coming soon...
 
 ## Screenshot(s)
 

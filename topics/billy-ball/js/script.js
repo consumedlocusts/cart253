@@ -9,6 +9,11 @@
  */
 //note: i keep getting columns and rows mixed up in the notes sorry 
 "use strict";
+
+let charWid;
+let charHi;
+let horz;
+let vert;
 //let font;
 let billy;
 let startIndex = 0;
@@ -26,20 +31,22 @@ function setup() {
   createCanvas(640,640);
   background(0)
 
-billy.resize(54,0);//chars per row,column
-billy.loadPixels();
+
 //textFont(font);
 textSize(15);
-textAlign(CENTER, CENTER); //align as one would read/type text 
+textAlign(LEFT, BOTTOM); //align as one would read/type text 
 
 
 //text in columns and rows to cover the canvas using approx width/height of each character
-let charWid= textWidth ("W"); //after prolonged research on why this wasnt working it was because
+charWid= textWidth ("W"); //after prolonged research on why this wasnt working it was because
 //it needs the widest char in the alphabet of all time not just in my text for an average
-let charHi= textAscent()+textDescent(); //this is the height of each character, it differs per letter 
-let horz = floor(width/charWid); //floor rounds down to the nearest integer, making the row a whole number because i need array index 
-let vert = floor(height/charHi); //floor also makes it so they dont overlap
+charHi= textAscent()+textDescent(); //this is the height of each character, it differs per letter 
+horz = floor(width/charWid); //floor rounds down to the nearest integer, making the row a whole number because i need array index 
+vert = floor(height/charHi); //floor also makes it so they dont overlap
 let grid = horz*vert//basic area 
+
+billy.resize(horz,vert);//chars per row,column
+billy.loadPixels();
 
 //loop - repeat code inside the {} 
 //this loop is considering the individual details of the above
@@ -95,24 +102,30 @@ function checkInput() {
 //draws the text 
 function draw() { 
     background (0);
+    //image(billy,0,0);
     checkInput();
-
+console.log(chars[0].x,chars[0].y)
     for (let counter = 0; 
         counter < chars.length; 
-        counter = counter + 1) {
-    if (mouseOverlapsText) {
-      fill("#c60606ff"); // red when hovered in the bottom right corner for a scare
-    } 
-    else if (chars[counter].mouseOverlapsText) {
-      fill("#fcfcfcff"); 
-    } 
-    else {
-       fill("rgba(227, 227, 227, 0.74)"); 
-    }
+        counter = counter + 1) 
+        {
+         // calculate distance for each letter
+        const distance = dist(mouseX,mouseY,chars[counter].x,chars[counter].y); 
+        let mouseOverlapsTextTwo = (distance < 50 );
+         // if hovering with mouse
+        if(mouseOverlapsTextTwo && mouseIsPressed){
+         fill("#c60606ff"); // red when hovered in the bottom right corner for a scare
+        } 
+ 
+        else {
+          fill("rgba(227, 227, 227, 0.74)"); 
+         }
    
-    text(chars[counter].listString, chars[counter].x, chars[counter].y);
+    text(chars[counter].listString, chars[counter].x+charWid/2, chars[counter].y+charHi/2);
+   
     
   }
+  
    
 }
    

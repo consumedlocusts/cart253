@@ -13,6 +13,7 @@ let font;
 // Current score
 let score = 0;
 
+let horses;
 // Is the game over?
 let gameOver = false;
 
@@ -21,9 +22,12 @@ let gameOver = false;
  */
 function preload() {
   font = loadFont("./1Punk.ttf");
+
+  horses = loadImage("./horses.png");
 }
 function setup() {
   createCanvas(400, 400);
+  horses.loadPixels();
 }
 
 /**
@@ -51,6 +55,7 @@ function keyPressed() {
  */
 function displayUI() {
   if (gameOver) {
+    image(horses, 0, 0);
     push();
     textFont(font);
     textSize(48);

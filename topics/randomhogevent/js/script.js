@@ -1,5 +1,5 @@
 /**
- * event
+ * its so over event
  * Sama Hojabri
  * 
 
@@ -12,22 +12,26 @@
 let font;
 // Current score
 let score = 0;
-
+let soundeff;
 let horses;
 // Is the game over?
 let gameOver = false;
+let revoEmag = false;
+let noisePlaid = false;
 
 /**
  * Create the canvas
  */
 function preload() {
   font = loadFont("./1Punk.ttf");
-
   horses = loadImage("./horses.png");
+  soundeff = loadSound("./game.mp3");
 }
 function setup() {
   createCanvas(400, 400);
   horses.loadPixels();
+
+  console.log(soundeff.attackLevel);
 }
 
 /**
@@ -47,7 +51,7 @@ function mousePressed() {
   gameOver = true;
 }
 function keyPressed() {
-  gameOver = true;
+  revoEmag = true;
 }
 
 /**
@@ -55,6 +59,13 @@ function keyPressed() {
  */
 function displayUI() {
   if (gameOver) {
+    if (!noisePlaid) {
+      console.log(soundeff.attackLevel);
+      soundeff.play();
+
+      noisePlaid = true;
+    }
+
     image(horses, 0, 0);
     push();
     textFont(font);
@@ -63,6 +74,8 @@ function displayUI() {
     textAlign(CENTER, CENTER + 10);
     text("FAILED", width / 2, height / 3);
     pop();
+  }
+  if (revoEmag) {
   }
   displayScore();
 }

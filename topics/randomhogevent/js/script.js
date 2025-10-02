@@ -14,10 +14,12 @@ let font;
 let score = 0;
 let soundeff;
 let horses;
+let sesroh;
 // Is the game over?
 let gameOver = false;
 let revoEmag = false;
 let noisePlaid = false;
+let noisePlaid2 = false;
 
 /**
  * Create the canvas
@@ -25,6 +27,7 @@ let noisePlaid = false;
 function preload() {
   font = loadFont("./1Punk.ttf");
   horses = loadImage("./horses.png");
+  sesroh = loadImage("./sesroh1.png");
   soundeff = loadSound("./game.mp3");
 }
 function setup() {
@@ -45,6 +48,7 @@ function draw() {
     // Score increases relatively slowly
     score += 0.05;
   }
+
   displayUI();
 }
 function mousePressed() {
@@ -76,6 +80,21 @@ function displayUI() {
     pop();
   }
   if (revoEmag) {
+    if (!noisePlaid2) {
+      console.log(soundeff.attackLevel);
+      soundeff.play();
+      soundeff.rate(0.2);
+      noisePlaid2 = true;
+    }
+    background("#000eabff");
+    image(sesroh, 0, 0);
+    push();
+    textFont(font);
+    textSize(48);
+    textStyle(BOLD);
+    textAlign(CENTER, CENTER + 10);
+    text("DELIAF", width / 2, height / 3);
+    pop();
   }
   displayScore();
 }

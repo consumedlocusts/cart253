@@ -81,11 +81,11 @@ function displayUI() {
   }
   if (revoEmag) {
     if (!noisePlaid2) {
-      console.log(soundeff.attackLevel);
       soundeff.play();
       soundeff.rate(0.2);
       noisePlaid2 = true;
     }
+
     background("#000eabff");
     image(sesroh, 0, 0);
     push();

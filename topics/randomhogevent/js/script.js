@@ -20,7 +20,7 @@ let gameOver = false;
  * Create the canvas
  */
 function preload() {
-  font = loadFont("assets/1Punk.ttf");
+  font = loadFont("./1Punk.ttf");
 }
 function setup() {
   createCanvas(400, 400);
@@ -30,7 +30,7 @@ function setup() {
  * Update the score and display the UI
  */
 function draw() {
-  background("#000000ff");
+  background("#a14242ff");
 
   // Only increase the score if the game is not over
   if (!gameOver) {
@@ -55,8 +55,8 @@ function displayUI() {
     textFont(font);
     textSize(48);
     textStyle(BOLD);
-    textAlign(CENTER, CENTER);
-    text("You lose!", width / 2, height / 3);
+    textAlign(CENTER, CENTER + 10);
+    text("FAILED", width / 2, height / 3);
     pop();
   }
   displayScore();
@@ -67,9 +67,9 @@ function displayUI() {
  */
 function displayScore() {
   push();
-  textSize(48);
+  textSize(36);
   textStyle(BOLD);
   textAlign(CENTER, CENTER);
-  text(floor(score), width / 2, height / 2);
+  text(floor(score), width / 2, height / 3);
   pop();
 }

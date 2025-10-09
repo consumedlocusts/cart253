@@ -12,6 +12,8 @@ text based (small dialog per frame, eg.character is saying something), animated 
 pixel art and ascii style, gonna use phtoshop to edit some pictures cool, crop them etc maybe rig them (images to animate)
 dynamic (the characters or whatnot are not super still) eg. a frame of a face covering/sheilding with a scarf that is blowing in the blizzard (like a flag motion).
 
+** but before all of this just use cool video clips found from outside, edit them to fit the theme, no need for animating yet, final project idea \***
+
 also i maybe want the music to play along the background and change visuals alommg the music time signiture (must do base first)
 
 theme: cold, winter, arctic exploration(franklin), atmosphereic melancholy, such looming feelings
@@ -83,6 +85,14 @@ else if (gameState === "we have been dead since a long time.") {
 //will loop until the gameState variable is no longer 'end'
 phaseSorry();
 
+}
+TEST COPY SUBSTRING CODE,REPLACE PHASE NAMES N LETTERS STUFF IM SO TIRED OK
+function phaseStill() {
+image(stillVid, 0, 0, width, height);
+stillLetters = floor(stillTimer / stillSpeed);
+stillLetters = min(stillLetters, stillString.length);
+text(stillString.substring(0, stillLetters), width/2, height/2);
+if (stillLetters < stillString.length) stillTimer++;
 }
 
 TEST IMAGE AND VIDEO LOADERS

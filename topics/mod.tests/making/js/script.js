@@ -6,7 +6,7 @@
  */
 
 "use strict";
-let begottenSong;
+let begottenMusic;
 let noisePlaid = false;
 
 let awakenStringTimer = 0;
@@ -76,6 +76,8 @@ function preload() {
   warmthImg = createVideo();
   youNeverKnewImg = createVideo();
   sorryImg = createVideo();
+
+  begottenMusic = loadSound();
 }
 
 function setup() {
@@ -84,10 +86,21 @@ function setup() {
   textSize(14);
   textAlign(CENTER, CENTER);
 
-  awakenVid.volume(0);
-  awakenVid.loop();
+  begottenMusic.loop();
+  begottenMusic.setVolume(0.3);
 
-  falseAwakenVid.volume(0); //wouldnt play my vids without muting
+  // mute videos
+  awakenVid.volume(0);
+  falseAwakenVid.volume(0);
+  stillVid.volume(0);
+  stillOddVid.volume(0);
+  begottenVid.volume(0);
+  winterizedVid.volume(0);
+  warmthVid.volume(0);
+  youNeverKnewVid.volume(0);
+  sorryVid.volume(0);
+
+  awakenVid.loop();
 }
 
 function draw() {

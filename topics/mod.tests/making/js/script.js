@@ -22,7 +22,7 @@ let falseAwakenSpeedFactor = 3;
 
 let falseAwakenString =
   "unblinded by our exhaled fog, her Polaris points above to the heavens";
-let falseAwakenImg;
+let falseAwakenVid;
 
 let gameState = 0;
 
@@ -35,6 +35,9 @@ function preload() {
 
 function setup() {
   createCanvas(640, 640);
+  fill("#ff0000ff");
+  textSize(24);
+  textAlign(CENTER, CENTER);
 }
 
 function draw() {

@@ -7,7 +7,11 @@ black metal
 
 text baseed story line game that per task complete in a frame reveals a new frame (that follows chronologically the story).
 pixel arty and ascii style
-dynamic (the characters or whatnot are not super still)
+dynamic (the characters or whatnot are not super still) idk yet
+
+theme: arctic exploration, tragedy, loss, atmosphereic melancholy, such looming feelings
+
+rough draft:
 
 unblinded by our exhauled fog,
 her Polaris points above to the heavens

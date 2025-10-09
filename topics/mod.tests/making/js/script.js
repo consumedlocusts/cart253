@@ -69,15 +69,22 @@ function preload() {
   awakenVid.hide();
   falseAwakenVid = createVideo("./assets/the.mp4");
   falseAwakenVid.hide();
-  stillImg = createVideo();
-  stillOddImg = createVideo();
-  begottenImg = createVideo();
-  winterizedImg = createVideo();
-  warmthImg = createVideo();
-  youNeverKnewImg = createVideo();
-  sorryImg = createVideo();
+  stillVid = createVideo("./assets/still.mp4");
+  stillVid.hide();
+  stillOddVid = createVideo("./assets/odd.mp4");
+  stillOddVid.hide();
+  begottenVid = createVideo("./assets/begotten.mp4");
+  begottenVid.hide();
+  winterizedVid = createVideo("./assets/winterized.mp4");
+  winterizedVid.hide();
+  warmthVid = createVideo("./assets/warmth.mp4");
+  warmthVid.hide();
+  youNeverKnewVid = createVideo("./assets/youNeverKnew.mp4");
+  youNeverKnewVid.hide();
+  sorryVid = createVideo("./assets/sorry.mp4");
+  sorryVid.hide();
 
-  begottenMusic = loadSound();
+  begottenMusic = loadSound("./assets/begotten.mp3");
 }
 
 function setup() {

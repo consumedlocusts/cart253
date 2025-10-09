@@ -11,64 +11,77 @@ let awakenStringTimer = 0;
 let awakenLettersToShow = 0;
 let awakenSpeedFactor = 3;
 
-let awakenString;
-("at first light...the shadow of a man filling his prints in the snow");
+let awakenString =
+  "at first light...the shadow of a man filling his prints in the snow";
 let awakenVid;
 
 let falseAwakenStringTimer = 0;
 let falseAwakenLettersToShow = 0;
 let falseAwakenSpeedFactor = 3;
 
-let falseAwakenString;
-("unblinded by our exhaled fog, her Polaris points above to the heavens");
+let falseAwakenString =
+  "unblinded by our exhaled fog, her Polaris points above to the heavens";
 let falseAwakenImg;
 
 let gameState = 0;
 
 function preload() {
   awakenVid = createVideo();
-  falseAwakenImg = loadImage();
+  awakenVid.hide();
+  falseAwakenVid = createVideo();
+  falseAwakenVid.hide();
 }
 
 function setup() {
   createCanvas(640, 640);
-  background(0);
+  textSize(24);
+  textAlign(CENTER, CENTER);
+  fill(255);
 }
 
 function draw() {
   background(0);
 
   if (gameState === 0) {
-    //will loop until the gameState variable is no longer start
     phaseAwaken();
   } else if (gameState === 1) {
-    //will loop until the gameState variable is no longer 'game'
     phaseFalseAwaken();
   }
 }
 
 function phaseAwaken() {
-  background(0);
+  image(falseAwakenVid, 0, 0, width, height);
+  //Typewriter effect...gradually... each word/letter appears(by threes atm)
+  awakenStringTimer = floor(awakenStringTimer / awakenSpeedFactor);
+  awakenLettersToShow = min(awakenLettersToShow, awakenString.length);
 
-  fill(255);
-  textSize(24);
-  textAlign(CENTER);
-  text(
-    "at first light...the shadow of a man filling his prints in the snow",
-    width / 2,
-    height / 2
-  );
+  //substringing
+  text(awakenString.substring(0, awakenLettersToShow), width / 2, height / 2);
+
+  // til the lines done
+  if (awakenLettersToShow < awakenString.length) {
+    awakenStringTimer++;
+  }
 }
 
 function phaseFalseAwaken() {
-  background(0);
+  image(falseAwakenVid, 0, 0, width, height);
 
-  fill(255);
-  textSize(24);
-  textAlign(CENTER);
+  falseAwakenLettersToShow = floor(
+    falseAwakenStringTimer / falseAwakenSpeedFactor
+  );
+  falseAwakenLettersToShow = min(
+    falseAwakenLettersToShow,
+    falseAwakenString.length
+  );
+
   text(
-    "unblinded by our exhaled fog, her Polaris points above to the heavens",
+    falseAwakenString.substring(0, falseAwakenLettersToShow),
     width / 2,
     height / 2
   );
+
+  if (falseAwakenLettersToShow < falseAwakenString.length) {
+    falseAwakenStringTimer++;
+  }
 }

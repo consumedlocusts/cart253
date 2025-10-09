@@ -54,14 +54,13 @@ function draw() {
 
 function phaseAwaken() {
   image(awakenVid, 0, 0, width, height);
-  //Typewriter effect...gradually... each word/letter appears(by threes atm)
-  awakenStringTimer = floor(awakenStringTimer / awakenSpeedFactor);
+
+  // Typewriter effect
+  awakenLettersToShow = floor(awakenStringTimer / awakenSpeedFactor);
   awakenLettersToShow = min(awakenLettersToShow, awakenString.length);
 
-  //substringing
   text(awakenString.substring(0, awakenLettersToShow), width / 2, height / 2);
 
-  // til the lines done
   if (awakenLettersToShow < awakenString.length) {
     awakenStringTimer++;
   }
@@ -91,10 +90,8 @@ function phaseFalseAwaken() {
 
 function keyPressed() {
   if (gameState === 0 && awakenLettersToShow >= awakenString.length) {
-    awakenVid.pause(); //both text & the video are implemented to change here
+    awakenVid.pause();
     gameState = 1;
-    falseAwakenStringTimer = 0;
-    falseAwakenVid.loop(); //play video, pause/stop dogs.mp4
-    falseAwakenVid.hide();
+    falseAwakenStringTimer = 0; // reset timer for next line
   }
 }

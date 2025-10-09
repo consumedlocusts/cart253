@@ -8,7 +8,7 @@
 "use strict";
 let begottenMusic;
 let musicStarted = false;
-let font;
+let font; //font name idk its 6am i havent slep
 let awakenStringTimer = 0;
 let awakenLettersToShow = 0;
 let awakenSpeedFactor = 3; //types 3 characters at a time, sourced from a typewriter code
@@ -85,7 +85,7 @@ function preload() {
   sorryVid.hide();
 
   begottenMusic = loadSound("./assets/begotten.mp3");
-  font = loadFont("./assets/fontie");
+  font = loadFont("./assets/fontie.ttf");
 }
 
 function setup() {

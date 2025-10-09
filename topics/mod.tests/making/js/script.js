@@ -229,28 +229,48 @@ function keyPressed() {
     gameState = 1;
     falseAwakenStringTimer = 0;
     falseAwakenVid.loop();
+  } else if (
+    gameState === 1 &&
+    falseAwakenLettersToShow >= falseAwakenString.length
+  ) {
+    falseAwakenVid.pause();
+    gameState = 2;
+    stillTimer = 0;
+    stillVid.loop();
   } else if (gameState === 2 && stillLetters >= stillString.length) {
     stillVid.pause();
     gameState = 3;
+    stillOddTimer = 0;
+    stillOddVid.loop();
   } else if (gameState === 3 && stillOddLetters >= stillOddString.length) {
     stillOddVid.pause();
     gameState = 4;
+    begottenTimer = 0;
+    begottenVid.loop();
   } else if (gameState === 4 && begottenLetters >= begottenString.length) {
     begottenVid.pause();
     gameState = 5;
+    winterizedTimer = 0;
+    winterizedVid.loop();
   } else if (gameState === 5 && winterizedLetters >= winterizedString.length) {
     winterizedVid.pause();
     gameState = 6;
+    warmthTimer = 0;
+    warmthVid.loop();
   } else if (gameState === 6 && warmthLetters >= warmthString.length) {
     warmthVid.pause();
     gameState = 7;
+    youNeverKnewTimer = 0;
+    youNeverKnewVid.loop();
   } else if (
     gameState === 7 &&
     youNeverKnewLetters >= youNeverKnewString.length
   ) {
     youNeverKnewVid.pause();
     gameState = 8;
+    sorryTimer = 0;
+    sorryVid.loop();
   } else if (gameState === 8 && sorryLetters >= sorryString.length) {
     sorryVid.pause();
-  } //alot of copy paste sorry
+  }
 }

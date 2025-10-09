@@ -7,8 +7,8 @@
 
 "use strict";
 let begottenMusic;
-let noisePlaid = false;
-
+let musicStarted = false;
+let font;
 let awakenStringTimer = 0;
 let awakenLettersToShow = 0;
 let awakenSpeedFactor = 3; //types 3 characters at a time, sourced from a typewriter code
@@ -65,9 +65,9 @@ let sorryTimer = 0,
 let gameState = 0;
 //videos i made as a side project, not keeping these here
 function preload() {
-  awakenVid = createVideo("./assets/dogs.mp4");
+  awakenVid = createVideo("./assets/the.mp4");
   awakenVid.hide();
-  falseAwakenVid = createVideo("./assets/the.mp4");
+  falseAwakenVid = createVideo("./assets/dogs.mp4");
   falseAwakenVid.hide();
   stillVid = createVideo("./assets/still.mp4");
   stillVid.hide();
@@ -85,11 +85,13 @@ function preload() {
   sorryVid.hide();
 
   begottenMusic = loadSound("./assets/begotten.mp3");
+  font = loadFont("./assets/fontie");
 }
 
 function setup() {
   createCanvas(640, 640);
   fill("#ff0000ff");
+  textFont(font);
   textSize(14);
   textAlign(CENTER, CENTER);
 
@@ -224,6 +226,10 @@ function phaseSorry() {
 }
 
 function keyPressed() {
+  if (!musicStarted) {
+    begottenMusic.loop();
+    musicStarted = true;
+  }
   if (gameState === 0 && awakenLettersToShow >= awakenString.length) {
     awakenVid.pause();
     gameState = 1;
@@ -274,3 +280,4 @@ function keyPressed() {
     sorryVid.pause();
   }
 }
+//i am dying of tired

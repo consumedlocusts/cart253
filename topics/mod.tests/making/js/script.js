@@ -116,7 +116,9 @@ function draw() {
   if (gameState === 0) {
     phaseAwaken();
   } else if (gameState === 1) {
-    phaseFalseAwaken(); //prepare for phases 1-8
+    phaseFalseAwaken();
+  } else if (gameState === 2) {
+    phaseStill();
   } else if (gameState === 3) {
     phaseStillOdd();
   } else if (gameState === 4) {

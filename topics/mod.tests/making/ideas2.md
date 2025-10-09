@@ -9,7 +9,9 @@ text baseed story line game that per task complete in a frame reveals a new fram
 pixel arty and ascii style
 dynamic (the characters or whatnot are not super still) idk yet
 
-theme: arctic exploration, tragedy, loss, atmosphereic melancholy, such looming feelings
+-also i maybe want the music to play along the background and change visuals alommg the music time signiture
+
+theme: arctic exploration(franklin), atmosphereic melancholy, such looming feelings
 
 rough draft:
 

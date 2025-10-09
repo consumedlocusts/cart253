@@ -43,6 +43,11 @@ function draw() {
   background(0);
 
   if (gameState === 0) {
+    if (!phaseAwakenStarted) {
+      awakenVid.loop();
+      awakenVid.hide();
+      phaseAwakenStarted = true;
+    }
     phaseAwaken();
   } else if (gameState === 1) {
     phaseFalseAwaken();
@@ -83,5 +88,15 @@ function phaseFalseAwaken() {
 
   if (falseAwakenLettersToShow < falseAwakenString.length) {
     falseAwakenStringTimer++;
+  }
+}
+
+function keyPressed() {
+  if (gameState === 0 && awakenLettersToShow >= awakenString.length) {
+    awakenVid.pause(); //both text & the video are implemented to change here
+    gameState = 1;
+    falseAwakenStringTimer = 0;
+    falseAwakenVid.loop(); //play video, pause/stop dogs.mp4
+    falseAwakenVid.hide();
   }
 }

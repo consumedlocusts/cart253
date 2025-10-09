@@ -104,3 +104,17 @@ let winterizedString; "lost in useless territory"
 let warmthString; "you will crave revaluation (a warm feeling)"
 let youNeverKnewString; "and i never told you"
 let sorryString;"we have been dead since a long time."
+
+TEST BOLEAN (phase 1)
+if (!phaseAwakenStarted) {
+awakenVid.loop();
+awakenVid.hide();
+phaseAwakenStarted = true;
+}
+
+TEST BOLEAN (phase 2)
+if (!phaseFalseAwakenStarted) {
+falseAwakenVid.loop();
+falseAwakenVid.hide();
+phaseFalseAwakenStarted = true;
+}

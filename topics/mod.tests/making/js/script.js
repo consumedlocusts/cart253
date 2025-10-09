@@ -20,6 +20,7 @@ let falseAwakenStringTimer = 0;
 let falseAwakenLettersToShow = 0;
 let falseAwakenSpeedFactor = 3;
 
+let phaseFalseAwakenStarted = false;
 let falseAwakenString =
   "unblinded by our exhaled fog, her Polaris points above to the heavens";
 let falseAwakenVid;
@@ -36,7 +37,7 @@ function preload() {
 function setup() {
   createCanvas(640, 640);
   fill("#ff0000ff");
-  textSize(24);
+  textSize(14);
   textAlign(CENTER, CENTER);
 }
 
@@ -51,11 +52,17 @@ function draw() {
     }
     phaseAwaken();
   } else if (gameState === 1) {
+    if (!phaseFalseAwakenStarted) {
+      falseAwakenVid.loop();
+      falseAwakenVid.hide();
+      phaseFalseAwakenStarted = true;
+    }
     phaseFalseAwaken();
   }
 }
 
 function phaseAwaken() {
+  awakenVid.loop();
   image(awakenVid, 0, 0, width, height);
 
   // Typewriter effect

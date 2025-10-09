@@ -94,3 +94,13 @@ winterizedImg = loadImage()
 warmthImg = loadImage()
 youNeverKnewImg = loadImage()
 sorryImg = loadImage()
+
+TEST VARIABLES
+
+let stillString; "empty nostalgia, from a life passed"
+let stillOddString; "just as tomorrow nil"
+let begottenString; "if all you have ever known is winter"
+let winterizedString; "lost in useless territory"
+let warmthString; "you will crave revaluation (a warm feeling)"
+let youNeverKnewString; "and i never told you"
+let sorryString;"we have been dead since a long time."

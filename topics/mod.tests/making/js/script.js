@@ -14,6 +14,7 @@ let awakenSpeedFactor = 3;
 let awakenString =
   "at first light...the shadow of a man filling his prints in the snow";
 let awakenVid;
+let phaseAwakenStarted = false;
 
 let falseAwakenStringTimer = 0;
 let falseAwakenLettersToShow = 0;
@@ -26,17 +27,14 @@ let falseAwakenImg;
 let gameState = 0;
 
 function preload() {
-  awakenVid = createVideo("/assets/dogs.mp4");
+  awakenVid = createVideo("./assets/dogs.mp4");
   awakenVid.hide();
-  falseAwakenVid = createVideo("/assets/the.mp4");
+  falseAwakenVid = createVideo("./assets/the.mp4");
   falseAwakenVid.hide();
 }
 
 function setup() {
   createCanvas(640, 640);
-  textSize(24);
-  textAlign(CENTER, CENTER);
-  fill(255);
 }
 
 function draw() {
@@ -55,7 +53,7 @@ function draw() {
 }
 
 function phaseAwaken() {
-  image(falseAwakenVid, 0, 0, width, height);
+  image(awakenVid, 0, 0, width, height);
   //Typewriter effect...gradually... each word/letter appears(by threes atm)
   awakenStringTimer = floor(awakenStringTimer / awakenSpeedFactor);
   awakenLettersToShow = min(awakenLettersToShow, awakenString.length);

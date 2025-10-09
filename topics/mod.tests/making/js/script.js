@@ -26,9 +26,9 @@ let falseAwakenImg;
 let gameState = 0;
 
 function preload() {
-  awakenVid = createVideo();
+  awakenVid = createVideo("/assets/dogs.mp4");
   awakenVid.hide();
-  falseAwakenVid = createVideo();
+  falseAwakenVid = createVideo("/assets/the.mp4");
   falseAwakenVid.hide();
 }
 

@@ -2,36 +2,80 @@
  * Unknwon
  * Sama Hojabri
  *
- * HOW EMBARRASSING! I HAVE NO DESCRIPTION OF MY PROJECT!
- * PLEASE REMOVE A GRADE FROM MY WORK IF IT'S GRADED!
+ * UNSKIPABLE GAME WITH AWESOME DIALOG
  */
 
 "use strict";
+let begottenSong;
+let noisePlaid = false;
+
 let awakenStringTimer = 0;
 let awakenLettersToShow = 0;
-let awakenSpeedFactor = 3;
-
+let awakenSpeedFactor = 3; //types 3 characters at a time, sourced from a typewriter code
 let awakenString =
   "at first light...the shadow of a man filling his prints in the snow";
 let awakenVid;
-let phaseAwakenStarted = false;
+let phaseAwakenStarted = false; //for testbolean,not ready
 
 let falseAwakenStringTimer = 0;
 let falseAwakenLettersToShow = 0;
-let falseAwakenSpeedFactor = 3;
-
-let phaseFalseAwakenStarted = false;
+let falseAwakenSpeedFactor = 3; //types 3 characters at a time, sourced from a code
+let phaseFalseAwakenStarted = false; //for testbolean,not ready
 let falseAwakenString =
   "unblinded by our exhaled fog, her Polaris points above to the heavens";
 let falseAwakenVid;
+//WE COULD DO THIS(merge the lets like this so I CAN SEE)
+let stillVid,
+  stillString = "empty nostalgia, from a life passed";
+let stillTimer = 0,
+  stillLetters = 0,
+  stillSpeed = 3;
+let stillOddVid,
+  stillOddString = "just as tomorrow nil";
+let stillOddTimer = 0,
+  stillOddLetters = 0,
+  stillOddSpeed = 3;
+let begottenVid,
+  begottenString = "if all you have ever known is winter";
+let begottenTimer = 0,
+  begottenLetters = 0,
+  begottenSpeed = 3;
+let winterizedVid,
+  winterizedString = "lost in useless territory";
+let winterizedTimer = 0,
+  winterizedLetters = 0,
+  winterizedSpeed = 3;
+let warmthVid,
+  warmthString = "you will crave revaluation (a warm feeling)";
+let warmthTimer = 0,
+  warmthLetters = 0,
+  warmthSpeed = 3;
+let youNeverKnewVid,
+  youNeverKnewString = "and i never told you";
+let youNeverKnewTimer = 0,
+  youNeverKnewLetters = 0,
+  youNeverKnewSpeed = 3;
+let sorryVid,
+  sorryString = "we have been dead since a long time.";
+let sorryTimer = 0,
+  sorryLetters = 0,
+  sorrySpeed = 3;
 
+//gamstate is the phaser (changer of phases)
 let gameState = 0;
-
+//videos i made as a side project, not keeping these here
 function preload() {
   awakenVid = createVideo("./assets/dogs.mp4");
   awakenVid.hide();
   falseAwakenVid = createVideo("./assets/the.mp4");
   falseAwakenVid.hide();
+  stillImg = createVideo();
+  stillOddImg = createVideo();
+  begottenImg = createVideo();
+  winterizedImg = createVideo();
+  warmthImg = createVideo();
+  youNeverKnewImg = createVideo();
+  sorryImg = createVideo();
 }
 
 function setup() {
@@ -39,33 +83,39 @@ function setup() {
   fill("#ff0000ff");
   textSize(14);
   textAlign(CENTER, CENTER);
+
+  awakenVid.volume(0);
+  awakenVid.loop();
+
+  falseAwakenVid.volume(0); //wouldnt play my vids without muting
 }
 
 function draw() {
   background(0);
 
   if (gameState === 0) {
-    if (!phaseAwakenStarted) {
-      awakenVid.loop();
-      awakenVid.hide();
-      phaseAwakenStarted = true;
-    }
     phaseAwaken();
   } else if (gameState === 1) {
-    if (!phaseFalseAwakenStarted) {
-      falseAwakenVid.loop();
-      falseAwakenVid.hide();
-      phaseFalseAwakenStarted = true;
-    }
-    phaseFalseAwaken();
+    phaseFalseAwaken(); //prepare for phases 1-8
+  } else if (gameState === 3) {
+    phaseStillOdd();
+  } else if (gameState === 4) {
+    phaseBegotten();
+  } else if (gameState === 5) {
+    phaseWinterized();
+  } else if (gameState === 6) {
+    phaseWarmth();
+  } else if (gameState === 7) {
+    phaseYouNeverKnew();
+  } else if (gameState === 8) {
+    phaseSorry();
   }
 }
 
 function phaseAwaken() {
-  awakenVid.loop();
   image(awakenVid, 0, 0, width, height);
 
-  // Typewriter effect
+  // Typewriter effect but its too fast
   awakenLettersToShow = floor(awakenStringTimer / awakenSpeedFactor);
   awakenLettersToShow = min(awakenLettersToShow, awakenString.length);
 
@@ -97,11 +147,88 @@ function phaseFalseAwaken() {
     falseAwakenStringTimer++;
   }
 }
+function phaseStill() {
+  image(stillVid, 0, 0, width, height);
+  stillLetters = floor(stillTimer / stillSpeed);
+  stillLetters = min(stillLetters, stillString.length);
+  text(stillString.substring(0, stillLetters), width / 2, height / 2);
+  if (stillLetters < stillString.length) stillTimer++;
+}
+function phaseStillOdd() {
+  image(stillOddVid, 0, 0, width, height);
+  stillOddLetters = floor(stillOddTimer / stillOddSpeed);
+  stillOddLetters = min(stillOddLetters, stillOddString.length);
+  text(stillOddString.substring(0, stillOddLetters), width / 2, height / 2);
+  if (stillOddLetters < stillOddString.length) stillOddTimer++;
+}
+function phaseBegotten() {
+  image(begottenVid, 0, 0, width, height);
+  begottenLetters = floor(begottenTimer / begottenSpeed);
+  begottenLetters = min(begottenLetters, begottenString.length);
+  text(begottenString.substring(0, begottenLetters), width / 2, height / 2);
+  if (begottenLetters < begottenString.length) begottenTimer++;
+}
+function phaseWinterized() {
+  image(winterizedVid, 0, 0, width, height);
+  winterizedLetters = floor(winterizedTimer / winterizedSpeed);
+  winterizedLetters = min(winterizedLetters, winterizedString.length);
+  text(winterizedString.substring(0, winterizedLetters), width / 2, height / 2);
+  if (winterizedLetters < winterizedString.length) winterizedTimer++;
+}
+function phaseWarmth() {
+  image(warmthVid, 0, 0, width, height);
+  warmthLetters = floor(warmthTimer / warmthSpeed);
+  warmthLetters = min(warmthLetters, warmthString.length);
+  text(warmthString.substring(0, warmthLetters), width / 2, height / 2);
+  if (warmthLetters < warmthString.length) warmthTimer++;
+}
+function phaseYouNeverKnew() {
+  image(youNeverKnewVid, 0, 0, width, height);
+  youNeverKnewLetters = floor(youNeverKnewTimer / youNeverKnewSpeed);
+  youNeverKnewLetters = min(youNeverKnewLetters, youNeverKnewString.length);
+  text(
+    youNeverKnewString.substring(0, youNeverKnewLetters),
+    width / 2,
+    height / 2
+  );
+  if (youNeverKnewLetters < youNeverKnewString.length) youNeverKnewTimer++;
+}
+function phaseSorry() {
+  image(sorryVid, 0, 0, width, height);
+  sorryLetters = floor(sorryTimer / sorrySpeed);
+  sorryLetters = min(sorryLetters, sorryString.length);
+  text(sorryString.substring(0, sorryLetters), width / 2, height / 2);
+  if (sorryLetters < sorryString.length) sorryTimer++;
+}
 
 function keyPressed() {
   if (gameState === 0 && awakenLettersToShow >= awakenString.length) {
     awakenVid.pause();
     gameState = 1;
-    falseAwakenStringTimer = 0; // reset timer for next line
-  }
+    falseAwakenStringTimer = 0;
+    falseAwakenVid.loop();
+  } else if (gameState === 2 && stillLetters >= stillString.length) {
+    stillVid.pause();
+    gameState = 3;
+  } else if (gameState === 3 && stillOddLetters >= stillOddString.length) {
+    stillOddVid.pause();
+    gameState = 4;
+  } else if (gameState === 4 && begottenLetters >= begottenString.length) {
+    begottenVid.pause();
+    gameState = 5;
+  } else if (gameState === 5 && winterizedLetters >= winterizedString.length) {
+    winterizedVid.pause();
+    gameState = 6;
+  } else if (gameState === 6 && warmthLetters >= warmthString.length) {
+    warmthVid.pause();
+    gameState = 7;
+  } else if (
+    gameState === 7 &&
+    youNeverKnewLetters >= youNeverKnewString.length
+  ) {
+    youNeverKnewVid.pause();
+    gameState = 8;
+  } else if (gameState === 8 && sorryLetters >= sorryString.length) {
+    sorryVid.pause();
+  } //alot of copy paste sorry
 }

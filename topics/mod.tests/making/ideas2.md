@@ -2,34 +2,55 @@ hungry
 hungry
 hungry
 hungry
-based on If all you have ever known is winter, an EP by the band begotten
 black metal
 
-text baseed story line game that per task complete in a frame reveals a new frame (that follows chronologically the story).
-pixel arty and ascii style
-dynamic (the characters or whatnot are not super still) idk yet
+based on If all you have ever known is winter, an EP by the band begotten - i want to bring the song to life, also adding some of my own text
 
--also i maybe want the music to play along the background and change visuals alommg the music time signiture
+text baseed story (70% ofthe EP lyrics but most of it i altered) line game that per task complete in a frame reveals a new frame (that follows chronologically the story).
+pixel art and ascii style
+dynamic (the characters or whatnot are not super still) eg. a frame of a face covering/sheilding with a scarf that is blowing in the blizzard (like a flag).
 
-theme: arctic exploration(franklin), atmosphereic melancholy, such looming feelings
+also i maybe want the music to play along the background and change visuals alommg the music time signiture
 
-rough draft:
+theme: cold, winter, arctic exploration(franklin), atmosphereic melancholy, such looming feelings
 
-unblinded by our exhauled fog,
-her Polaris points above to the heavens
+phases;
 
-i could sleep for a thousand years
-as if tomorrow shall never dawn
+-a false awakening
+
+-odd still existance in the middle ground
+
+-terms
+
+-consumed and depleted
+
+rough draft for the text (abstract): this is rather cringe
 
 -
+
+at first light...
+the shadow of a man filling his prints in the snow
+
+- unblinded by our exhauled fog,
+  her Polaris points above to the heavens
+
+*
+
+empty nostalgia
+from a life passed
+
+- just as tomorrow nil
+
+*
 
 if all you have ever known is winter
 lost in useless territory
 
-you will crave
-revaluation (a warm feeling)
+- you will crave
+  revaluation (a warm feeling)
 
-and you never knew
-because i never told you
+*
 
-we have been dead since a long time.
+and i never told you
+
+- we have been dead since a long time.

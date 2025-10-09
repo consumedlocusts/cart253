@@ -128,3 +128,23 @@ falseAwakenVid.loop();
 falseAwakenVid.hide();
 phaseFalseAwakenStarted = true;
 }
+TEST FOR RECTMODE, from a code source
+function drawTextWithBackground(
+txt,
+x,
+y,
+padding = 10,
+bgColor = [0, 0, 0, 180] //counter im assuming is the cause
+) {
+textAlign(CENTER, CENTER);
+textSize(14);
+let w = textWidth(txt) + padding _ 2;
+let h = textAscent() + textDescent() + padding _ 2;
+
+fill(bgColor[0], bgColor[1], bgColor[2], bgColor[3]); //hmm
+rectMode(CENTER);
+rect(x, y, w, h);
+
+fill(255); // text color
+text(txt, x, y);
+}

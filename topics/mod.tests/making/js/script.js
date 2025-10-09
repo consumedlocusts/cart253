@@ -95,8 +95,8 @@ function setup() {
   textSize(14);
   textAlign(CENTER, CENTER);
 
-  begottenMusic.loop();
-  begottenMusic.setVolume(0.3);
+  //begottenMusic.loop();
+  //begottenMusic.setVolume(0.3);
 
   // mute videos
   awakenVid.volume(0);
@@ -143,7 +143,14 @@ function phaseAwaken() {
   awakenLettersToShow = floor(awakenStringTimer / awakenSpeedFactor);
   awakenLettersToShow = min(awakenLettersToShow, awakenString.length);
 
-  text(awakenString.substring(0, awakenLettersToShow), width / 2, height / 2);
+  let currentText = awakenString.substring(0, awakenLettersToShow);
+  drawTextWithBackground(
+    currentText,
+    width / 2,
+    height / 2,
+    20,
+    [0, 0, 0, 180]
+  );
 
   if (awakenLettersToShow < awakenString.length) {
     awakenStringTimer++;
@@ -281,3 +288,22 @@ function keyPressed() {
   }
 }
 //i am dying of tired
+function drawTextWithBackground(
+  txt,
+  x,
+  y,
+  padding = 10,
+  bgColor = [0, 0, 0, 180] //counter im assuming is the cause
+) {
+  textAlign(CENTER, CENTER);
+  textSize(14);
+  let w = textWidth(txt) + padding * 2;
+  let h = textAscent() + textDescent() + padding * 2;
+
+  fill(bgColor[0], bgColor[1], bgColor[2], bgColor[3]); //hmm
+  rectMode(CENTER);
+  rect(x, y, w, h);
+
+  fill(255); // text color
+  text(txt, x, y);
+}

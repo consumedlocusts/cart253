@@ -30,31 +30,37 @@ let stillVid,
 let stillTimer = 0,
   stillLetters = 0,
   stillSpeed = 3;
+
 let stillOddVid,
   stillOddString = "just as tomorrow nil";
 let stillOddTimer = 0,
   stillOddLetters = 0,
   stillOddSpeed = 3;
+
 let begottenVid,
   begottenString = "if all you have ever known is winter";
 let begottenTimer = 0,
   begottenLetters = 0,
   begottenSpeed = 3;
+
 let winterizedVid,
   winterizedString = "lost in useless territory";
 let winterizedTimer = 0,
   winterizedLetters = 0,
   winterizedSpeed = 3;
+
 let warmthVid,
   warmthString = "you will crave revaluation (a warm feeling)";
 let warmthTimer = 0,
   warmthLetters = 0,
   warmthSpeed = 3;
+
 let youNeverKnewVid,
   youNeverKnewString = "and i never told you";
 let youNeverKnewTimer = 0,
   youNeverKnewLetters = 0,
   youNeverKnewSpeed = 3;
+
 let sorryVid,
   sorryString = "we have been dead since a long time.";
 let sorryTimer = 0,
@@ -142,7 +148,7 @@ function phaseAwaken() {
   // Typewriter effect but its too fast
   awakenLettersToShow = floor(awakenStringTimer / awakenSpeedFactor);
   awakenLettersToShow = min(awakenLettersToShow, awakenString.length);
-
+  //padding the text effect
   let currentText = awakenString.substring(0, awakenLettersToShow);
   drawTextWithBackground(
     currentText,
@@ -182,8 +188,18 @@ function phaseStill() {
   image(stillVid, 0, 0, width, height);
   stillLetters = floor(stillTimer / stillSpeed);
   stillLetters = min(stillLetters, stillString.length);
-  text(stillString.substring(0, stillLetters), width / 2, height / 2);
-  if (stillLetters < stillString.length) stillTimer++;
+  let currentText = stillString.substring(0, stillLetters);
+  drawTextWithBackground(
+    currentText,
+    width / 2,
+    height / 2,
+    20,
+    [0, 0, 0, 180]
+  );
+
+  if (stillLetters < stillString.length) {
+    stillTimer++;
+  }
 }
 function phaseStillOdd() {
   image(stillOddVid, 0, 0, width, height);
@@ -288,6 +304,7 @@ function keyPressed() {
   }
 }
 //i am dying of tired
+//TEST FOR RECTMODE, from a code source
 function drawTextWithBackground(
   txt,
   x,

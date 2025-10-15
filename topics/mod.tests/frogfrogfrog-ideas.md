@@ -21,8 +21,6 @@
 -Assigned a healthbar once entered the boss gamemode (min 0, max 15, each goop from boss alien depletes 1 from healthbar)
 -The screen changes to "WINNER" and plays something in the background + WINNER sound effect (thinking of the win gamescreen effects, maybe an edited video...).
 
-I dont have many ideas to make this shooter game less generic and basic but i will try
-
 Side Ideas;
 
 -A random pitcher of beer appears during the boss battle (maximum appearance 3x and only triggered to appear when the health is very low), shoot it to regenerate health, during regenerate screen, a funny "gif" like video is played where the character is actually shown and is drinking it. Health potion.

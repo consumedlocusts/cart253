@@ -101,19 +101,7 @@ function draw() {
 }
 }
 function scopePov() {
-  createCanvas(640, 640);
-  background("#000000");
-
-  let targetDistance = dist(mouseX, mouseY, target.x, target.y);
-  const mouseIsOverlapping = targetDistance < target.targetSize / 2;
-  const mouseIsMoving = movedX !== 0 || movedY !== 0;
-
-  if (mouseIsOverlapping && mouseIsMoving) {
-    target = gameState;
-    gameState = 1;
-  } else {
-    target.targetFill = "#ffdd00ff";
-  }
+  
 
   if (mouseIsPressed === true) {
     fill("#f9f511ff");
@@ -290,7 +278,21 @@ function checkTongueFlyOverlap() {
  * Launch the tongue on click (if it's not launched yet)
  */
 function mousePressed() {
-  if (frog.tongue.state === "idle") {
+  if (frog.tongue.state === "idle") 
     frog.tongue.state = "outbound";
+}
+
+function draw() {
+
+  let targetDistance = dist(mouseX, mouseY, target.x, target.y);
+  const mouseIsOverlapping = targetDistance < target.targetSize / 2;
+  const mouseIsMoving = movedX !== 0 || movedY !== 0;
+
+  if (mouseIsOverlapping && mouseIsMoving) {
+    target = gameState;
+    gameState = 1;
+  } else {
+    target.targetFill = "#ffdd00ff";
   }
+
 }

@@ -29,15 +29,21 @@ function draw() {
 /**
  * Draws the first sun
  */
+
 function drawSun(x, y, size) {
-  const minWeight = 20;
-  const maxWeight = 1;
-  let d = dist(mouseX, mouseY, x, y);
-  let weight = map(d, 0, width, minWeight, maxWeight);
+  let weight = calcWeightStroke(x, y);
 
   push();
   strokeWeight(weight);
+  stroke("#fcce59ff");
   fill("#f99736");
   ellipse(x, y, size);
   pop();
+}
+function calcWeightStroke(x, y) {
+  const minWeight = 1;
+  const maxWeight = 20;
+  let d = dist(mouseX, mouseY, x, y);
+  let result = map(d, 0, width, maxWeight, minWeight);
+  return result;
 }

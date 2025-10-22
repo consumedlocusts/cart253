@@ -11,8 +11,10 @@
 //target replaces the "fly" in this context
 let target = {
   targetSize: 50,
-  x: random(0, width),
-  y: random(0, height),
+  x: 0,
+  y: 0,
+  //x: random(0, width),
+  //y: random(0, height),
 };
 
 //scopes are called and appear only for/in the first game scene (same as pointer)
@@ -41,14 +43,14 @@ function setup() {
   //  target.y = random(0, height);
 }
 function draw() {
-  drawTarget();
+  drawTarget(target);
   drawScope(scope);
   drawScope2(scope2);
-  drawPointer(pointer);
-  targetFound(target);
+  //drawPointer(pointer);
+  //targetFound(target);
   scopeZooms(scope);
-  scopeZooms(scope2);
-  pointerZoom(pointer);
+  //scopeZooms(scope2);
+  //pointerZoom(pointer);
 }
 
 function targetFound(target) {
@@ -63,6 +65,11 @@ function targetFound(target) {
     target.targetFill = "#ffdd00ff";
   }
 }
+function scopeZooms() {
+  if (mouseIsPressed === true) {
+    drawScope2 = drawScope;
+  }
+}
 function drawTarget(target) {
   push();
   fill("#ffbb44ff");
@@ -72,7 +79,7 @@ function drawTarget(target) {
 }
 
 function drawScope2(scope2) {
-  background("#000000");
+  //background("#000000");
   //targetFound();
   push();
 
@@ -94,15 +101,6 @@ function drawScope2(scope2) {
   strokeWeight(80);
   fill("#ff0000ff");
   ellipse(mouseX, mouseY, pointer.x, pointer.y, pointer.size);
-
-  fill("#ffda35ff");
-  noStroke();
-  ellipse(mouseX, mouseY, 10, 200, 0, 5);
-  fill("#ffda35ff");
-  noStroke();
-  ellipse(mouseX, mouseY, 200, 10, 5, 0);
-  fill(target.targetFill);
-  rect(target.x, target.y, target.targetSize);
 }
 //  } else {
 

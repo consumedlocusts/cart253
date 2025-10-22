@@ -70,3 +70,16 @@ mousePressed()
     if (tongue state is idle)
         set tongue state to outbound
 ```
+
+fill("#f9f511ff");
+strokeWeight(90);
+stroke("#f9f511ff");
+ellipse(mouseX, mouseY, scope.x, scope.y, scope.size, scope.size);
+fill("#ffda35ff");
+noStroke();
+ellipse(mouseX, mouseY, 10, 200, 0, 5);
+fill("#ffda35ff");
+noStroke();
+ellipse(mouseX, mouseY, 200, 10, 5, 0);
+fill(target.targetFill);
+rect(target.x, target.y, target.targetSize);

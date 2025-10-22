@@ -20,6 +20,12 @@ let lazyTheFly = {
   size: 20,
   buzziness: 2,
 };
+let crazyTheFly = {
+  x: 300,
+  y: 250,
+  size: 40,
+  buzziness: 10,
+};
 /**
  * Create a canvas
  */
@@ -34,8 +40,10 @@ function draw() {
   background("#87ceeb");
   moveFly(buzzyTheFly);
   moveFly(lazyTheFly);
+  moveFly(crazyTheFly);
   drawFly(buzzyTheFly);
   drawFly(lazyTheFly);
+  drawFly(crazyTheFly);
 }
 function moveFly(fly) {
   fly.x += random(-fly.buzziness, fly.buzziness);

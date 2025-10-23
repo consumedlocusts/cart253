@@ -16,11 +16,11 @@ const ball = {
   height: 10,
   velocity: {
     x: 0,
-    y: 10,
+    y: 3,
   },
   acceleration: {
-    x: 0.25,
-    y: -0.25,
+    x: 0.02,
+    y: -0.02,
   },
 };
 
@@ -66,13 +66,21 @@ function movePaddle(paddle) {
  */
 function moveBall(ball) {
   ball.x = ball.x + ball.velocity.x + ball.acceleration.x;
-  ball.velocity = ball.velocity.y + ball.acceleration.y;
+  ball.y = ball.y + ball.velocity.y + ball.acceleration.y;
 }
 
 /**
  * Bounces the provided ball off the provided paddle
  */
-function handleBounce(ball, paddle) {}
+
+function handleBounce(ball, paddle) {
+  if (checkOverlap(ball, paddle) === true) {
+    ball.velocity.y = -ball.velocity.y;
+  }
+  if (ball.y < 0) {
+    ball.velocity.y = -ball.velocity.y;
+  }
+}
 
 /**
  * Draws the specified paddle on the canvas

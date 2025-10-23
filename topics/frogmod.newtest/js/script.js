@@ -7,7 +7,6 @@
  *
  */
 
-"use strict";
 //target replaces the "fly" in this context
 let target = {
   targetSize: 50,
@@ -59,6 +58,7 @@ function targetFound(target) {
   const mouseIsMoving = movedX !== 0 || movedY !== 0;
 
   if (mouseIsOverlapping && mouseIsMoving) {
+    target.targetFill = "#5eff00af";
     target.x = random(0, width);
     target.y = random(0, height);
   } else {
@@ -68,6 +68,8 @@ function targetFound(target) {
 function scopeZooms() {
   if (mouseIsPressed === true) {
     drawScope2 = drawScope;
+  } else {
+    drawScope = drawScope2;
   }
 }
 function drawTarget(target) {
@@ -79,13 +81,11 @@ function drawTarget(target) {
 }
 
 function drawScope2(scope2) {
-  //background("#000000");
-  //targetFound();
+  background("#000000");
+  scopeZooms();
   push();
 
   //if (mouseIsPressed === true) {
-
-  //scope level 2
 
   fill("#4fb419ff");
   strokeWeight(90);

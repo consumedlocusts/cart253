@@ -12,8 +12,8 @@
 const ball = {
   x: 300,
   y: 20,
-  width: 10,
-  height: 10,
+  width: 20,
+  height: 20,
   velocity: {
     x: 0,
     y: 3,
@@ -28,8 +28,8 @@ const ball = {
 const paddle = {
   x: 300,
   y: 280,
-  width: 80,
-  height: 10,
+  width: 100,
+  height: 20,
 };
 
 /**
@@ -43,7 +43,7 @@ function setup() {
  * Move and display the ball and paddle
  */
 function draw() {
-  background("#87ceeb");
+  background("#000000ff");
 
   movePaddle(paddle);
   moveBall(ball);
@@ -79,6 +79,11 @@ function handleBounce(ball, paddle) {
   }
   if (ball.y < 0) {
     ball.velocity.y = -ball.velocity.y;
+    ball.y = 0;
+  }
+  if (ball.y > 300) {
+    ball.velocity.y = -ball.velocity.y;
+    ball.y = 300;
   }
 }
 
@@ -89,7 +94,7 @@ function drawPaddle(paddle) {
   push();
   rectMode(CENTER);
   noStroke();
-  fill("pink");
+  fill("green");
   rect(paddle.x, paddle.y, paddle.width, paddle.height);
   pop();
 }
@@ -101,7 +106,7 @@ function drawBall(ball) {
   push();
   rectMode(CENTER);
   noStroke();
-  fill("pink");
+  fill("brown");
   rect(ball.x, ball.y, ball.width, ball.height);
   pop();
 }

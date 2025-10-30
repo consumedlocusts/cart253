@@ -5,7 +5,7 @@
  * A ball that bounces around on the canvas
  */
 
-let ball1 = undefined; // Will create it with createBall()
+// let ball1 = undefined; // Will create it with createBall()
 let balls = [];
 /**
  * Create the canvas and the ball
@@ -14,7 +14,7 @@ function setup() {
   // Create the canvas
   createCanvas(400, 400);
   // Create the ball
-  ball1 = createBall();
+  //   ball1 = createBall();
 }
 
 /**
@@ -28,7 +28,12 @@ function createBall() {
     y: 200,
     size: 20,
     // Colour
-    fill: "#d30000ff",
+    fill: {
+      r: random(0, 255),
+      g: random(0, 255),
+      b: random(0, 255),
+      a: random(0, 255),
+    },
     // Movement
     velocity: {
       x: random(-5, 5),
@@ -42,7 +47,8 @@ function createBall() {
  * Moves and draws the ball
  */
 function draw() {
-  background("#001307ff");
+  background("#000000ff");
+
   for (let ball of balls) {
     moveBall(ball);
     bounceBall(ball);
@@ -83,13 +89,17 @@ function bounceBall(ball) {
 /**
  * Draw the ball on the canvas
  */
-function drawBall(ball1) {
+function drawBall(ball) {
   push();
   noStroke();
-  fill(ball1.fill);
-  ellipse(ball1.x, ball1.y, ball1.size);
+  fill(ball.fill.r, ball.fill.g, ball.fill.b, ball.fill.a);
+  //   console.log(ball1.fill);
+  ellipse(ball.x, ball.y, ball.size);
   pop();
 }
 function mousePressed() {
-  balls.push(createBall());
+  let newBall = createBall();
+  balls.push(newBall);
+
+  console.log(newBall.fill);
 }

@@ -113,3 +113,53 @@ function draw() {
     pop();
   }
 }
+// Create initial aliens (randomized positions)
+function setupAliens() {
+  aliens = [];
+  for (let counter = 0; counter < ALIEN_COUNT; counter++) {
+    aliens.push({
+      x: random(40, width - 40),
+      y: random(100, 260),
+      size: 18,
+      velocity: random([-1, 1]) * alienSpeed,
+      alive: true,
+    });
+  }
+}
+function draw() {
+  background("#0b0f1a");
+  drawPlanetLandscape();
+  //the alien planet landscape appears after the player starts the game
+  if (state === "start") {
+    drawStartScreen();
+  } else if (state === "scan") {
+    drawHiddenScene();
+    drawScanMask();
+    checkScanFind();
+  } else if (state === "play") {
+    drawPlayScene();
+  } else if (state === "boss") {
+    drawBossScene();
+  } else if (state === "win") {
+    drawWinScreen();
+  } else if (state === "gameover") {
+    drawGameOverScreen();
+  }
+
+  drawPlayerHand();
+  //scope scanner, scanning
+  if (state !== "start") {
+    drawScopeCursor();
+  }
+}
+
+function drawPlanetLandscape() {
+  push();
+  //the landscape is an edited image
+  pop();
+}
+function drawStartScreen() {
+  push();
+  //edited video of the game beginning, a short story tale
+  pop();
+}

@@ -71,46 +71,55 @@ function setup() {
   resetBoss();
 }
 
-function draw() {
-  background("#87ceeb");
-  moveFly();
-  drawFly();
-  moveFrog();
-  moveTongue();
-  drawFrog();
-  checkTongueFlyOverlap();
+//create initial aliens (randomized positions)
+function setupAliens() {
+  aliens = [];
+  for (let counter = 0; counter < ALIEN_COUNT; counter++) {
+    aliens.push({
+      x: random(40, width - 40),
+      y: random(100, 260),
+      size: 18,
+      velocity: random([-1, 1]) * alienSpeed,
+      alive: true,
+    });
+  }
 }
+function draw() {
+  background("#0b0f1a");
+  drawPlanetLandscape();
+  //the alien planet landscape appears after the player starts the game
+  if (state === "start") {
+    drawStartScreen();
+  } else if (state === "scan") {
+    drawHiddenScene();
+    drawScanMask();
+    checkScanFind();
+  } else if (state === "play") {
+    drawPlayScene();
+  } else if (state === "boss") {
+    drawBossScene();
+  } else if (state === "win") {
+    drawWinScreen();
+  } else if (state === "gameover") {
+    drawGameOverScreen();
+  }
 
-/**
- * Moves the fly according to its speed
- * Resets the fly if it gets all the way to the right
- */
-function moveFly() {
-  // Move the fly
-  fly.x += fly.speed;
-  // Handle the fly going off the canvas
-  if (fly.x > width) {
-    resetFly();
+  drawPlayerHand();
+  //scope scanner, scanning
+  if (state !== "start") {
+    drawScopeCursor();
   }
 }
 
-/**
- * Draws the fly as a black circle
- */
-function drawFly() {
+function drawPlanetLandscape() {
   push();
-  noStroke();
-  fill("#000000");
-  ellipse(fly.x, fly.y, fly.size);
+  //the landscape is an edited image
   pop();
 }
-
-/**
- * Resets the fly to the left with a random y
- */
-function resetFly() {
-  fly.x = 0;
-  fly.y = random(0, 300);
+function drawStartScreen() {
+  push();
+  //edited video of the game beginning, a short story tale
+  pop();
 }
 
 /**

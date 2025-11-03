@@ -33,7 +33,7 @@ let player = {
 let aliens = [];
 let ALIEN_COUNT = 6;
 let alienSpeed = 1.2; //slowed
-
+let specialTarget = null; //special alien to scan for during the scan state
 //laser shot settings (single shot per click)
 let laser = null;
 let canShoot = true;
@@ -50,15 +50,17 @@ let bossHealthMax = 30;
 let goops = [];
 let playerHealth = 15; // health bar in boss fight
 let maxGoopHits = 15; // lose after this many hits
+let introVideo; //edited video for the start of game
 
 function playSound(name) {
   // the soundeffect for the shooting etc.
 }
 function preload() {
   //sprite images as the characters (hand/gun, minion aliens, boss etc.)
-  // handImg = loadImage('assets/hand.png');
-  // alienImg = loadImage('assets/alien.png');
-  // bossImg = loadImage('assets/boss.png');
+  // handImg = loadImage(assets/hand.png);
+  // alienImg = loadImage(assets/alien.png);
+  // bossImg = loadImage(assets/boss.png);
+  //landscape = loadImage (assets/landscape.png)
   // if (handImg && alienImg) useImages = true;
 }
 /**
@@ -117,93 +119,64 @@ function drawPlanetLandscape() {
   pop();
 }
 function drawStartScreen() {
+  background(0);
+  image(introVideo, 0, 0);
+}
+
+function scopeMask() {
+  //the "mask" is the scope from my other code, use it to hover over the alien to begin the game
   push();
-  //edited video of the game beginning, a short story tale
+  fill(0, 220);
+  rect(0, 0, width, height);
+
+  // use erase to create scope hole instead of layering many shapes
+  erase();
+  ellipse(mouseX, mouseY, scope.size);
+  noErase();
+
+  // raw scope crosshair ring thing
+  strokeWeight(3);
+  stroke(255, 180);
+  noFill();
+  ellipse(mouseX, mouseY, scope.size);
   pop();
 }
 
-/**
- * Moves the frog to the mouse position on x
- */
-function moveFrog() {
-  frog.body.x = mouseX;
-}
-
-/**
- * Handles moving the tongue based on its state
- */
-function moveTongue() {
-  // Tongue matches the frog's x
-  frog.tongue.x = frog.body.x;
-  // If the tongue is idle, it doesn't do anything
-  if (frog.tongue.state === "idle") {
-    // Do nothing
-  }
-  // If the tongue is outbound, it moves up
-  else if (frog.tongue.state === "outbound") {
-    frog.tongue.y += -frog.tongue.speed;
-    // The tongue bounces back if it hits the top
-    if (frog.tongue.y <= 0) {
-      frog.tongue.state = "inbound";
-    }
-  }
-  // If the tongue is inbound, it moves down
-  else if (frog.tongue.state === "inbound") {
-    frog.tongue.y += frog.tongue.speed;
-    // The tongue stops if it hits the bottom
-    if (frog.tongue.y >= height) {
-      frog.tongue.state = "idle";
+function drawHiddenScene() {
+  //as part of the first scene steps, an alien is hidden under the dark mask;
+  //find the alien to actually start the game
+  for (let a of aliens) {
+    if (a.alive) {
+      drawAlien(a); //alien "a" is the special alien target only in this scene
     }
   }
 }
-
-/**
- * Displays the tongue (tip and line connection) and the frog (body)
- */
-function drawFrog() {
-  // Draw the tongue tip
-  push();
-  fill("#ff0000");
-  noStroke();
-  ellipse(frog.tongue.x, frog.tongue.y, frog.tongue.size);
-  pop();
-
-  // Draw the rest of the tongue
-  push();
-  stroke("#ff0000");
-  strokeWeight(frog.tongue.size);
-  line(frog.tongue.x, frog.tongue.y, frog.body.x, frog.body.y);
-  pop();
-
-  // Draw the frog's body
-  push();
-  fill("#00ff00");
-  noStroke();
-  ellipse(frog.body.x, frog.body.y, frog.body.size);
-  pop();
+// during the scan state initialize a special target alien, scan for this alien
+function startScan() {
+  setupAliens();
+  spawnSpecialTarget();
+  state = "scan";
+}
+function spawnSpecialTarget() {
+  specialTarget = {
+    //again using image as the base
+    x: random(80, width - 80),
+    y: random(120, 300),
+    size: 36,
+    revealed: false,
+  };
 }
 
-/**
- * Handles the tongue overlapping the fly
- */
-function checkTongueFlyOverlap() {
-  // Get distance from tongue to fly
-  const d = dist(frog.tongue.x, frog.tongue.y, fly.x, fly.y);
-  // Check if it's an overlap
-  const eaten = d < frog.tongue.size / 2 + fly.size / 2;
-  if (eaten) {
-    // Reset the fly
-    resetFly();
-    // Bring back the tongue
-    frog.tongue.state = "inbound";
-  }
-}
+function checkScanFind() {
+  if (!specialTarget) return;
+  push();
+  //the special alien target is drawn here because the user has to scan for it to find it
 
-/**
- * Launch the tongue on click (if it's not launched yet)
- */
-function mousePressed() {
-  if (frog.tongue.state === "idle") {
-    frog.tongue.state = "outbound";
+  pop();
+
+  let d = dist(mouseX, mouseY, specialTarget.x, specialTarget.y);
+  if (d <= scope.size / 2) {
+    specialTarget.revealed = true;
+    startPlayMode(specialTarget.x, specialTarget.y);
   }
 }

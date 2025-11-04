@@ -361,3 +361,64 @@ function over() {
   push();
   pop();
 }
+function drawBoss(b){
+  push();
+  let gifSize = b.size * 2;
+  image(bigGif, b.x - gifSize / 2, b.y - gifSize / 2, gifSize, gifSize);
+  pop();
+
+}
+function drawGoop(g){
+  push();
+  fill("#6ab04c");
+  noStroke();
+  ellipse(g.x, g.y, 18);
+  pop();
+}
+function spawnGoop(){
+  goops.push({
+    x: boss.x + random(-30, 30),
+    y: boss.y + boss.size / 2,
+    vy: 2.2,
+  });
+}
+function drawScopeCursor() {
+  push();
+  noFill();
+  stroke(255, 200);
+  strokeWeight(2);
+  ellipse(mouseX, mouseY, scope.size);
+  line(mouseX - 20, mouseY, mouseX + 20, mouseY);
+  line(mouseX, mouseY - 20, mouseX, mouseY + 20);
+  pop();
+}
+function playerHand(){
+push();
+image(handImg, player.x - 60, player.y - 40, 120, 120);
+pop();
+
+}
+
+function drawBossScore (){
+  push();
+  fill(255);
+  textSize(20);
+  text("BOSS HEALTH", width / 2, 20);
+  stroke(180);
+  noFill();
+  rect(width / 2 - 120, 30, 240, 14);
+  
+  fill("#ff4d4d");
+  rect(width / 2 - 120, 30, map(boss.health, 0, bossHealthMax, 0, 240), 14);
+
+  text("PLAYER HEALTH", 80, 20);
+  stroke(180);
+  noFill();
+  rect(20, 30, 120, 14);
+ 
+  fill("#4fb419");
+  rect(20, 30, map(playerHealth, 0, 15, 0, 120), 14);
+  pop();
+}
+
+

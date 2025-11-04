@@ -56,7 +56,7 @@ let laser = null;
 let canShoot = true; //so its not spam shooting
 
 //boom/hit effect
-let booms = [];
+//let booms = [];
 
 //kill counter to spawn boss (there is only 8 aliens maximum to not confuse the game)
 //numbers for the board
@@ -109,7 +109,7 @@ function setupAliens() {
 }
 function spawnSpecialTarget() {
   specialTarget = {
-    //again using image as the base
+    //again using image/gif as the base
     x: random(80, width - 80),
     y: random(120, 300),
     size: 50,
@@ -341,6 +341,14 @@ function mousePressed() {
     setupAliens();
     state = "start";
   }
+}
+
+function drawAliens(a) {
+  push();
+  noStroke();
+  let gifSize = a.size * 2;
+  image(alienGif, a.x - gifSize / 2, a.y - gifSize / 2, gifSize, gifSize);
+  pop();
 }
 function mouseReleased() {
   canShoot = true;

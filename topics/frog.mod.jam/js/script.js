@@ -14,14 +14,29 @@
  */
 
 "use strict";
+
 let state = "start";
 let handImg, alienImg, bossImg, beerImg;
 let useImages = false;
 //the hand/gun set up (which is the same object)
 //everything is drawn with images
-
 //scopes from another code (listed in the read.me)
-let scope = { size: 200 };
+let scope = {
+  x: 200,
+  y: 200,
+  size: 200,
+};
+let scope2 = {
+  x: 200,
+  y: 200,
+  size: 400,
+};
+let pointer = {
+  x: 200,
+  y: 200,
+  size: 4,
+};
+
 let foundTarget = false;
 
 let player = {
@@ -29,25 +44,26 @@ let player = {
   y: 420, //player viewpoint lower on screen for POV style
 };
 
-//the small aliens/minions
+//the small aliens or "minions"
 let aliens = [];
-let ALIEN_COUNT = 6;
-let alienSpeed = 1.2; //slowed
+let ALIEN_COUNT = 8;
+let alienSpeed = 1.2;
 let specialTarget = null; //special alien to scan for during the scan state
 //laser shot settings (single shot per click)
 let laser = null;
-let canShoot = true;
+let canShoot = true; //so its not spam shooting
 
 //boom/hit effect
 let booms = [];
 
-//kill counter to spawn boss
+//kill counter to spawn boss (there is only 8 aliens maximum to not confuse the game)
 let killsToSpawnBoss = 8;
 let killCount = 0;
 let boss = null;
 let bossHealthMax = 30;
-// boss's"goop" projectiles
-let goops = [];
+
+let goops = []; //the boss shoots poison at the player
+
 let playerHealth = 15; // health bar in boss fight
 let maxGoopHits = 15; // lose after this many hits
 let introVideo; //edited video for the start of game
@@ -56,9 +72,9 @@ function playSound(name) {
   // the soundeffect for the shooting etc.
 }
 function preload() {
-  //sprite images as the characters (hand/gun, minion aliens, boss etc.)
-  // handImg = loadImage(assets/hand.png);
-  // alienImg = loadImage(assets/alien.png);
+  //sprite images as the characters (hand/gun, "minion" aliens, boss etc.)
+  handImg = loadImage(assets / hand.png);
+  aliensImg = loadImage(assets / alien.png);
   // bossImg = loadImage(assets/boss.png);
   //landscape = loadImage (assets/landscape.png)
   // if (handImg && alienImg) useImages = true;
@@ -76,6 +92,7 @@ function setup() {
 //create initial aliens (randomized positions)
 function setupAliens() {
   aliens = [];
+  //alien index and counter, making sure they spawn at random around the screen every time the game restarts
   for (let counter = 0; counter < ALIEN_COUNT; counter++) {
     aliens.push({
       x: random(40, width - 40),
@@ -97,17 +114,17 @@ function draw() {
     drawScanMask();
     checkScanFind();
   } else if (state === "play") {
-    drawPlayScene();
+    drawPlayMode();
   } else if (state === "boss") {
-    drawBossScene();
+    drawBossMode();
   } else if (state === "win") {
-    drawWinScreen();
+    drawWinMode();
   } else if (state === "gameover") {
-    drawGameOverScreen();
+    drawGameOverMode();
   }
 
   drawPlayerHand();
-  //scope scanner, scanning
+  //scope scanner unactivates
   if (state !== "start") {
     drawScopeCursor();
   }
@@ -115,7 +132,7 @@ function draw() {
 
 function drawPlanetLandscape() {
   push();
-  //the landscape is an edited image
+  //the landscape is an edited image, the planet landscape is a constatnt background
   pop();
 }
 function drawStartScreen() {
@@ -124,58 +141,54 @@ function drawStartScreen() {
 }
 
 function scopeMask() {
-  function drawScanMask() {
-    // Draw a full-screen dark mask, then erase a circle at cursor to reveal
-    push();
+  //this is the scopemask from my brace.yer.self code
+  push();
+  if (mouseIsPressed) {
+    fill("#f9f511ff");
+    strokeWeight(90);
+    stroke("#f9f511ff");
+    ellipse(mouseX, mouseY, scope.x, scope.y, scope.size, scope.size);
 
-    // use erase to create scope hole
-    if (mouseIsPressed) {
-      fill("#f9f511ff");
-      strokeWeight(90);
-      stroke("#f9f511ff");
-      ellipse(mouseX, mouseY, scope.x, scope.y, scope.size, scope.size);
+    fill("#4fb419ff");
+    strokeWeight(90);
+    stroke("#4fb419ff");
+    ellipse(mouseX, mouseY, scope2.x, scope2.y, scope2.size, scope2.size);
 
-      fill("#4fb419ff");
-      strokeWeight(90);
-      stroke("#4fb419ff");
-      ellipse(mouseX, mouseY, scope2.x, scope2.y, scope2.size, scope2.size);
+    fill("#4fb419ff");
+    strokeWeight(190);
+    stroke("#000000ff");
+    ellipse(mouseX, mouseY, 140, 20, 0, 20);
 
-      fill("#4fb419ff");
-      strokeWeight(190);
-      stroke("#000000ff");
-      ellipse(mouseX, mouseY, 140, 20, 0, 20);
+    stroke("#000000d3");
+    strokeWeight(80);
+    fill("#ff0000ff");
+    ellipse(mouseX, mouseY, pointer.x, pointer.y, pointer.size, pointer.size);
 
-      stroke("#000000d3");
-      strokeWeight(80);
-      fill("#ff0000ff");
-      ellipse(mouseX, mouseY, pointer.x, pointer.y, pointer.size, pointer.size);
+    fill("#ffda35ff");
+    noStroke();
+    ellipse(mouseX, mouseY, 10, 200, 0, 5);
+    ellipse(mouseX, mouseY, 200, 10, 5, 0);
+  } else {
+    // Retracted scope when not scanning
+    fill("#f9f511ff");
+    strokeWeight(170);
+    stroke("#f9f511ff");
+    ellipse(mouseX, mouseY, scope.x, scope.y, scope.size, scope.size);
 
-      fill("#ffda35ff");
-      noStroke();
-      ellipse(mouseX, mouseY, 10, 200, 0, 5);
-      ellipse(mouseX, mouseY, 200, 10, 5, 0);
-    } else {
-      // Retracted scope when not scanning
-      fill("#f9f511ff");
-      strokeWeight(170);
-      stroke("#f9f511ff");
-      ellipse(mouseX, mouseY, scope.x, scope.y, scope.size, scope.size);
+    fill("#4fb419ff");
+    strokeWeight(150);
+    stroke("#4fb419ff");
+    ellipse(mouseX, mouseY, 200, 200, 600, 600);
 
-      fill("#4fb419ff");
-      strokeWeight(150);
-      stroke("#4fb419ff");
-      ellipse(mouseX, mouseY, 200, 200, 600, 600);
+    stroke("#000000ec");
+    strokeWeight(130);
+    fill("#ff0000ff");
+    ellipse(mouseX, mouseY, 200, 200, 300, 300);
 
-      stroke("#000000ec");
-      strokeWeight(130);
-      fill("#ff0000ff");
-      ellipse(mouseX, mouseY, 200, 200, 300, 300);
-
-      stroke("#ff0000ff");
-      strokeWeight(5);
-      fill("#000000ff");
-      ellipse(mouseX, mouseY, 200, 200, 0);
-    }
+    stroke("#ff0000ff");
+    strokeWeight(5);
+    fill("#000000ff");
+    ellipse(mouseX, mouseY, 200, 200, 0);
   }
 }
 
@@ -188,12 +201,6 @@ function drawHiddenScene() {
     }
   }
 }
-// during the scan state initialize a special target alien, scan for this alien
-function startScan() {
-  setupAliens();
-  spawnSpecialTarget();
-  state = "scan";
-}
 function spawnSpecialTarget() {
   specialTarget = {
     //again using image as the base
@@ -203,8 +210,15 @@ function spawnSpecialTarget() {
     revealed: false,
   };
 }
+// during the scan state initialize a special target alien, scan for this alien
+function startScan() {
+  setupAliens();
+  spawnSpecialTarget();
+  state = "scan";
+}
 
 function checkScanFind() {
+  //player uses the scope to scan around for a special alien
   if (!specialTarget) return;
   push();
   //the special alien target is drawn here because the user has to scan for it to find it
@@ -216,3 +230,40 @@ function checkScanFind() {
     startPlayMode(specialTarget.x, specialTarget.y);
   }
 }
+function startPlayMode() {
+  state = "play"; //begins the shooting game after the special alien has been located
+  setupAliens();
+  for (let a of aliens) {
+    a.alive = true;
+  }
+  killCount = 0;
+}
+
+function drawPlayMode() {
+  for (let a of aliens) {
+    if (!a.alive) continue;
+    a.x += a.velocity;
+    // bounce from the edges for no missing alien
+    if (a.x < 20 || a.x > width - 20) a.velocity *= -1;
+    drawAlien(a);
+    if (laser) {
+      drawLaser();
+      updateLaser();
+    }
+    updateBooms();
+    // the simple win condition: after enough kills then spawn boss
+    if (killCount >= killsToSpawnBoss) {
+      // transition to boss mode
+      state = "boss";
+      resetBoss();
+      playSound("bossAppear");
+    }
+    //kill score keeper
+    push();
+    fill(255);
+    textSize(14);
+    text("Kills: " + killCount + " / " + killsToSpawnBoss, width - 100, 20);
+    pop();
+  }
+}
+function drawLaser() {}

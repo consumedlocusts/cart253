@@ -49,54 +49,30 @@ What is there?
   - minions above noticbely (but not too much) smaller than the hand
 
 ```
-frog
-    body
+hand/gun
+    hand
         x
         y
         size
-    tongue
+    gun
         x
         y
         size
         speed
         state
 
-fly
+minion(s)
     x
     y
     size
     speed
 ```
 
-What happens in this project?
+Game states:
 
-- Start (setup)
-  - Create a canvas
-- Every frame (draw)
-  - Draw the background
-  - Move and draw the fly
-    - Add the fly's speed to it x
-    - Draw a circle at the fly's position with its size (black)
-  - Move and draw the frog
-    - Move the frog to the mouse's x position
-    - Draw a green circle at the frog's position with its size
-  - Move and draw the tongue
-    - Move the tongue
-      - If the tongue isn't launched, just do nothing... don't draw it
-      - If the tongue is launched, move it up (by its speed)
-      - If the tongue is coming back, move it down (by its speed)
-      - If the tongue hits the top, send it back down
-      - If the tongue gets back to the frog, then stop it
-    - Draw the tongue
-      - Draw a line from the frog to the tongue position
-      - Draw a circle at the end of the tongue
-  - Check if the tongue hit the fly
-    - Check if tongue circle and fly circle overlap
-    - If they do, then reset the fly
-    - If they don't.... nothing... just keep being a tongue
-
-Events
-
-- If the user clicks the mouse
-  - If the tongue is still inside the frog's mouth
-    - Launch the tongue
+- "start" : intro video/starting screen
+- "scan" : scope overlay scanning for the alien (dark mask)
+- "play" : main wave gameplay (small aliens)
+- "boss" : boss fight mode
+- "win" : victory screen
+- "gameover" : lose screen

@@ -42,6 +42,7 @@ let pointer = {
 let foundTarget = false;
 
 let player = {
+  //the player does not move but the laser does with the mouse/mouse click as the aimer
   x: 320,
   y: 420, //player viewpoint lower on screen for POV style
 };
@@ -67,7 +68,7 @@ let bossHealthMax = 30;
 
 let goops = []; //the boss shoots poison at the player
 
-let playerHealth = 15; // health bar in boss fight
+let playerHealth = 15; // health bar in boss fight, not working
 let maxGoopHits = 15; // lose after this many hits
 let introVideo; //edited video for the start of game
 
@@ -220,7 +221,7 @@ function drawHiddenScene() {
   //find the alien to actually start the game
   for (let a of aliens) {
     if (a.alive) {
-      drawAlien(a); //alien "a" is the special alien target only in this scene
+      drawAlien(a); //alien "a" is the array individual of the aliens pack, s
     }
   }
 }
@@ -294,7 +295,7 @@ function drawLaser() {
   pop();
 }
 function laserShot() {
-  if (!laser) return;
+  //if (!laser) return;
   //for future boom sound effect, updates the laser
   if (state === "play") {
     for (let a of aliens) {
@@ -316,7 +317,7 @@ function laserShot() {
 }
 function bossMode() {
   drawBossScore();
-  drawBoss(boss);
+  drawBoss(b);
   boss.x += boss.velocityx;
   if (boss.x < boss.size / 2 || boss.x > width - boss.size / 2)
     boss.velocity *= -1;
@@ -383,10 +384,11 @@ function spawnGoop() {
   goops.push({
     x: boss.x + random(-30, 30),
     y: boss.y + boss.size / 2,
-    vy: 2.2,
+    velocity: 2.2,
   });
 }
 function drawScopeCursor() {
+  //more aesthetics for the scope but layered under
   push();
   noFill();
   stroke(255, 200);
@@ -422,4 +424,7 @@ function drawBossScore() {
   fill("#4fb419");
   rect(20, 30, map(playerHealth, 0, 15, 0, 120), 14);
   pop();
+}
+function mousePressed() {
+  let laser;
 }

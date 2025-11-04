@@ -48,7 +48,7 @@ let player = {
 
 //the small aliens or "minions"
 let aliens = [];
-let ALIEN_COUNT = 8;
+const alienCount = 8;
 let alienSpeed = 1.2;
 let specialTarget = null; //special alien to scan for during the scan state
 //laser shot settings (single shot per click)
@@ -97,17 +97,21 @@ function setup() {
 function setupAliens() {
   aliens = [];
   //alien index and counter, making sure they spawn at random around the screen every time the game restarts
-  for (let counter = 0; counter < ALIEN_COUNT; counter++) {
+  for (let counter = 0; counter < alienCount; counter++) {
+    //loop is running until there is 8 aliens so it doesnt spawn extra
     aliens.push({
+      //pushes the array to the array
       x: random(40, width - 40),
       y: random(100, 260),
       size: 18,
       velocity: random([-1, 1]) * alienSpeed,
-      alive: true,
+      alive: true, //until its false then the loop stops
     });
   }
 }
 function spawnSpecialTarget() {
+  // the alien to find first, shoot and start the game
+  // only during the scan state does it initialize special target alien, scan for this alien , it goes away after
   specialTarget = {
     //again using image/gif as the base
     x: random(80, width - 80),
@@ -116,8 +120,9 @@ function spawnSpecialTarget() {
     revealed: false,
   };
 }
-// during the scan state initialize a special target alien, scan for this alien
+
 function startScan() {
+  //scanning state meaning search around with the cursor and click on the "target"
   setupAliens();
   spawnSpecialTarget();
   state = "scan";
@@ -143,7 +148,7 @@ function draw() {
   }
 
   drawPlayerHand();
-  //scope scanner unactivates and activates the users hand
+  //after the scope scanner unactivates and activates the users hand
   if (state !== "start") {
     drawScopeCursor();
   }
@@ -222,7 +227,7 @@ function drawHiddenScene() {
 
 function checkScanFind() {
   //player uses the scope to scan around for a special alien
-  if (!specialTarget) return;
+
   push();
 
   noStroke();
@@ -361,21 +366,20 @@ function over() {
   push();
   pop();
 }
-function drawBoss(b){
+function drawBoss(b) {
   push();
   let gifSize = b.size * 2;
   image(bigGif, b.x - gifSize / 2, b.y - gifSize / 2, gifSize, gifSize);
   pop();
-
 }
-function drawGoop(g){
+function drawGoop(g) {
   push();
   fill("#6ab04c");
   noStroke();
   ellipse(g.x, g.y, 18);
   pop();
 }
-function spawnGoop(){
+function spawnGoop() {
   goops.push({
     x: boss.x + random(-30, 30),
     y: boss.y + boss.size / 2,
@@ -392,14 +396,13 @@ function drawScopeCursor() {
   line(mouseX, mouseY - 20, mouseX, mouseY + 20);
   pop();
 }
-function playerHand(){
-push();
-image(handImg, player.x - 60, player.y - 40, 120, 120);
-pop();
-
+function playerHand() {
+  push();
+  image(handImg, player.x - 60, player.y - 40, 120, 120);
+  pop();
 }
 
-function drawBossScore (){
+function drawBossScore() {
   push();
   fill(255);
   textSize(20);
@@ -407,7 +410,7 @@ function drawBossScore (){
   stroke(180);
   noFill();
   rect(width / 2 - 120, 30, 240, 14);
-  
+
   fill("#ff4d4d");
   rect(width / 2 - 120, 30, map(boss.health, 0, bossHealthMax, 0, 240), 14);
 
@@ -415,10 +418,8 @@ function drawBossScore (){
   stroke(180);
   noFill();
   rect(20, 30, 120, 14);
- 
+
   fill("#4fb419");
   rect(20, 30, map(playerHealth, 0, 15, 0, 120), 14);
   pop();
 }
-
-

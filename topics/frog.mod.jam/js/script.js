@@ -246,6 +246,8 @@ function startPlayMode() {
   state = "play"; //begins the shooting game after the special alien has been located
   setupAliens();
   for (let a of aliens) {
+    a.x = constrain(a.x, 20, width - 20);
+    a.y = random(100, 250);
     a.alive = true;
   }
   killCount = 0;
@@ -258,28 +260,32 @@ function drawPlayMode() {
     // bounce from the edges for no missing alien
     if (a.x < 20 || a.x > width - 20) a.velocity *= -1;
     drawAlien(a);
-    if (laser) {
-      drawLaser();
-      updateLaser();
-    }
-    updateBooms();
-    // the simple win condition: after enough kills then spawn boss
-    if (killCount >= killsToSpawnBoss) {
-      // transition to boss mode
-      state = "boss";
-      resetBoss();
-      playSound("bossAppear");
-    }
-    //kill score keeper
-    push();
-    fill(255);
-    textSize(14);
-    text("Kills: " + killCount + " / " + killsToSpawnBoss, width - 100, 20);
-    pop();
   }
+  if (laser) {
+    drawLaser();
+    laserShot();
+  }
+  updateBooms();
+  // the simple win condition: after enough kills then spawn boss
+  if (killCount >= killsToSpawnBoss) {
+    // transition to boss mode
+    state = "boss";
+    resetBoss();
+    playSound("bossAppear");
+  }
+  //kill score keeper
+  push();
+  fill(255);
+  textSize(14);
+  text("Kills: " + killCount + " / " + killsToSpawnBoss, width - 100, 20);
+  pop();
 }
+
 function drawLaser() {
   push();
+  stroke(255, 200, 0);
+  strokeWeight(4);
+  line(laser.startX, laser.startY, mouseX, mouseY);
   pop();
 }
 function laserShot() {
@@ -301,6 +307,22 @@ function laserShot() {
       boss.health--;
       laser = null;
     }
+  }
+}
+function bossMode() {
+  drawBossScore();
+  drawBoss(boss);
+  boss.x += boss.velocityx;
+  if (boss.x < boss.size / 2 || boss.x > width - boss.size / 2)
+    boss.velocity *= -1;
+  boss.shootTimer++;
+  if (boss.shootTimer >= boss.shootInterval) {
+    boss.shootTimer = 0;
+    spawnGoop();
+  }
+  for (let counter = goops.length - 1; counter >= 0; counter--) {
+    let g = goops[counter];
+    g.y += g.velocityy; //ensure the poison he boss is spitting is going downwards near the player
   }
 }
 function mousePressed() {

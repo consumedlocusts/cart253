@@ -16,7 +16,9 @@
 "use strict";
 
 let state = "start";
-let handImg, alienImg, bossImg, beerImg;
+//let handImg, alienImg, bossImg, beerImg;
+let alien;
+let alienGif;
 let useImages = false;
 //the hand/gun set up (which is the same object)
 //everything is drawn with images
@@ -73,8 +75,9 @@ function playSound(name) {
 }
 function preload() {
   //sprite images as the characters (hand/gun, "minion" aliens, boss etc.)
-  handImg = loadImage(assets / hand.png);
-  aliensImg = loadImage(assets / alien.png);
+  handImg = loadImage("assets/hand.png");
+  alien = loadImage("assets/aliens.gif");
+  alienGif = loadImage("assets/saline.gif");
   // bossImg = loadImage(assets/boss.png);
   //landscape = loadImage (assets/landscape.png)
   // if (handImg && alienImg) useImages = true;
@@ -124,7 +127,7 @@ function draw() {
   }
 
   drawPlayerHand();
-  //scope scanner unactivates
+  //scope scanner unactivates and activates the users hand
   if (state !== "start") {
     drawScopeCursor();
   }
@@ -191,7 +194,6 @@ function scopeMask() {
     ellipse(mouseX, mouseY, 200, 200, 0);
   }
 }
-
 function drawHiddenScene() {
   //as part of the first scene steps, an alien is hidden under the dark mask;
   //find the alien to actually start the game
@@ -201,12 +203,13 @@ function drawHiddenScene() {
     }
   }
 }
+
 function spawnSpecialTarget() {
   specialTarget = {
     //again using image as the base
     x: random(80, width - 80),
     y: random(120, 300),
-    size: 36,
+    size: 50,
     revealed: false,
   };
 }
@@ -221,7 +224,16 @@ function checkScanFind() {
   //player uses the scope to scan around for a special alien
   if (!specialTarget) return;
   push();
-  //the special alien target is drawn here because the user has to scan for it to find it
+
+  noStroke();
+  let gifSize = specialTarget.size * 2;
+  image(
+    alienGif,
+    specialTarget.x - gifSize / 2,
+    specialTarget.y - gifSize / 2,
+    gifSize,
+    gifSize
+  );
 
   pop();
   let d = dist(mouseX, mouseY, specialTarget.x, specialTarget.y);

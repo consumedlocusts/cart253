@@ -59,6 +59,7 @@ let canShoot = true; //so its not spam shooting
 let booms = [];
 
 //kill counter to spawn boss (there is only 8 aliens maximum to not confuse the game)
+//numbers for the board
 let killsToSpawnBoss = 8;
 let killCount = 0;
 let boss = null;
@@ -70,7 +71,7 @@ let playerHealth = 15; // health bar in boss fight
 let maxGoopHits = 15; // lose after this many hits
 let introVideo; //edited video for the start of game
 
-function playSound(name) {
+function playSound() {
   // the soundeffect for the shooting etc.
 }
 function preload() {
@@ -105,6 +106,21 @@ function setupAliens() {
       alive: true,
     });
   }
+}
+function spawnSpecialTarget() {
+  specialTarget = {
+    //again using image as the base
+    x: random(80, width - 80),
+    y: random(120, 300),
+    size: 50,
+    revealed: false,
+  };
+}
+// during the scan state initialize a special target alien, scan for this alien
+function startScan() {
+  setupAliens();
+  spawnSpecialTarget();
+  state = "scan";
 }
 function draw() {
   background("#0b0f1a");
@@ -204,22 +220,6 @@ function drawHiddenScene() {
   }
 }
 
-function spawnSpecialTarget() {
-  specialTarget = {
-    //again using image as the base
-    x: random(80, width - 80),
-    y: random(120, 300),
-    size: 50,
-    revealed: false,
-  };
-}
-// during the scan state initialize a special target alien, scan for this alien
-function startScan() {
-  setupAliens();
-  spawnSpecialTarget();
-  state = "scan";
-}
-
 function checkScanFind() {
   //player uses the scope to scan around for a special alien
   if (!specialTarget) return;
@@ -278,4 +278,56 @@ function drawPlayMode() {
     pop();
   }
 }
-//function drawLaser() {}
+function drawLaser() {
+  push();
+  pop();
+}
+function laserShot() {
+  if (!laser) return;
+  //for future boom sound effect, updates the laser
+  if (state === "play") {
+    for (let a of aliens) {
+      if (!a.alive) continue;
+      if (dist(mouseX, mouseY, a.x, a.y) < a.size / 2 + 6) {
+        a.alive = false;
+        killCount++;
+        laser = null;
+        break;
+      }
+    }
+  }
+  if (state === "boss" && boss) {
+    if (dist(mouseX, mouseY, boss.x, boss.y) < boss.size / 2 + 6) {
+      boss.health--;
+      laser = null;
+    }
+  }
+}
+function mousePressed() {
+  if (state === "start") {
+    startScan();
+    return;
+  }
+
+  if (state === "scan") return;
+  if ((state === "play" || state === "boss") && canShoot) {
+    laser = { startX: player.x, startY: player.y - 30 };
+    canShoot = false;
+  }
+  if (state === "win" || state === "gameover") {
+    resetBoss();
+    setupAliens();
+    state = "start";
+  }
+}
+function mouseReleased() {
+  canShoot = true;
+}
+function winner() {
+  push();
+  pop();
+}
+function over() {
+  push();
+  pop();
+}

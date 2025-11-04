@@ -124,22 +124,59 @@ function drawStartScreen() {
 }
 
 function scopeMask() {
-  //the "mask" is the scope from my other code, use it to hover over the alien to begin the game
-  push();
-  fill(0, 220);
-  rect(0, 0, width, height);
+  function drawScanMask() {
+    // Draw a full-screen dark mask, then erase a circle at cursor to reveal
+    push();
 
-  // use erase to create scope hole instead of layering many shapes
-  erase();
-  ellipse(mouseX, mouseY, scope.size);
-  noErase();
+    // use erase to create scope hole
+    if (mouseIsPressed) {
+      fill("#f9f511ff");
+      strokeWeight(90);
+      stroke("#f9f511ff");
+      ellipse(mouseX, mouseY, scope.x, scope.y, scope.size, scope.size);
 
-  // raw scope crosshair ring thing
-  strokeWeight(3);
-  stroke(255, 180);
-  noFill();
-  ellipse(mouseX, mouseY, scope.size);
-  pop();
+      fill("#4fb419ff");
+      strokeWeight(90);
+      stroke("#4fb419ff");
+      ellipse(mouseX, mouseY, scope2.x, scope2.y, scope2.size, scope2.size);
+
+      fill("#4fb419ff");
+      strokeWeight(190);
+      stroke("#000000ff");
+      ellipse(mouseX, mouseY, 140, 20, 0, 20);
+
+      stroke("#000000d3");
+      strokeWeight(80);
+      fill("#ff0000ff");
+      ellipse(mouseX, mouseY, pointer.x, pointer.y, pointer.size, pointer.size);
+
+      fill("#ffda35ff");
+      noStroke();
+      ellipse(mouseX, mouseY, 10, 200, 0, 5);
+      ellipse(mouseX, mouseY, 200, 10, 5, 0);
+    } else {
+      // Retracted scope when not scanning
+      fill("#f9f511ff");
+      strokeWeight(170);
+      stroke("#f9f511ff");
+      ellipse(mouseX, mouseY, scope.x, scope.y, scope.size, scope.size);
+
+      fill("#4fb419ff");
+      strokeWeight(150);
+      stroke("#4fb419ff");
+      ellipse(mouseX, mouseY, 200, 200, 600, 600);
+
+      stroke("#000000ec");
+      strokeWeight(130);
+      fill("#ff0000ff");
+      ellipse(mouseX, mouseY, 200, 200, 300, 300);
+
+      stroke("#ff0000ff");
+      strokeWeight(5);
+      fill("#000000ff");
+      ellipse(mouseX, mouseY, 200, 200, 0);
+    }
+  }
 }
 
 function drawHiddenScene() {
@@ -173,9 +210,8 @@ function checkScanFind() {
   //the special alien target is drawn here because the user has to scan for it to find it
 
   pop();
-
   let d = dist(mouseX, mouseY, specialTarget.x, specialTarget.y);
-  if (d <= scope.size / 2) {
+  if (d <= scope.size / 2 && mouseIsPressed) {
     specialTarget.revealed = true;
     startPlayMode(specialTarget.x, specialTarget.y);
   }

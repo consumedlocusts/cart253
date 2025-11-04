@@ -266,4 +266,4 @@ function drawPlayMode() {
     pop();
   }
 }
-function drawLaser() {}
+//function drawLaser() {}

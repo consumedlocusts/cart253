@@ -44,6 +44,7 @@ let player = {
   y: 420, //player viewpoint lower on screen for POV style
 };
 let playerHealth = 15; // health bar in boss fight, not working
+const playerMaxHp = 15;
 
 //the small aliens or "minions"
 let aliens = [];
@@ -61,13 +62,13 @@ let laserCools = 12; //by frame to cooldown the laser
 let killsToSpawnBoss = 8;
 let killCount = 0;
 let boss = null;
-let bossMaxHp = 30;
+const bossMaxHp = 30;
 let bossSize = 120;
 let bossSpeed = 1.5; //or slower
 
 let goops = []; //the boss shoots poison at the player
+const goopVelocity = 2;
 
-//let goopVelocity = 2;
 //let maxGoopHits = 15; // lose after this many hits
 
 let introVideo; //edited video for the start of game
@@ -77,12 +78,12 @@ function playSound() {
 }
 function preload() {
   //sprite images as the characters (hand/gun, "minion" aliens, boss etc.)
-  //hand = loadImage("assets/hand.png");
+  hand = loadImage("assets/hand.png");
   alien = loadImage("assets/aliens.gif");
   alienGif = loadImage("assets/saline.gif");
-  // bossImg = loadImage(assets/boss.png);
+  // bossImg = loadImage(assets/big.gif);
   //landscape = loadImage (assets/landscape.png)
-  // if (handImg && alienImg) useImages = true;
+  // if (hand && alien && alienGif) useImages = true;
 }
 /**
  * Creates the canvas and plays game start video
@@ -125,13 +126,13 @@ function spawnAliens() {
 }
 function spawnSpecialTarget() {
   // the alien to find first, shoot and start the game
-  // only during the scan state does it initialize special target alien, scan for this alien , it goes away after
+  // only during the scan state, initialize special target alien, scan for this alien , it goes away after
   specialTarget = {
-    //again using image/gif as the base
+    //again using image/gif as the base, it spawns at a random place each reset
     x: random(80, width - 80),
     y: random(120, 300),
     size: 50,
-    revealed: false, //or targetfound
+    revealed: false, //did you find the alien
   };
 }
 function spawnBoss() {
@@ -141,10 +142,11 @@ function spawnBoss() {
     size: bossSize,
     health: bossMaxHp,
     velocityx: bossSpeed,
-    //shootTimer: 0,
+    shootTimer: 0,
+    shooting: 150,
   };
-  //goops[]; soon
-  playerHealth = 15;
+  goops = [];
+  playerHealth = playerMaxHp;
 }
 function startScan() {
   //scanning state meaning search around with the cursor and click on the "target"
@@ -160,16 +162,16 @@ function draw() {
     drawStartScreen();
   } else if (state === "scan") {
     drawHiddenScene();
-    drawScanMask();
+    scopeMask();
     checkScanFind();
   } else if (state === "play") {
     drawPlayMode();
   } else if (state === "boss") {
     drawBossMode();
   } else if (state === "win") {
-    drawWinMode();
+    drawWin();
   } else if (state === "gameover") {
-    drawGameOverMode();
+    drawGameOver();
   }
 
   drawPlayerHand(); //player hand is the POV shooter
@@ -348,7 +350,7 @@ function bossMode() {
   drawBoss(boss);
 
   boss.shootTimer++;
-  if (boss.shootTimer >= boss.shootInterval) {
+  if (boss.shootTimer >= boss.shooting) {
     boss.shootTimer = 0;
     spawnGoop(g);
   }
@@ -411,26 +413,23 @@ function drawPlayerHand() {
 }
 
 function drawBossScore() {
-  push();
   fill(255);
-  textSize(20);
+  textSize(12);
   text("BOSS HEALTH", width / 2, 20);
   noFill();
   stroke(180);
   rect(width / 2 - 120, 30, 240, 14);
-
   noStroke();
-  fill("#ff4d4d");
-  rect(width / 2 - 120, 30, (boss.health * 240) / bossMaxHp, 0, 240, 14);
+  fill(255, 77, 77);
+  rect(width / 2 - 120, 30, (boss.health * 240) / bossMaxHp, 14);
 
   text("PLAYER HEALTH", 80, 20);
-  stroke(180);
   noFill();
+  stroke(180);
   rect(20, 30, 120, 14);
-
-  fill("#4fb419");
-  rect(20, 30, map(playerHealth, 0, 15, 0, 120), 14);
-  pop();
+  noStroke();
+  fill(79, 180, 25);
+  rect(20, 30, (playerHealth * 120) / playerMaxHp, 14);
 }
 function drawWin() {}
 function drawGameOver() {}
@@ -446,5 +445,14 @@ function drawScopeCursor() {
   pop();
 }
 function mousePressed() {
-  resetAll();
+  if (state === "start") {
+    state = "scan";
+    return;
+  }
+  if (state === "play" || state === "boss") laserCooler();
+  if (state === "win" || state === "gameover") resetAll();
+}
+
+function mouseReleased() {
+  laser = null;
 }

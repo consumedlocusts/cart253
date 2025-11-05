@@ -78,7 +78,7 @@ function playSound() {
 }
 function preload() {
   //sprite images as the characters (hand/gun, "minion" aliens, boss etc.)
-  handImg = loadImage("assets/hand.png");
+  //hand = loadImage("assets/hand.png");
   alien = loadImage("assets/aliens.gif");
   alienGif = loadImage("assets/saline.gif");
   // bossImg = loadImage(assets/boss.png);
@@ -92,7 +92,7 @@ function setup() {
   createCanvas(640, 480);
   textAlign(CENTER, CENTER);
   setupAliens();
-  resetAll();
+  //resetAll();
 }
 
 //create initial aliens (randomized positions)
@@ -264,9 +264,9 @@ function startPlayMode() {
 function drawPlayMode() {
   for (let a of aliens) {
     if (!a.alive) continue;
-    a.x += a.velocity;
+    a.x += a.velocity.x;
     // bounce from the edges for no missing alien
-    if (a.x < 20 || a.x > width - 20) a.velocity *= -1;
+    if (a.x < 20 || a.x > width - 20) a.velocity.x *= -1;
     drawAlien(a);
   }
   if (laser) {

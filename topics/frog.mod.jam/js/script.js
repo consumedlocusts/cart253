@@ -64,13 +64,16 @@ let canShoot = true; //so its not spam shooting
 const killsToSpawnBoss = 8;
 let killCount = 0;
 let boss = null;
-let bossHealthMax = 30;
+let bossMaxHp = 30;
+const bossSize = 120;
+const bossSpeed = 1.5; //or slower
 
 let goops = []; //the boss shoots poison at the player
 const goopVelocity = 2;
 
 let playerHealth = 15; // health bar in boss fight, not working
 //let maxGoopHits = 15; // lose after this many hits
+//const playerMaxHp = 15;
 let introVideo; //edited video for the start of game
 
 function playSound() {
@@ -91,12 +94,24 @@ function preload() {
 function setup() {
   createCanvas(640, 480);
   textAlign(CENTER, CENTER);
-  setupAliens();
-  //resetAll();
+  spawnAliens();
+  resetAll();
 }
-
+function resetAll() {
+  //reset the game if you lose or win
+  state = "start";
+  killCount = 0;
+  goops = [];
+  laser = null;
+  booms = [];
+  playerHealth = 15;
+  aliens = [];
+  boss = null;
+  spawnAliens();
+  spawnSpecialTarget();
+}
 //create initial aliens (randomized positions)
-function setupAliens() {
+function spawnAliens() {
   aliens = [];
   //alien index and counter, making sure they spawn at random around the screen every time the game restarts
   for (let counter = 0; counter < alienCount; counter++) {
@@ -119,10 +134,18 @@ function spawnSpecialTarget() {
     x: random(80, width - 80),
     y: random(120, 300),
     size: 50,
-    revealed: false,
+    revealed: false, //or targetfound
   };
 }
-
+function spawnBoss() {
+  boss = {
+    x: width / 2,
+    y: 110,
+    size: bossSize,
+    health: bossMaxHp,
+    //shootTimer: 0,
+  };
+}
 function startScan() {
   //scanning state meaning search around with the cursor and click on the "target"
   setupAliens();
@@ -278,7 +301,6 @@ function drawPlayMode() {
   if (killCount >= killsToSpawnBoss) {
     // transition to boss mode
     state = "boss";
-    resetBoss();
     playSound("bossAppear");
   }
   //kill score keeper
@@ -293,7 +315,7 @@ function drawLaser() {
   push();
   stroke(255, 200, 0);
   strokeWeight(4);
-  line(laser.startX, laser.startY, mouseX, mouseY);
+  line(laser.startX, laser.startY, mouseX, mouseY); //line as the laser
   pop();
 }
 function laserShot() {
@@ -311,6 +333,7 @@ function laserShot() {
     }
   }
   if (state === "boss" && boss) {
+    //if in bossmode and the boss is drawn himself, and if we shooot him, he loses health
     if (dist(mouseX, mouseY, boss.x, boss.y) < boss.size / 2 + 6) {
       boss.health--;
       laser = null;
@@ -319,8 +342,8 @@ function laserShot() {
 }
 function bossMode() {
   drawBossScore();
-  drawBoss(b);
-  boss.x += boss.velocityx;
+  drawBoss(boss);
+  boss.x += boss.velocity.x;
   if (boss.x < boss.size / 2 || boss.x > width - boss.size / 2)
     boss.velocity *= -1;
   boss.shootTimer++;

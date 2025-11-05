@@ -143,8 +143,11 @@ function spawnBoss() {
     y: 110,
     size: bossSize,
     health: bossMaxHp,
+    velocityx: bossSpeed,
     //shootTimer: 0,
   };
+  //goops[]; soon
+  //playerHealth = 15;
 }
 function startScan() {
   //scanning state meaning search around with the cursor and click on the "target"
@@ -177,6 +180,7 @@ function draw() {
   if (state !== "start") {
     drawScopeCursor(); //cursor does not appear at the startmode for aesthetic reasons
   }
+  //boomBooms();
 }
 
 function drawPlanetLandscape() {
@@ -188,10 +192,34 @@ function drawStartScreen() {
   background(0);
   image(introVideo, 0, 0);
 }
+function drawHiddenScene() {
+  //as part of the first scene steps, an alien is hidden under the dark mask;
+  //find the real alien to actually start the game
+  //the other small aliens are also masked to confuse player (do no)
+  for (let a of aliens) {
+    if (a.alive) {
+      drawAlien(a);
+      //alien "a" is one alien of the array
+      if (specialTarget) push();
+      noStroke();
+      let gifSize = specialTarget.size * 4;
+      image(
+        alienGif,
+        specialTarget.x - gifSize / 2,
+        specialTarget.y - gifSize / 2,
+        gifSize,
+        gifSize
+      );
+
+      pop();
+    }
+  }
+}
 
 function scopeMask() {
   //this is the scopemask from my brace.yer.self code
   push();
+
   if (mouseIsPressed) {
     fill("#f9f511ff");
     strokeWeight(90);
@@ -219,6 +247,9 @@ function scopeMask() {
     ellipse(mouseX, mouseY, 200, 10, 5, 0);
   } else {
     // Retracted scope when not scanning
+    fill(0, 200);
+    rect(0, 0, width, height);
+
     fill("#f9f511ff");
     strokeWeight(170);
     stroke("#f9f511ff");
@@ -238,29 +269,6 @@ function scopeMask() {
     strokeWeight(5);
     fill("#000000ff");
     ellipse(mouseX, mouseY, 200, 200, 0);
-  }
-}
-function drawHiddenScene() {
-  //as part of the first scene steps, an alien is hidden under the dark mask;
-  //find the real alien to actually start the game
-  //the other small aliens are also masked to confuse player (do no)
-  for (let a of aliens) {
-    if (a.alive) {
-      drawAlien(a);
-      //alien "a" is one alien of the array
-      if (specialTarget) push();
-      noStroke();
-      let gifSize = specialTarget.size * 4;
-      image(
-        alienGif,
-        specialTarget.x - gifSize / 2,
-        specialTarget.y - gifSize / 2,
-        gifSize,
-        gifSize
-      );
-
-      pop();
-    }
   }
 }
 

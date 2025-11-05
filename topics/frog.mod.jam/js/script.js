@@ -16,7 +16,6 @@
 "use strict";
 
 let state = "start";
-//let handImg, alienImg, bossImg, beerImg;
 let alien;
 let alienGif;
 let useImages = false;
@@ -39,41 +38,37 @@ let pointer = {
   size: 4,
 };
 
-let foundTarget = false;
-
 let player = {
   //the player does not move but the laser does with the mouse/mouse click as the aimer
   x: 320,
   y: 420, //player viewpoint lower on screen for POV style
 };
+let playerHealth = 15; // health bar in boss fight, not working
 
 //the small aliens or "minions"
 let aliens = [];
-const alienCount = 8;
-const alienSpeed = 1.2;
+let alienCount = 8;
+let alienSpeed = 1.2;
 let specialTarget = null; //special alien to scan for during the scan state
-//laser shot settings (single shot per click)
+
 let laser = null; //idle when not in use laser beam effect
-let canShoot = true; //so its not spam shooting
+let didShootCounter = 0;
 
-//boom/hit effect
 //let booms = [];
-
 //kill counter to spawn boss (there is only 8 aliens maximum to not confuse the game)
-//numbers for the board
-const killsToSpawnBoss = 8;
+
+let killsToSpawnBoss = 8;
 let killCount = 0;
 let boss = null;
 let bossMaxHp = 30;
-const bossSize = 120;
-const bossSpeed = 1.5; //or slower
+let bossSize = 120;
+let bossSpeed = 1.5; //or slower
 
 let goops = []; //the boss shoots poison at the player
-const goopVelocity = 2;
 
-let playerHealth = 15; // health bar in boss fight, not working
+//let goopVelocity = 2;
 //let maxGoopHits = 15; // lose after this many hits
-//const playerMaxHp = 15;
+
 let introVideo; //edited video for the start of game
 
 function playSound() {
@@ -103,7 +98,8 @@ function resetAll() {
   killCount = 0;
   goops = [];
   laser = null;
-  booms = [];
+  didShootCounter = 0;
+  //booms = [];
   playerHealth = 15;
   aliens = [];
   boss = null;
@@ -121,7 +117,7 @@ function spawnAliens() {
       x: random(40, width - 40),
       y: random(100, 260),
       size: 18,
-      velocity: random([-1, 1]) * alienSpeed,
+      velocityx: random([-1, 1]) * alienSpeed,
       alive: true, //until its false then the loop stops
     });
   }
@@ -147,7 +143,7 @@ function spawnBoss() {
     //shootTimer: 0,
   };
   //goops[]; soon
-  //playerHealth = 15;
+  playerHealth = 15;
 }
 function startScan() {
   //scanning state meaning search around with the cursor and click on the "target"
@@ -247,8 +243,6 @@ function scopeMask() {
     ellipse(mouseX, mouseY, 200, 10, 5, 0);
   } else {
     // Retracted scope when not scanning
-    fill(0, 200);
-    rect(0, 0, width, height);
 
     fill("#f9f511ff");
     strokeWeight(170);
@@ -278,37 +272,46 @@ function checkScanFind() {
   let d = dist(mouseX, mouseY, specialTarget.x, specialTarget.y);
   if (d <= scope.size / 2 && mouseIsPressed) {
     specialTarget.revealed = true;
+    state = "play";
     startPlayMode();
   }
 }
+//
+// too much stuff
+// play mode below
+//
+//
 function startPlayMode() {
   state = "play"; //begins the shooting game after the special alien has been located
   setupAliens();
-  for (let a of aliens) {
-    a.x = constrain(a.x, 20, width - 20);
-    a.y = random(100, 250);
-    a.alive = true;
-  }
-  killCount = 0;
+  //for (let a of aliens) {
+  a.x = constrain(a.x, 20, width - 20);
+  a.y = random(100, 250);
+  a.alive = true;
+  // }
+  //  killCount = 0;
 }
 
 function drawPlayMode() {
-  for (let a of aliens) {
+  for (let counter = 0; counter < aliens.length; counter++) {
+    let a = aliens[counter];
     if (!a.alive) continue;
-    a.x += a.velocity.x;
+    a.x += a.velocityx;
     // bounce from the edges for no missing alien
-    if (a.x < 20 || a.x > width - 20) a.velocity.x *= -1;
+    if (a.x < 20 || a.x > width - 20) a.velocityx *= -1;
     drawAlien(a);
   }
   if (laser) {
     drawLaser();
-    laserShot();
+    didShootCounter();
+    //laserShot();
   }
-  updateBooms();
-  // the simple win condition: after enough kills then spawn boss
+  //boomBooms();
+  //  after enough kills then spawn boss
   if (killCount >= killsToSpawnBoss) {
     // transition to boss mode
     state = "boss";
+    spawnBoss();
     playSound("bossAppear");
   }
   //kill score keeper
@@ -326,28 +329,11 @@ function drawLaser() {
   line(laser.startX, laser.startY, mouseX, mouseY); //line as the laser
   pop();
 }
-function laserShot() {
-  //if (!laser) return;
-  //for future boom sound effect, updates the laser
-  if (state === "play") {
-    for (let a of aliens) {
-      if (!a.alive) continue;
-      if (dist(mouseX, mouseY, a.x, a.y) < a.size / 2 + 6) {
-        a.alive = false;
-        killCount++;
-        laser = null;
-        break;
-      }
-    }
-  }
-  if (state === "boss" && boss) {
-    //if in bossmode and the boss is drawn himself, and if we shooot him, he loses health
-    if (dist(mouseX, mouseY, boss.x, boss.y) < boss.size / 2 + 6) {
-      boss.health--;
-      laser = null;
-    }
-  }
+function didShootCounter() {
+  drawLaser();
+  for (let counter = 0; counter < aliens.length; counter++) {}
 }
+
 function bossMode() {
   drawBossScore();
   drawBoss(boss);

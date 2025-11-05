@@ -50,10 +50,10 @@ let player = {
 //the small aliens or "minions"
 let aliens = [];
 const alienCount = 8;
-let alienSpeed = 1.2;
+const alienSpeed = 1.2;
 let specialTarget = null; //special alien to scan for during the scan state
 //laser shot settings (single shot per click)
-let laser = null;
+let laser = null; //idle when not in use laser beam effect
 let canShoot = true; //so its not spam shooting
 
 //boom/hit effect
@@ -61,7 +61,7 @@ let canShoot = true; //so its not spam shooting
 
 //kill counter to spawn boss (there is only 8 aliens maximum to not confuse the game)
 //numbers for the board
-let killsToSpawnBoss = 8;
+const killsToSpawnBoss = 8;
 let killCount = 0;
 let boss = null;
 let bossHealthMax = 30;
@@ -357,7 +357,7 @@ function drawAliens(a) {
   pop();
 }
 function mouseReleased() {
-  canShoot = true;
+  canShoot = true; //laser beam affect,, instead of spam shooting
 }
 function winner() {
   push();

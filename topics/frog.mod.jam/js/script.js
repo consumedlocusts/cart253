@@ -18,7 +18,8 @@
 let state = "start";
 let alien;
 let alienGif;
-let useImages = false;
+let planetVideo;
+//let useImages = false;
 //the hand/gun set up (which is the same object)
 //everything is drawn with images
 //scopes from another code (listed in the read.me)
@@ -71,17 +72,19 @@ const goopVelocity = 2;
 
 //let maxGoopHits = 15; // lose after this many hits
 
-let introVideo; //edited video for the start of game
+let end; //edited video for the start of game
 
-function playSound() {
-  // the soundeffect for the shooting etc.
-}
+//function playSound() {
+// the soundeffect for the shooting etc.
+
 function preload() {
   //sprite images as the characters (hand/gun, "minion" aliens, boss etc.)
   //hand = loadImage("assets/hand.png");
+  planetVideo = createVideo("assets/locusthost.mp4");
+  planetVideo.hide();
   alien = loadImage("assets/aliens.gif");
   alienGif = loadImage("assets/saline.gif");
-  // bossImg = loadImage(assets/big.gif);
+  end = loadImage("assets/end.png");
   //landscape = loadImage (assets/landscape.png)
   // if (hand && alien && alienGif) useImages = true;
 }
@@ -91,6 +94,8 @@ function preload() {
 function setup() {
   createCanvas(640, 480);
   textAlign(CENTER, CENTER);
+  planetVideo.play();
+
   spawnAliens();
   resetAll();
 }
@@ -150,7 +155,7 @@ function spawnBoss() {
 }
 function startScan() {
   //scanning state meaning search around with the cursor and click on the "target"
-  setupAliens();
+  spawnAliens();
   spawnSpecialTarget();
   state = "scan";
 }
@@ -167,7 +172,7 @@ function draw() {
   } else if (state === "play") {
     drawPlayMode();
   } else if (state === "boss") {
-    drawBossMode();
+    bossMode();
   } else if (state === "win") {
     drawWin();
   } else if (state === "gameover") {
@@ -186,13 +191,11 @@ function draw() {
 }
 
 function drawPlanetLandscape() {
-  push();
-  //the landscape is an edited image, the planet landscape is a constatnt background
-  pop();
+  image(planetVideo, 0, 0, width, height);
 }
 function drawStartScreen() {
   background(0);
-  image(introVideo, 0, 0);
+  image(end, 0, 0);
 }
 function drawHiddenScene() {
   //as part of the first scene steps, an alien is hidden under the dark mask;
@@ -200,7 +203,7 @@ function drawHiddenScene() {
   //the other small aliens are also masked to confuse player (do no)
   for (let a of aliens) {
     if (a.alive) {
-      drawAlien(a);
+      drawAliens(a);
       //alien "a" is one alien of the array
       if (specialTarget) push();
       noStroke();
@@ -215,6 +218,12 @@ function drawHiddenScene() {
 
       pop();
     }
+    push();
+    fill(0, 200); // semi-transparent dark overlay
+    rect(0, 0, width, height);
+    blendMode(DIFFERENCE); //blending it so screen is actually dark maybe
+    ellipse(mouseX, mouseY, scope.x, scope.y); // reveal area
+    pop();
   }
 }
 
@@ -274,12 +283,13 @@ function scopeMask() {
 
 function checkScanFind() {
   //player uses the scope to scan around for a special alien
-
-  let d = dist(mouseX, mouseY, specialTarget.x, specialTarget.y);
-  if (d <= scope.size / 2 && mouseIsPressed) {
+  if (!specialTarget) return; //i finally understand
+  let d = dist(mouseX, mouseY, specialTarget.x, specialTarget.y); //checks overlap
+  if (d <= scope.x / 2 && mouseIsPressed) {
     specialTarget.revealed = true;
+    //once this is true, begin gameplay
     state = "play";
-    startPlayMode();
+    drawPlayMode();
   }
 }
 //
@@ -295,7 +305,7 @@ function drawPlayMode() {
     a.x += a.velocityx;
     // bounce from the edges for no missing alien
     if (a.x < 20 || a.x > width - 20) a.velocityx *= -1;
-    drawAlien(a);
+    drawAliens(a);
   }
   if (laser) {
     drawLaser();
@@ -318,6 +328,8 @@ function drawPlayMode() {
   pop();
 }
 function laserCooler() {
+  //so it is a linear shot and not rapid fire,
+  //  also doesnt keep running when not in use
   laser = { x: player.x, y: player.y - 30 };
   laserCounter = laserCools;
 }
@@ -325,18 +337,19 @@ function drawLaser() {
   push();
   stroke(255, 200, 0);
   strokeWeight(4);
-  line(laser.startX, laser.startY, mouseX, mouseY); //line as the laser
+  line(player.x, player.y - 30, mouseX, mouseY);
   pop();
 }
+
 function didShootCounter() {
   drawLaser();
   for (let counter = 0; counter < aliens.length; counter++) {
-    let a = alients[counter];
+    let a = aliens[counter];
     if (!a.alive) continue;
     if (dist(mouseX, mouseY, a.x, a.y) < a.size / 2 + 6) {
       a.alive = false;
       killCount++;
-      booms.push({ x: a.x, y: a.y, timer: 0 });
+      //booms.push({ x: a.x, y: a.y, timer: 0 });
       laser = null;
       break;
     }
@@ -344,7 +357,7 @@ function didShootCounter() {
 }
 
 function bossMode() {
-  boss.x += boss.velocity.x;
+  boss.x += boss.velocityx;
   if (boss.x < boss.size / 2 || boss.x > width - boss.size / 2)
     boss.velocity *= -1;
   drawBoss(boss);
@@ -356,7 +369,7 @@ function bossMode() {
   }
   for (let counter = goops.length - 1; counter >= 0; counter--) {
     let g = goops[counter];
-    g.y += g.velocityy;
+    g.y += g.velocity;
     if (g.y > player.y - 20 && g.x - player.x < 24) {
       playerHealth--;
       goops.splice(counter, 1);
@@ -449,11 +462,14 @@ function drawScopeCursor() {
 }
 function mousePressed() {
   if (state === "start") {
+    planetVideo.loop();
     state = "scan";
     return;
   }
   if (state === "play" || state === "boss") laserCooler();
+  planetVideo.loop();
   if (state === "win" || state === "gameover") resetAll();
+  planetVideo.loop();
 }
 
 function mouseReleased() {

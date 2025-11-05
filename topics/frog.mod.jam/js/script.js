@@ -52,7 +52,8 @@ let alienSpeed = 1.2;
 let specialTarget = null; //special alien to scan for during the scan state
 
 let laser = null; //idle when not in use laser beam effect
-let didShootCounter = 0;
+let laserCounter = 0;
+let laserCools = 12; //by frame to cooldown the laser
 
 //let booms = [];
 //kill counter to spawn boss (there is only 8 aliens maximum to not confuse the game)
@@ -98,7 +99,7 @@ function resetAll() {
   killCount = 0;
   goops = [];
   laser = null;
-  didShootCounter = 0;
+  laserCounter = 0;
   //booms = [];
   playerHealth = 15;
   aliens = [];
@@ -177,6 +178,9 @@ function draw() {
     drawScopeCursor(); //cursor does not appear at the startmode for aesthetic reasons
   }
   //boomBooms();
+  if (laserCounter > 0) {
+    laserCounter--;
+  }
 }
 
 function drawPlanetLandscape() {
@@ -281,16 +285,6 @@ function checkScanFind() {
 // play mode below
 //
 //
-function startPlayMode() {
-  state = "play"; //begins the shooting game after the special alien has been located
-  setupAliens();
-  //for (let a of aliens) {
-  a.x = constrain(a.x, 20, width - 20);
-  a.y = random(100, 250);
-  a.alive = true;
-  // }
-  //  killCount = 0;
-}
 
 function drawPlayMode() {
   for (let counter = 0; counter < aliens.length; counter++) {
@@ -321,7 +315,10 @@ function drawPlayMode() {
   text("Kills: " + killCount + " / " + killsToSpawnBoss, width - 100, 20);
   pop();
 }
-
+function laserCooler() {
+  laser = { x: player.x, y: player.y - 30 };
+  laserCounter = laserCools;
+}
 function drawLaser() {
   push();
   stroke(255, 200, 0);
@@ -331,41 +328,51 @@ function drawLaser() {
 }
 function didShootCounter() {
   drawLaser();
-  for (let counter = 0; counter < aliens.length; counter++) {}
+  for (let counter = 0; counter < aliens.length; counter++) {
+    let a = alients[counter];
+    if (!a.alive) continue;
+    if (dist(mouseX, mouseY, a.x, a.y) < a.size / 2 + 6) {
+      a.alive = false;
+      killCount++;
+      booms.push({ x: a.x, y: a.y, timer: 0 });
+      laser = null;
+      break;
+    }
+  }
 }
 
 function bossMode() {
-  drawBossScore();
-  drawBoss(boss);
   boss.x += boss.velocity.x;
   if (boss.x < boss.size / 2 || boss.x > width - boss.size / 2)
     boss.velocity *= -1;
+  drawBoss(boss);
+
   boss.shootTimer++;
   if (boss.shootTimer >= boss.shootInterval) {
     boss.shootTimer = 0;
-    spawnGoop();
+    spawnGoop(g);
   }
   for (let counter = goops.length - 1; counter >= 0; counter--) {
     let g = goops[counter];
-    g.y += g.velocityy; //ensure the poison he boss is spitting is going downwards near the player
+    g.y += g.velocityy;
+    if (g.y > player.y - 20 && g.x - player.x < 24) {
+      playerHealth--;
+      goops.splice(counter, 1);
+      if (playerHealth <= 0) state = "gameover";
+      //ensure the poison he boss is spitting is going downwards near the player
+    }
+    if (g.y > height + 20) goops.splice(counter, 1);
+    else drawGoop(g);
   }
-}
-function mousePressed() {
-  if (state === "start") {
-    startScan();
-    return;
+  if (laser) {
+    drawLaser();
+    if (dist(mouseX, mouseY, boss.x, boss.y) < boss.size / 2 + 8) {
+      boss.health--;
+      //booms.push
+      laser = null;
+    }
   }
-
-  if (state === "scan") return;
-  if ((state === "play" || state === "boss") && canShoot) {
-    laser = { startX: player.x, startY: player.y - 30 };
-    canShoot = false;
-  }
-  if (state === "win" || state === "gameover") {
-    resetBoss();
-    setupAliens();
-    state = "start";
-  }
+  drawBossScore();
 }
 
 function drawAliens(a) {
@@ -375,17 +382,7 @@ function drawAliens(a) {
   image(alienGif, a.x - gifSize / 2, a.y - gifSize / 2, gifSize, gifSize);
   pop();
 }
-function mouseReleased() {
-  canShoot = true; //laser beam affect,, instead of spam shooting
-}
-function winner() {
-  push();
-  pop();
-}
-function over() {
-  push();
-  pop();
-}
+
 function drawBoss(b) {
   push();
   let gifSize = b.size * 2;
@@ -406,6 +403,37 @@ function spawnGoop() {
     velocity: 2.2,
   });
 }
+
+function drawPlayerHand() {
+  push();
+  image(hand, player.x - 60, player.y - 40, 120, 120);
+  pop();
+}
+
+function drawBossScore() {
+  push();
+  fill(255);
+  textSize(20);
+  text("BOSS HEALTH", width / 2, 20);
+  noFill();
+  stroke(180);
+  rect(width / 2 - 120, 30, 240, 14);
+
+  noStroke();
+  fill("#ff4d4d");
+  rect(width / 2 - 120, 30, (boss.health * 240) / bossMaxHp, 0, 240, 14);
+
+  text("PLAYER HEALTH", 80, 20);
+  stroke(180);
+  noFill();
+  rect(20, 30, 120, 14);
+
+  fill("#4fb419");
+  rect(20, 30, map(playerHealth, 0, 15, 0, 120), 14);
+  pop();
+}
+function drawWin() {}
+function drawGameOver() {}
 function drawScopeCursor() {
   //more aesthetics for the scope but layered under
   push();
@@ -417,33 +445,6 @@ function drawScopeCursor() {
   line(mouseX, mouseY - 20, mouseX, mouseY + 20);
   pop();
 }
-function playerHand() {
-  push();
-  image(handImg, player.x - 60, player.y - 40, 120, 120);
-  pop();
-}
-
-function drawBossScore() {
-  push();
-  fill(255);
-  textSize(20);
-  text("BOSS HEALTH", width / 2, 20);
-  stroke(180);
-  noFill();
-  rect(width / 2 - 120, 30, 240, 14);
-
-  fill("#ff4d4d");
-  rect(width / 2 - 120, 30, map(boss.health, 0, bossHealthMax, 0, 240), 14);
-
-  text("PLAYER HEALTH", 80, 20);
-  stroke(180);
-  noFill();
-  rect(20, 30, 120, 14);
-
-  fill("#4fb419");
-  rect(20, 30, map(playerHealth, 0, 15, 0, 120), 14);
-  pop();
-}
 function mousePressed() {
-  let laser;
+  resetAll();
 }

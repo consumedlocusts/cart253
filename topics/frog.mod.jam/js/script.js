@@ -78,7 +78,7 @@ function playSound() {
 }
 function preload() {
   //sprite images as the characters (hand/gun, "minion" aliens, boss etc.)
-  hand = loadImage("assets/hand.png");
+  //hand = loadImage("assets/hand.png");
   alien = loadImage("assets/aliens.gif");
   alienGif = loadImage("assets/saline.gif");
   // bossImg = loadImage(assets/big.gif);
@@ -408,7 +408,10 @@ function spawnGoop() {
 
 function drawPlayerHand() {
   push();
-  image(hand, player.x - 60, player.y - 40, 120, 120);
+  fill(207, 168, 127);
+  rect(player.x - 22, player.y - 10, 44, 20);
+  fill(42);
+  rect(player.x - 10, player.y - 40, 20, 36);
   pop();
 }
 

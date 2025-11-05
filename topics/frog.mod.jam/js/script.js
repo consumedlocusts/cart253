@@ -64,7 +64,7 @@ let killsToSpawnBoss = 8;
 let killCount = 0;
 let boss = null;
 const bossMaxHp = 30;
-let bossSize = 120;
+let bossSize = 100;
 let bossSpeed = 1.5; //or slower
 
 let goops = []; //the boss shoots poison at the player
@@ -73,7 +73,7 @@ const goopVelocity = 2;
 //let maxGoopHits = 15; // lose after this many hits
 
 let end; //edited video for the start of game
-
+let bigGif;
 //function playSound() {
 // the soundeffect for the shooting etc.
 
@@ -85,6 +85,7 @@ function preload() {
   alien = loadImage("assets/aliens.gif");
   alienGif = loadImage("assets/saline.gif");
   end = loadImage("assets/end.png");
+  bigGif = loadImage("assets/bigGif.gif");
   //landscape = loadImage (assets/landscape.png)
   // if (hand && alien && alienGif) useImages = true;
 }
@@ -123,7 +124,7 @@ function spawnAliens() {
       //pushes the array to the array
       x: random(40, width - 40),
       y: random(100, 260),
-      size: 18,
+      size: 60,
       velocityx: random([-1, 1]) * alienSpeed,
       alive: true, //until its false then the loop stops
     });
@@ -196,6 +197,13 @@ function drawPlanetLandscape() {
 function drawStartScreen() {
   background(0);
   image(end, 0, 0);
+  push();
+  fill("red"); //sorry im too tired
+  textSize(30);
+  text("FIGHT FIGHT FIGHT", width / 2, 120); //opener text and instruction
+  textSize(18);
+  text("click to begin scan.", width / 2, 160);
+  pop();
 }
 function drawHiddenScene() {
   //as part of the first scene steps, an alien is hidden under the dark mask;
@@ -318,7 +326,7 @@ function drawPlayMode() {
     // transition to boss mode
     state = "boss";
     spawnBoss();
-    playSound("bossAppear");
+    //playSound("bossAppear");
   }
   //kill score keeper
   push();
@@ -359,22 +367,24 @@ function didShootCounter() {
 function bossMode() {
   boss.x += boss.velocityx;
   if (boss.x < boss.size / 2 || boss.x > width - boss.size / 2)
-    boss.velocity *= -1;
+    boss.velocityx *= -1; // this makes sure the boss guy bounces on the wall and returns instead of respawning a new one or disapearing
   drawBoss(boss);
 
-  boss.shootTimer++;
+  boss.shootTimer++; //goop shooter timer, once enough time passes, he is allowed to shoot goop/no rapid fire
   if (boss.shootTimer >= boss.shooting) {
     boss.shootTimer = 0;
-    spawnGoop(g);
+    spawnGoop();
   }
   for (let counter = goops.length - 1; counter >= 0; counter--) {
     let g = goops[counter];
-    g.y += g.velocity;
+    g.y += g.velocity; //goop stuff (from ref code this is bullet behaviour)
+    // checks collision with player (or the x axis of the player)
     if (g.y > player.y - 20 && g.x - player.x < 24) {
       playerHealth--;
-      goops.splice(counter, 1);
+      goops.splice(counter, 1); //removes the goop once it is hit player or off the board so it can detect actual hits to player and
+      // splice to not overrun or instant kill player by accident
       if (playerHealth <= 0) state = "gameover";
-      //ensure the poison he boss is spitting is going downwards near the player
+      //ensure the poison he boss is spitting is going downwards near the player(y then detects at x)
     }
     if (g.y > height + 20) goops.splice(counter, 1);
     else drawGoop(g);

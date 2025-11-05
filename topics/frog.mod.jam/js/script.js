@@ -67,9 +67,10 @@ let boss = null;
 let bossHealthMax = 30;
 
 let goops = []; //the boss shoots poison at the player
+const goopVelocity = 2;
 
 let playerHealth = 15; // health bar in boss fight, not working
-let maxGoopHits = 15; // lose after this many hits
+//let maxGoopHits = 15; // lose after this many hits
 let introVideo; //edited video for the start of game
 
 function playSound() {
@@ -91,7 +92,7 @@ function setup() {
   createCanvas(640, 480);
   textAlign(CENTER, CENTER);
   setupAliens();
-  resetBoss();
+  resetAll();
 }
 
 //create initial aliens (randomized positions)
@@ -148,10 +149,10 @@ function draw() {
     drawGameOverMode();
   }
 
-  drawPlayerHand();
+  drawPlayerHand(); //player hand is the POV shooter
   //after the scope scanner unactivates and activates the users hand
   if (state !== "start") {
-    drawScopeCursor();
+    drawScopeCursor(); //cursor does not appear at the startmode for aesthetic reasons
   }
 }
 
@@ -218,10 +219,24 @@ function scopeMask() {
 }
 function drawHiddenScene() {
   //as part of the first scene steps, an alien is hidden under the dark mask;
-  //find the alien to actually start the game
+  //find the real alien to actually start the game
+  //the other small aliens are also masked to confuse player (do no)
   for (let a of aliens) {
     if (a.alive) {
-      drawAlien(a); //alien "a" is the array individual of the aliens pack, s
+      drawAlien(a);
+      //alien "a" is one alien of the array
+      if (specialTarget) push();
+      noStroke();
+      let gifSize = specialTarget.size * 4;
+      image(
+        alienGif,
+        specialTarget.x - gifSize / 2,
+        specialTarget.y - gifSize / 2,
+        gifSize,
+        gifSize
+      );
+
+      pop();
     }
   }
 }
@@ -229,23 +244,10 @@ function drawHiddenScene() {
 function checkScanFind() {
   //player uses the scope to scan around for a special alien
 
-  push();
-
-  noStroke();
-  let gifSize = specialTarget.size * 2;
-  image(
-    alienGif,
-    specialTarget.x - gifSize / 2,
-    specialTarget.y - gifSize / 2,
-    gifSize,
-    gifSize
-  );
-
-  pop();
   let d = dist(mouseX, mouseY, specialTarget.x, specialTarget.y);
   if (d <= scope.size / 2 && mouseIsPressed) {
     specialTarget.revealed = true;
-    startPlayMode(specialTarget.x, specialTarget.y);
+    startPlayMode();
   }
 }
 function startPlayMode() {

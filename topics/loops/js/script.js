@@ -1,21 +1,18 @@
 /**
- * Lines
- * Pippin Barr
+ * contemporary square
+ * sama
  *
- * A series of lines across the canvas
+ * A series of lines across the canvas and one blue square
  */
 
 "use strict";
-//let x = width/2;
-//let start
-//let vertLine;
 
 /**
  * Creates the canvas
  */
 function setup() {
   createCanvas(500, 500);
-  drawVertLines();
+  drawLines();
 }
 
 /**
@@ -23,15 +20,28 @@ function setup() {
  * gradually lightening colour
  */
 
-function drawVertLines() {
+function drawLines() {
   background("brown");
+
   let x = 0;
 
   while (x < 500) {
     stroke(x / 2);
     line(x, 0, x, height);
-    //y +=
     x += 50;
+  }
+  let y = 0;
+  while (y <= height) {
+    stroke(y / 2);
+    line(0, y, width, y);
+    y += 50;
+  }
+  for (let ix = 0; ix < width; ix += 500) {
+    for (let iy = 0; iy < height; iy += 500) {
+      let g = map(ix, 0, height, 0, 255);
+      fill(g, 100, 255);
+      rect(ix, iy, 50, 50);
+    }
   }
 }
 

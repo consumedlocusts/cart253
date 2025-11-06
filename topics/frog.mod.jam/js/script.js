@@ -212,7 +212,7 @@ function drawHiddenScene() {
   for (let a of aliens) {
     if (a.alive) {
       drawAliens(a);
-      //alien "a" is one alien of the array
+      //alien "a" is one alien of the array, but still applies to specialTarg
       if (specialTarget) push();
       noStroke();
       let gifSize = specialTarget.size * 4;

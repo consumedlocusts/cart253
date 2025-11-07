@@ -55,9 +55,9 @@ let specialTarget = null; //special alien to scan for during the scan state
 
 let laser = null; //idle when not in use laser beam effect
 let laserCounter = 0;
-let laserCools = 12; //by frame to cooldown the laser
+//t laserCools = 12; //by frame to cooldown the laser
 
-//let booms = [];
+let booms = [];
 //kill counter to spawn boss (there is only 8 aliens maximum to not confuse the game)
 
 let killsToSpawnBoss = 8;
@@ -106,7 +106,7 @@ function resetAll() {
   killCount = 0;
   goops = [];
   laser = null;
-  laserCounter = 0;
+  //laserCounter = 0;
   //booms = [];
   playerHealth = 15;
   aliens = [];
@@ -186,9 +186,7 @@ function draw() {
     drawScopeCursor(); //cursor does not appear at the startmode for aesthetic reasons
   }
   //boomBooms();
-  if (laserCounter > 0) {
-    laserCounter--;
-  }
+  
 }
 
 function drawPlanetLandscape() {
@@ -286,14 +284,19 @@ function scopeMask() {
     strokeWeight(5);
     fill("#000000ff");
     ellipse(mouseX, mouseY, 200, 200, 0);
+    
   }
+    if (laserCounter> 0) {
+    laserCounter--;
 }
-
+}
 function checkScanFind() {
   //player uses the scope to scan around for a special alien
+  
   if (!specialTarget) return; //i finally understand
   let d = dist(mouseX, mouseY, specialTarget.x, specialTarget.y); //checks overlap
-  if (d <= scope.x / 2 && mouseIsPressed) {
+  console.log(d)
+  if (d <= scope.x / 8 && mouseIsPressed) { 
     specialTarget.revealed = true;
     //once this is true, begin gameplay
     state = "play";
@@ -320,6 +323,13 @@ function drawPlayMode() {
     didShootCounter();
     //laserShot();
   }
+  for (let boomEl of booms){
+    if((millis()- boomEl.timer)<500){
+      boom(boomEl.x, boomEl.y)
+
+    }
+    
+  }
   //boomBooms();
   //  after enough kills then spawn boss
   if (killCount >= killsToSpawnBoss) {
@@ -335,18 +345,19 @@ function drawPlayMode() {
   text("Kills: " + killCount + " / " + killsToSpawnBoss, width - 100, 20);
   pop();
 }
-function laserCooler() {
+//function laserCooler() {
   //so it is a linear shot and not rapid fire,
   //  also doesnt keep running when not in use
-  laser = { x: player.x, y: player.y - 30 };
-  laserCounter = laserCools;
-}
+  //laser = { x: player.x, y: player.y - 30 };
+  //laserCounter = laserCools;
+//}
 function drawLaser() {
   push();
   stroke(255, 200, 0);
   strokeWeight(4);
   line(player.x, player.y - 30, mouseX, mouseY);
   pop();
+   laser = { x: player.x, y: player.y - 30 };
 }
 
 function didShootCounter() {
@@ -357,11 +368,16 @@ function didShootCounter() {
     if (dist(mouseX, mouseY, a.x, a.y) < a.size / 2 + 6) {
       a.alive = false;
       killCount++;
-      //booms.push({ x: a.x, y: a.y, timer: 0 });
+      booms.push({ x: a.x, y: a.y, timer: millis() });
       laser = null;
       break;
     }
   }
+}
+
+function boom(x,y){
+  text("BOOM",x,y)
+
 }
 
 function bossMode() {
@@ -405,6 +421,7 @@ function drawAliens(a) {
   noStroke();
   let gifSize = a.size * 2;
   image(alienGif, a.x - gifSize / 2, a.y - gifSize / 2, gifSize, gifSize);
+  
   pop();
 }
 
@@ -476,8 +493,10 @@ function mousePressed() {
     state = "scan";
     return;
   }
-  if (state === "play" || state === "boss") laserCooler();
+  if (state === "play" || state === "boss") drawLaser();
   planetVideo.loop();
+
+  
   if (state === "win" || state === "gameover") resetAll();
   planetVideo.loop();
 }

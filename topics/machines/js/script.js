@@ -16,7 +16,9 @@ const machines = [{ type: "incinerator",
 
 width:100,
 height:100,
-fill: "#ff4400"
+fill: "#ff4400",
+drag: true,
+quality: 45
 
 },
 {
@@ -25,7 +27,9 @@ fill: "#ff4400"
     y:100,
     width:100,
     height:100,
-    fill:"#bbbbff"
+    fill:"#bbbbff",
+    drag: false,
+quality: 87
 },
 {
     type: "crusher",
@@ -33,7 +37,9 @@ fill: "#ff4400"
     y:100,
     width: 100,
     height: 100,
-    fill:"#777777"
+    fill:"#777777",
+    drag: true,
+quality: 12
 }];
 
 /**

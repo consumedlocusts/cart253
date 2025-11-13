@@ -1,7 +1,6 @@
 {
-  "description": "A list of car manufacturers.",
     "cars":
-      [
+      [{ "car": ["hi",
         "Abarth",
         "Alfa Romeo",
         "Aston Martin",
@@ -67,5 +66,7 @@
         "Vauxhall",
         "VW",
         "Volvo"
+      ]
+    }
       ]
 }

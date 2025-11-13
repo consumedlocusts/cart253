@@ -12,7 +12,7 @@
 "use strict";
 
 let carData=undefined;
-//let dinoData = undefined;
+let dinoData = undefined;
 //let langData = undefined;
 //let lang = "en";
 
@@ -23,8 +23,8 @@ let carName = "Click to generate a car name.";
  * Load the car and dinosaur data
  */
 function preload() {
-carData=loadJSON("assets/cars.json")
-//dinoData=loadJSON("assets/dinosaurses.json");
+carData=loadJSON("assets/cars.json");
+dinoData=loadJSON("assets/dinosaurs.json");
 
 }
 
@@ -53,7 +53,9 @@ function draw() {
  * Generate a new car name
  */
 function mousePressed() {
-const carDino= random(carData.cars);
+console.log(dinoData)
 
- carName=random(carDino.carBrands);
+const carDino= random(carData.cars);
+const dinoCar=random(dinoData.dinos);
+ carName=random(carDino.car)+random(dinoCar.dino);
 }

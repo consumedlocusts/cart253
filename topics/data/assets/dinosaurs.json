@@ -1,7 +1,7 @@
 {
   "description": "A list of dinosaurs.",
-  "dinosaurs":
-    [
+  "dinos":
+    [ { "dino":[
       "Kangnasaurus",
       "Lophostropheus",
       "Spinophorosaurus",
@@ -1451,5 +1451,7 @@
       "Archaeodontosaurus",
       "Gresslyosaurus",
       "Stenopelix"
+    ]
+    }
     ]
 }

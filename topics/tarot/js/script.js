@@ -39,6 +39,8 @@ pop();
 
 }
 function mousePressed(){
+     console.log(tarot.tarot_interpretations)
     const card = random(tarot.tarot_interpretations);
+   
  fortune=(card.fortune_telling);
 }

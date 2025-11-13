@@ -8,6 +8,8 @@
 "use strict";
 //tarot file
 let tarot = undefined;
+// fortune random
+let fortune = "click to show fortune"
 function preload(){
     tarot =loadJSON("assets/tarot_interpretations.json")
 }
@@ -26,10 +28,17 @@ function setup() {
 */
 function draw() {
 background(0);
-const fool= tarot.tarot_interpretations[0].meanings.shadow[0];
+
+
 push()
 textSize(16);
 fill("yellow");
-text(fool,width/2,height/2 );
+textAlign(CENTER,CENTER);
+text(fortune,width/2,height/2 );
+pop();
 
+}
+function mousePressed(){
+    const card = random(tarot.tarot_interpretations);
+ fortune=(card.fortune_telling);
 }

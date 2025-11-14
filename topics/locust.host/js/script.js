@@ -30,7 +30,7 @@ let titles=[
 ]
 
 function preload() {
-  locustImg = loadImage("assets/locust.png");
+  locustImg = loadImage("assets/locustsmall.png");
 }
 
 function setup() {
@@ -42,9 +42,8 @@ function setup() {
   textAlign(LEFT, BOTTOM); //align as one would read/type text
 
   //text in columns and rows to cover the canvas using approx width/height of each character
-  charWid = textWidth("W"); //after prolonged research on why this wasnt working it was because
-  //it needs the widest char in the alphabet of all time not just in my text for an average
-  charHi = textAscent() + textDescent(); //this is the height of each character, it differs per letter
+  charWid = 6;
+  charHi = 6;
   horz = floor(width / charWid); //floor rounds down to the nearest integer, making the row a whole number because i need array index
   vert = floor(height / charHi); //floor also makes it so they dont overlap
   let grid = horz * vert; //basic area
@@ -52,8 +51,6 @@ function setup() {
   locustImg.resize(horz, vert); //chars per row,column
   locustImg.loadPixels();
 
-  //loop - repeat code inside the {}
-  //this loop is considering the individual details of the above
   for (let counter = 0; counter < grid; counter = counter + 1) {
     //each sole column and row but seperated so i can map the pixels of me to them
     let h = counter % horz;
@@ -82,8 +79,8 @@ function setup() {
     });
   }
 }
-function checkInput() {
-  backgroun(0);
+function draw() {
+  background(0);
   drawLineLocust();
   drawMenuTitles();
 }
@@ -92,7 +89,7 @@ function checkInput() {
 function drawLineLocust() {
  
 
-  for (let cell of lineGird) {
+  for (let cell of lineGrid) {
     // calculate distance for each letter
     let d = dist(mouseX, mouseY, cell.x, cell.y);
    
@@ -103,7 +100,7 @@ function drawLineLocust() {
     }
 
     stroke(220);
-    strokeWeight(cell.revealed ? cell.thickness: 0.2);
+    strokeWeight(cell.revealed ? cell.thickness: 0.05);
     lineGrid(cell.x,cell.y,cell.x+charWid*0.8,cell.y);
 
   }

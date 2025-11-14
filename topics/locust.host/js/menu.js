@@ -1,15 +1,14 @@
 /**
- * Title of Project
- * Author Name
+ * locust.host
+ * sama hojabri
  * 
- * HOW EMBARRASSING! I HAVE NO DESCRIPTION OF MY PROJECT!
- * PLEASE REMOVE A GRADE FROM MY WORK IF IT'S GRADED!
+ * menu set up for the locust storlines
  */
 
 "use strict";
 
 let charWid, charHi, horz, vert;
-let hoverAgain=0;
+//let hoverAgain=0;
 let lineGrid = [];
 let menuStage = 0;
 let locustImg;
@@ -18,9 +17,9 @@ let titles = [
   {name:"Signs of the Swarm", sub:"Destroyer, destruction", x:100, y:400},
   {name:"The End Times", sub:"God's hate, desolation", x:100, y:600}
 ];
-le6
+
 function preload() {
-  locustImg = loadImage("assets/locusthostcopy2.png");
+  locustImg = loadImage("assets/locust.png");
 }
 
 function setup() {
@@ -47,8 +46,7 @@ function setup() {
 
       let brightness = (r + g + b) / 3;
       let inv = 255 - brightness;
-
-      let thickness = map(inv, 0, 255, 1, 0.05);
+let thickness= map(inv, 0, 255, 1, 0.05);
 
       lineGrid.push({
         x: h * charWid,
@@ -67,18 +65,21 @@ function draw() {
 }
 
 function drawLineLocust() {
+ 
   for(let cell of lineGrid){
     let d = dist(mouseX, mouseY, cell.x, cell.y);
-    if(d < 100){
+    if(d < 40){
       cell.revealed = true;
     }
-
-    stroke(255); // white lines
-      strokeWeight(cell.revealed ? cell.thickness : 0.05);
-      line(cell.x, cell.y, cell.x + charWid*0.8, cell.y);
-
-  
-}
+ stroke(255); // white lines
+  strokeWeight(cell.revealed ? cell.thickness : 0.05);
+    line(cell.x, cell.y, cell.x + charWid*0.8, cell.y);
+    //let displayThickness = cell.thickness;
+    //if (hoverAgain === 1) {
+      //displayThickness = map(cell.inv, 0, 255, 4, 0.3);
+    //}
+  }
+ 
 }
 
 function drawMenuTitles(){
@@ -105,14 +106,6 @@ function drawMenuTitles(){
 function mousePressed(){
   
 
-if (hoverStage === 0) {
-    hoverStage = 1;
-
-    // scale up thickness for all lines
-    for (let cell of lineGrid) {
-      cell.thickness = cell.thickness * 3; // make lines 3x thicker
-    }
-  if(menuStage == 0) menuStage = 1;
-  else if(menuStage == 1) menuStage = 2;
-}
+//hoverAgain = 1;
+if(menuStage == 0) menuStage = 1; else if(menuStage == 1) menuStage = 2;
 }

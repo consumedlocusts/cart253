@@ -8,29 +8,18 @@
 
 "use strict";
 
-let charWid;
-let charHi;
-let horz;
-let vert;
-let lineGrid=[];
-//let chars = [];
-let menuStage=0;
+let charWid, charHi, horz, vert;
+let lineGrid = [];
+let menuStage = 0;
 let locustImg;
-//let startIndex = 0;
-//let mouseOverlapsText = 0;
- // empty list == group
-let titles=[
-    {name:"Wormwood",
-        sub: "Shaft of the Abyss, devastation", 
-        x: 200, y: 200 },
-    {name:"Signs of the Swarm", 
-        sub:"Destroyer, destruction", x: 200, y: 260},
-   {name:"The end times",
-    sub:"God's hate, desolation", x: 200, y: 320}
-]
+let titles = [
+  {name:"Wormwood", sub:"Shaft of the Abyss, devastation", x:200, y:200},
+  {name:"Signs of the Swarm", sub:"Destroyer, destruction", x:200, y:260},
+  {name:"The End Times", sub:"God's hate, desolation", x:200, y:320}
+];
 
 function preload() {
-  locustImg = loadImage("assets/locustsmall.png");
+  locustImg = loadImage("assets/locust.png");
 }
 
 function setup() {
@@ -76,47 +65,41 @@ function draw() {
   drawMenuTitles();
 }
 
-//draws the text
 function drawLineLocust() {
-
-
-  for (let cell of lineGrid) {
-    // calculate distance for each letter
+  for(let cell of lineGrid){
     let d = dist(mouseX, mouseY, cell.x, cell.y);
-   
-    //hovering with & pressing reveals a red "transparencey" over the drawn "distance" with mouse
-    if (d<40) {
-      cell.revealed=true;
-
+    if(d < 40){
+      cell.revealed = true;
     }
 
-    stroke(255);
-    strokeWeight(cell.revealed ? cell.thickness: 0.05);
-    line(cell.x,cell.y,cell.x+charWid*0.8,cell.y);
-
+    stroke(255); // white lines
+    strokeWeight(cell.revealed ? cell.thickness : 0.05);
+    line(cell.x, cell.y, cell.x + charWid*0.8, cell.y);
   }
 }
 
 function drawMenuTitles(){
-    for (let t of titles){
-        let d = dist(mouseX, mouseY, t.x, t.y);
-if (menuStage>=0){
-    fill(255);
-    text(t.name,t.x,t.y);
+  for(let t of titles){
+    let d = dist(mouseX, mouseY, t.x, t.y);
 
-}
-if ( menuStage >=1&&d<120){
-    fill(180);
+    if(menuStage >= 0){
+      fill(255);
+      text(t.name, t.x, t.y);
+    }
+
+    if(menuStage >= 1 && d < 120){
+      fill(180);
       text(t.sub, t.x + 20, t.y + 25);
     }
+
     if(menuStage == 2 && d < 120){
       fill(255, 40, 40);
       text(t.name, t.x, t.y);
     }
+  }
 }
-    }
+
 function mousePressed(){
   if(menuStage == 0) menuStage = 1;
   else if(menuStage == 1) menuStage = 2;
-
 }

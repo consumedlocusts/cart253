@@ -20,7 +20,7 @@ let titles = [
 ];
 le6
 function preload() {
-  locustImg = loadImage("assets/locust.png");
+  locustImg = loadImage("assets/locusthostcopy2.png");
 }
 
 function setup() {
@@ -74,14 +74,8 @@ function drawLineLocust() {
     }
 
     stroke(255); // white lines
-    if (hoverAgain === 0) {
       strokeWeight(cell.revealed ? cell.thickness : 0.05);
       line(cell.x, cell.y, cell.x + charWid*0.8, cell.y);
-  }
-  else if (hoverAgain === 1) {
-    //locustImg.resize(0);
-      strokeWeight(cell.revealed ? cell.thickness : 0.2); // bigger
-      line(cell.x, cell.y, cell.x + charWid*0.8, cell.y);}
 
   
 }
@@ -111,18 +105,14 @@ function drawMenuTitles(){
 function mousePressed(){
   
 
- if (hoverAgain === 0) {
-  
-    hoverAgain = 1;
-    for (let cell of lineGrid) 
-  cell.x = cell.x * (8/ charWid);
-cell.y = cell.y* (8/ charHi);
- charWid = 10;
-    charHi = 10;
-  }
-   
-   
-  
+if (hoverStage === 0) {
+    hoverStage = 1;
+
+    // scale up thickness for all lines
+    for (let cell of lineGrid) {
+      cell.thickness = cell.thickness * 3; // make lines 3x thicker
+    }
   if(menuStage == 0) menuStage = 1;
   else if(menuStage == 1) menuStage = 2;
+}
 }

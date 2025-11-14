@@ -8,7 +8,7 @@
 "use strict";
 
 let charWid, charHi, horz, vert;
-//let hoverAgain=0;
+let hoverAgain=0;
 let lineGrid = [];
 let menuStage = 0;
 let locustImg;
@@ -46,12 +46,13 @@ function setup() {
 
       let brightness = (r + g + b) / 3;
       let inv = 255 - brightness;
-let thickness= map(inv, 0, 255, 1, 0.05);
+//let thickness= map(inv, 0, 255, 1, 0.05);
 
       lineGrid.push({
         x: h * charWid,
         y: v * charHi,
-        thickness: thickness,
+        thickness: map(inv, 0, 255, 1, 0.05),
+        inv: inv,
         revealed: false
       });
     }
@@ -71,8 +72,9 @@ function drawLineLocust() {
     if(d < 40){
       cell.revealed = true;
     }
+    let displayThickness = hoverAgain === 1 ? map(cell.inv, 0, 255, 4, 0.3) : cell.thickness;
  stroke(255); // white lines
-  strokeWeight(cell.revealed ? cell.thickness : 0.05);
+  strokeWeight(cell.revealed ? displayThickness: 0.05);
     line(cell.x, cell.y, cell.x + charWid*0.8, cell.y);
     //let displayThickness = cell.thickness;
     //if (hoverAgain === 1) {
@@ -104,7 +106,7 @@ function drawMenuTitles(){
 }
 
 function mousePressed(){
-  
+  hoverAgain = 1; 
 
 //hoverAgain = 1;
 if(menuStage == 0) menuStage = 1; else if(menuStage == 1) menuStage = 2;

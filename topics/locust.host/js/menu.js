@@ -17,7 +17,7 @@ let titles = [
   {name:"Signs of the Swarm", sub:"Destroyer, destruction", x:200, y:260},
   {name:"The End Times", sub:"God's hate, desolation", x:200, y:320}
 ];
-
+le6
 function preload() {
   locustImg = loadImage("assets/locust.png");
 }
@@ -44,10 +44,10 @@ function setup() {
       let g = locustImg.pixels[idx + 1];
       let b = locustImg.pixels[idx + 2];
 
-      let brightnessVal = (r + g + b) / 3;
-      let inv = 255 - brightnessVal;
+      let brightness = (r + g + b) / 3;
+      let inv = 255 - brightness;
 
-      let thickness = map(inv, 0, 255, 0.8, 0.05);
+      let thickness = map(inv, 0, 255, 1, 0.05);
 
       lineGrid.push({
         x: h * charWid,
@@ -68,7 +68,7 @@ function draw() {
 function drawLineLocust() {
   for(let cell of lineGrid){
     let d = dist(mouseX, mouseY, cell.x, cell.y);
-    if(d < 40){
+    if(d < 100){
       cell.revealed = true;
     }
 

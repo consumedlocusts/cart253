@@ -9,13 +9,14 @@
 "use strict";
 
 let charWid, charHi, horz, vert;
+let hoverAgain=0;
 let lineGrid = [];
 let menuStage = 0;
 let locustImg;
 let titles = [
-  {name:"Wormwood", sub:"Shaft of the Abyss, devastation", x:200, y:200},
-  {name:"Signs of the Swarm", sub:"Destroyer, destruction", x:200, y:260},
-  {name:"The End Times", sub:"God's hate, desolation", x:200, y:320}
+  {name:"Wormwood", sub:"Shaft of the Abyss, devastation", x:100, y:230},
+  {name:"Signs of the Swarm", sub:"Destroyer, destruction", x:100, y:400},
+  {name:"The End Times", sub:"God's hate, desolation", x:100, y:600}
 ];
 le6
 function preload() {
@@ -73,9 +74,17 @@ function drawLineLocust() {
     }
 
     stroke(255); // white lines
-    strokeWeight(cell.revealed ? cell.thickness : 0.05);
-    line(cell.x, cell.y, cell.x + charWid*0.8, cell.y);
+    if (hoverAgain === 0) {
+      strokeWeight(cell.revealed ? cell.thickness : 0.05);
+      line(cell.x, cell.y, cell.x + charWid*0.8, cell.y);
   }
+  else if (hoverAgain === 1) {
+    //locustImg.resize(0);
+      strokeWeight(cell.revealed ? cell.thickness : 0.2); // bigger
+      line(cell.x, cell.y, cell.x + charWid*0.8, cell.y);}
+
+  
+}
 }
 
 function drawMenuTitles(){
@@ -87,12 +96,12 @@ function drawMenuTitles(){
       text(t.name, t.x, t.y);
     }
 
-    if(menuStage >= 1 && d < 120){
+    if(menuStage >= 1 && d < 80){
       fill(180);
       text(t.sub, t.x + 20, t.y + 25);
     }
 
-    if(menuStage == 2 && d < 120){
+    if(menuStage == 2 && d < 80){
       fill(255, 40, 40);
       text(t.name, t.x, t.y);
     }
@@ -100,6 +109,20 @@ function drawMenuTitles(){
 }
 
 function mousePressed(){
+  
+
+ if (hoverAgain === 0) {
+  
+    hoverAgain = 1;
+    for (let cell of lineGrid) 
+  cell.x = cell.x * (8/ charWid);
+cell.y = cell.y* (8/ charHi);
+ charWid = 10;
+    charHi = 10;
+  }
+   
+   
+  
   if(menuStage == 0) menuStage = 1;
   else if(menuStage == 1) menuStage = 2;
 }

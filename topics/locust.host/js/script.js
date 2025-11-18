@@ -41,21 +41,11 @@ function draw() {
     }
 }
 
-function mousePressed(event) {
-    console.log(mousePressed);
-
-    switch (state) {
-        case "menu":
-            menuMousePressed(event);
-            break;
-        case "wormwood":
-            wormwoodMousePressed(event);
-            break;
-        case "swarm":
-            swarmMousePressed(event);
-            break;
-        case "end":
-            endMousePressed(event);
-            break;
-    }
+function mousePressed() {
+  switch(state){
+    case "menu": menuMousePressed(); break;
+    case "wormwood": wormwoodMousePressed(); break;
+    case "swarm": swarmMousePressed(); break;
+    case "end": endMousePressed(); break;
+  }
 }

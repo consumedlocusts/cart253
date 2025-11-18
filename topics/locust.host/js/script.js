@@ -19,8 +19,8 @@ function preload() {
 function setup() {
     createCanvas(800, 800);
     menuSetup();
-    locustImg.resize(horz, vert);
-  locustImg.loadPixels();
+   // locustImg.resize(horz, vert);
+  //locustImg.loadPixels();
     
 }
 /**

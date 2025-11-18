@@ -8,18 +8,85 @@
 "use strict";
 
 let charWid, charHi, horz, vert;
-let hoverAgain=0;
+//let hoverAgain=0;
 let lineGrid = [];
 let menuState = 0;
-//let locustsImg;
+let locustImg;
 let titles = [
   {name:"Wormwood", sub:"Shaft of the Abyss, devastation", x:100, y:230},
   {name:"Signs of the Swarm", sub:"Destroyer, destruction", x:100, y:400},
   {name:"The End Times", sub:"God's hate, desolation", x:100, y:600}
 ];
+function preload() {
+  locustImg = loadImage("assets/locust.png");
+}
+function menuDraw() {
+   background(0);
+  if (locustImg.pixels.length > 0) {
+    drawLineLocust();
+  }
+  drawMenuTitles();
+}
+function menuMousePressed(){
+  //hoverAgain = 1; 
+//if(menuState == 0) menuState = 1; else if(menuState == 1) menuState = 2;
 
+    switch (keyCode) {
+        case 82:
+            state = "wormwood";
+            wormwoodSetup();
+            break;
 
-function menuSetup(locustsImg) {
+        case 71:
+            state = "swarm";
+            swarmSetup();
+            break;
+
+        case 66:
+            state = "end";
+            endSetup();
+            break;
+    }
+}
+function drawLineLocust() {
+ 
+  for(let cell of lineGrid){
+    let d = dist(mouseX, mouseY, cell.x, cell.y);
+    if(d < 40){
+      cell.revealed = true;
+    }
+    let displayThickness = hoverAgain === 1 ? map(cell.inv, 0, 255, 4, 0.3) : cell.thickness;
+ stroke(255); // white lines
+  strokeWeight(cell.revealed ? displayThickness: 0.05);
+    line(cell.x, cell.y, cell.x + charWid*0.8, cell.y);
+    //let displayThickness = cell.thickness;
+    //if (hoverAgain === 1) {
+      //displayThickness = map(cell.inv, 0, 255, 4, 0.3);
+    //}
+  }
+ 
+}
+function drawMenuTitles(){
+  for(let t of titles){
+    let d = dist(mouseX, mouseY, t.x, t.y);
+
+    if(menuState >= 0){
+      fill(255);
+      text(t.name, t.x, t.y);
+    }
+
+    if(menuState >= 1 && d < 80){
+      fill(180);
+      text(t.sub, t.x + 20, t.y + 25);
+    }
+
+    if(menuState == 2 && d < 80){
+      fill(255, 40, 40);
+      text(t.name, t.x, t.y);
+    }
+  }
+}
+function menuSetup() {
 
   textSize(20);
   textAlign(LEFT, BOTTOM);
@@ -28,8 +95,8 @@ function menuSetup(locustsImg) {
   charHi = 6;
   horz = floor(width / charWid);
   vert = floor(height / charHi);
- locustsImg.resize(horz, vert);
-  locustsImg.loadPixels();
+// locustsImg.resize(horz, vert);
+  //locustsImg.loadPixels();
 
   for(let v = 0; v < vert; v++){
     for(let h = 0; h < horz; h++){
@@ -53,73 +120,9 @@ function menuSetup(locustsImg) {
   }
 }
 
-function menuDraw() {
 
-  drawLineLocust();
-  drawMenuTitles();
-}
 
-function drawLineLocust() {
- 
-  for(let cell of lineGrid){
-    let d = dist(mouseX, mouseY, cell.x, cell.y);
-    if(d < 40){
-      cell.revealed = true;
-    }
-    let displayThickness = hoverAgain === 1 ? map(cell.inv, 0, 255, 4, 0.3) : cell.thickness;
- stroke(255); // white lines
-  strokeWeight(cell.revealed ? displayThickness: 0.05);
-    line(cell.x, cell.y, cell.x + charWid*0.8, cell.y);
-    //let displayThickness = cell.thickness;
-    //if (hoverAgain === 1) {
-      //displayThickness = map(cell.inv, 0, 255, 4, 0.3);
-    //}
-  }
- 
-}
 
-function drawMenuTitles(){
-  for(let t of titles){
-    let d = dist(mouseX, mouseY, t.x, t.y);
 
-    if(menuState >= 0){
-      fill(255);
-      text(t.name, t.x, t.y);
-    }
 
-    if(menuState >= 1 && d < 80){
-      fill(180);
-      text(t.sub, t.x + 20, t.y + 25);
-    }
 
-    if(menuState == 2 && d < 80){
-      fill(255, 40, 40);
-      text(t.name, t.x, t.y);
-    }
-  }
-}
-
-function menuMousePressed(){
-  hoverAgain = 1; 
-
-//hoverAgain = 1;
-
-if(menuState == 0) menuState = 1; else if(menuState == 1) menuState = 2;
-
-    switch (keyCode) {
-        case 82:
-            state = "wormwood";
-            wormwoodSetup();
-            break;
-
-        case 71:
-            state = "swarm";
-            swarmSetup();
-            break;
-
-        case 66:
-            state = "end";
-            endSetup();
-            break;
-    }
-}

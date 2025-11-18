@@ -21,6 +21,7 @@ function preload() {
   locustImg = loadImage("assets/locust.png");
 }
 function menuDraw() {
+  console.log(menuDraw)
    background(0);
   if (locustImg.pixels.length > 0) {
     drawLineLocust();
@@ -28,6 +29,7 @@ function menuDraw() {
   drawMenuTitles();
 }
 function menuMousePressed(){
+  console.log(menuMousePressed)
   //hoverAgain = 1; 
 //if(menuState == 0) menuState = 1; else if(menuState == 1) menuState = 2;
 
@@ -49,7 +51,7 @@ function menuMousePressed(){
     }
 }
 function drawLineLocust() {
- 
+ console.log(drawLineLocust)
   for(let cell of lineGrid){
     let d = dist(mouseX, mouseY, cell.x, cell.y);
     if(d < 40){
@@ -67,6 +69,7 @@ function drawLineLocust() {
  
 }
 function drawMenuTitles(){
+   console.log(drawMenuTitles)
   for(let t of titles){
     let d = dist(mouseX, mouseY, t.x, t.y);
 
@@ -87,7 +90,7 @@ function drawMenuTitles(){
   }
 }
 function menuSetup() {
-
+ console.log(menuSetup)
   textSize(20);
   textAlign(LEFT, BOTTOM);
 

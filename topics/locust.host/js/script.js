@@ -9,17 +9,16 @@
 
 
 let state = "menu";
-let locustImg;
+//let locustImg;
 /**
  * Create the canvas
 */
-function preload() {
-  locustImg = loadImage("assets/locust.png");
-}
+
 function setup() {
     createCanvas(800, 800);
     menuSetup();
-   // locustImg.resize(horz, vert);
+    console.log(setup);
+   locustImg.resize(horz, vert);
   //locustImg.loadPixels();
     
 }
@@ -27,6 +26,7 @@ function setup() {
  * Display the menu or the current variation
 */
 function draw() {
+    console.log(draw);
     switch (state) {
         case "menu":
             menuDraw();
@@ -44,6 +44,7 @@ function draw() {
 }
 
 function mousePressed(event) {
+    console.log(mousePressed);
     switch (state) {
         case "menu":
             menuMousePressed(event);

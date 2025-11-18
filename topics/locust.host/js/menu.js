@@ -68,7 +68,7 @@ function drawLineLocust() {
  console.log(drawLineLocust)
   for(let cell of lineGrid){
     let d = dist(mouseX, mouseY, cell.x, cell.y);
-    if(d < 40){
+    if(d < 80){
       cell.revealed = true; 
     }
     let displayThickness = hoverAgain === 1 ? map(cell.inv, 0, 255, 4, 0.3) : cell.thickness;
@@ -93,7 +93,7 @@ function drawMenuTitles(){
     text(t.name, t.x, t.y);
     let d = dist(mouseX, mouseY, t.x, t.y);
 if (d < 80) {
-      fill(180);  //this is hover color for subtitles
+     fill(255, 40, 40); // hover color redoen
       text(t.sub, t.x + 20, t.y + 25);
       
     }

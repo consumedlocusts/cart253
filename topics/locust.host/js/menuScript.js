@@ -10,7 +10,7 @@
 let charWid, charHi, horz, vert;
 let hoverAgain=0;
 let lineGrid = [];
-let menuStage = 0;
+let menuState = 0;
 let locustImg;
 let titles = [
   {name:"Wormwood", sub:"Shaft of the Abyss, devastation", x:100, y:230},
@@ -88,27 +88,28 @@ function drawMenuTitles(){
   for(let t of titles){
     let d = dist(mouseX, mouseY, t.x, t.y);
 
-    if(menuStage >= 0){
+    if(menuState >= 0){
       fill(255);
       text(t.name, t.x, t.y);
     }
 
-    if(menuStage >= 1 && d < 80){
+    if(menuState >= 1 && d < 80){
       fill(180);
       text(t.sub, t.x + 20, t.y + 25);
     }
 
-    if(menuStage == 2 && d < 80){
+    if(menuState == 2 && d < 80){
       fill(255, 40, 40);
       text(t.name, t.x, t.y);
     }
   }
 }
 
-function mousePressed(){
+function menuMousePressed(){
   hoverAgain = 1; 
 
 //hoverAgain = 1;
-if(menuStage == 0) menuStage = 1; else if(menuStage == 1) menuStage = 2;
+
+if(menuState == 0) menuState = 1; else if(menuState == 1) menuState = 2;
 }
 

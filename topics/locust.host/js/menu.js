@@ -11,20 +11,15 @@ let charWid, charHi, horz, vert;
 let hoverAgain=0;
 let lineGrid = [];
 let menuState = 0;
-let locustImg;
+//let locustsImg;
 let titles = [
   {name:"Wormwood", sub:"Shaft of the Abyss, devastation", x:100, y:230},
   {name:"Signs of the Swarm", sub:"Destroyer, destruction", x:100, y:400},
   {name:"The End Times", sub:"God's hate, desolation", x:100, y:600}
 ];
 
-function preload() {
-  locustImg = loadImage("assets/locust.png");
-}
 
-function setup() {
-  createCanvas(800, 800);
-  background(0);
+function menuSetup(locustsImg) {
 
   textSize(20);
   textAlign(LEFT, BOTTOM);
@@ -33,16 +28,15 @@ function setup() {
   charHi = 6;
   horz = floor(width / charWid);
   vert = floor(height / charHi);
-
-  locustImg.resize(horz, vert);
-  locustImg.loadPixels();
+ locustsImg.resize(horz, vert);
+  locustsImg.loadPixels();
 
   for(let v = 0; v < vert; v++){
     for(let h = 0; h < horz; h++){
-      let idx = (v * locustImg.width + h) * 4;
-      let r = locustImg.pixels[idx];
-      let g = locustImg.pixels[idx + 1];
-      let b = locustImg.pixels[idx + 2];
+      let idx = (v * locustsImg.width + h) * 4;
+      let r = locustsImg.pixels[idx];
+      let g = locustsImg.pixels[idx + 1];
+      let b = locustsImg.pixels[idx + 2];
 
       let brightness = (r + g + b) / 3;
       let inv = 255 - brightness;
@@ -59,8 +53,8 @@ function setup() {
   }
 }
 
-function draw() {
-  background(0);
+function menuDraw() {
+
   drawLineLocust();
   drawMenuTitles();
 }
@@ -105,14 +99,14 @@ function drawMenuTitles(){
   }
 }
 
-function menuKeyPressed(event){
+function menuMousePressed(){
   hoverAgain = 1; 
 
 //hoverAgain = 1;
 
 if(menuState == 0) menuState = 1; else if(menuState == 1) menuState = 2;
 
-    switch (event.keyCode) {
+    switch (keyCode) {
         case 82:
             state = "wormwood";
             wormwoodSetup();

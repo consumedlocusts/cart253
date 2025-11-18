@@ -4,22 +4,17 @@
  * 
  * storyline 2 set up for the locust storlines
  */
+function swarmSetup() {}
 
-function swarmSetup() {
-
-}
-
-/**
- * This will be called every frame when the blue variation is active
- */
 function swarmDraw() {
-    background("blue");
+  background(0, 100, 0); //dark green
+  fill(255);
+  textSize(32);
+  textAlign(CENTER, CENTER);
+  text("yyyy", width/2, height/2);
 }
 
-/**
- * This will be called whenever a key is pressed while the blue variation is active
- */
 function swarmMousePressed() {
- 
+  state = "menu";
+  menuSetup();
 }
-

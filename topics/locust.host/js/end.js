@@ -4,22 +4,18 @@
  * 
  * storyline 3 set up for the locust storlines
  */
+function endSetup() {}
 
-function endSetup() {
-
-}
-
-/**
- * This will be called every frame when the blue variation is active
- */
 function endDraw() {
-    background("blue");
+  background(0, 0, 100); //dark blue
+  fill(255);
+  textSize(32);
+  textAlign(CENTER, CENTER);
+  text("zzzz", width/2, height/2);
 }
 
-/**
- * This will be called whenever a key is pressed while the blue variation is active
- */
 function endMousePressed() {
-
+  state = "menu";
+  menuSetup();
 }
 

@@ -9,17 +9,13 @@
 
 
 let state = "menu";
-//let locustImg;
-/**
- * Create the canvas
-*/
 
 function setup() {
     createCanvas(800, 800);
     menuSetup();
-    
+
     console.log(setup);
-   locustImg.resize(horz, vert);
+
   //locustImg.loadPixels();
 
     

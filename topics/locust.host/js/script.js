@@ -17,9 +17,11 @@ let state = "menu";
 function setup() {
     createCanvas(800, 800);
     menuSetup();
+    
     console.log(setup);
    locustImg.resize(horz, vert);
   //locustImg.loadPixels();
+
     
 }
 /**
@@ -45,6 +47,7 @@ function draw() {
 
 function mousePressed(event) {
     console.log(mousePressed);
+
     switch (state) {
         case "menu":
             menuMousePressed(event);

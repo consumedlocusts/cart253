@@ -4,28 +4,19 @@
  * 
  * storyline 1 set up for the locust storlines
  */
- state = "wormwood";
-function wormwoodSetup() {
-console.log("wormwood setup");
-}
 
-/**
- * This will be called every frame when the blue variation is active
- */
+function wormwoodSetup() { }
+
 function wormwoodDraw() {
-  background(0);
-  fill(255); //redd
-  textSize(48);
+  background("#263a7eff");
+  fill(255);
+  textSize(32);
   textAlign(CENTER, CENTER);
-  text("xxxx", width / 2, height / 2);
+  text("xxxx", width/2, height/2);
 }
 
-
-/**
- * This will be called whenever a key is pressed while the blue variation is active
- */
 function wormwoodMousePressed() {
-   state = "menu";
+  state = "menu";
   menuSetup();
 }
 

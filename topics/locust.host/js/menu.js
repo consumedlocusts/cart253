@@ -23,7 +23,7 @@ function preload() {
 
 function menuSetup() { //similar setup to ASCII (billy.ball) array, counter(index), and 
 // and the brightness usage
- console.log(menuSetup)
+
   textSize(20);
   textAlign(LEFT, BOTTOM);
 
@@ -59,13 +59,13 @@ locustImg.resize(horz, vert);
   }
 }
 function menuDraw() {
-  console.log(menuDraw)
+
   background(0);
   drawLineLocust();
   drawMenuTitles();
 }
 function drawLineLocust() {
- console.log(drawLineLocust)
+
   for(let cell of lineGrid){
     let d = dist(mouseX, mouseY, cell.x, cell.y);
     if(d < 80){
@@ -106,15 +106,18 @@ hoverAgain = 1;
 //if(menuState == 0) menuState = 1; else if(menuState == 1) menuState = 2;
 for(let t of titles){
     let d = dist(mouseX, mouseY, t.x, t.y);
-    if(d < 80){
-      state = t.state;
-}
-
-switch(state){
-        case "wormwood": wormwoodSetup(); break;
-        case "swarm": swarmSetup(); break;
-        case "end": endSetup(); break;
+    if(d < 50){
+     if(t.name === "Wormwood") {
+        state = "wormwood";
+        wormwoodSetup();
+      } else if(t.name === "Signs of the Swarm") {
+        state = "swarm";
+        swarmSetup();
+      } else if(t.name === "The End Times") {
+        state = "end";
+        endSetup();
       }
-      return; // stop checking other titles
+      return;
     }
   }
+}

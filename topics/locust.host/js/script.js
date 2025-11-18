@@ -24,21 +24,12 @@ function setup() {
  * Display the menu or the current variation
 */
 function draw() {
-    console.log(draw);
-    switch (state) {
-        case "menu":
-            menuDraw();
-            break;
-        case "wormwood":
-            wormwoodDraw();
-            break;
-        case "swarm":
-            swarmDraw();
-            break;
-        case "end":
-            endDraw();
-            break;
-    }
+  switch(state){
+    case "menu": menuDraw(); break;
+    case "wormwood": wormwoodDraw(); break;
+    case "swarm": swarmDraw(); break;
+    case "end": endDraw(); break;
+  }
 }
 
 function mousePressed() {

@@ -4,12 +4,11 @@
  * 
  * storyline 2 set up for the locust storlines
  */
-state = "swarm";
-function swarmSetup() {}
+function swarmSetup() { }
 
 function swarmDraw() {
-  background(0, 100, 0); //dark green
-  fill(255);
+  background("#344034ff");
+  fill("#9e1d1dff");
   textSize(32);
   textAlign(CENTER, CENTER);
   text("yyyy", width/2, height/2);

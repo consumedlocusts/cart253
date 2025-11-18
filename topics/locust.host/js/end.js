@@ -4,10 +4,12 @@
  * 
  * storyline 3 set up for the locust storlines
  */
-function endSetup() {}
+"use strict";
+
+function endSetup() { }
 
 function endDraw() {
-  background(0, 0, 100); //dark blue
+  background("#9f0000ff");
   fill(255);
   textSize(32);
   textAlign(CENTER, CENTER);

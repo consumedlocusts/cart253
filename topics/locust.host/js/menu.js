@@ -28,28 +28,34 @@ function menuDraw() {
   }
   drawMenuTitles();
 }
-function menuMousePressed(){
-  console.log(menuMousePressed)
+function menuMousePressed() {
+  //hoverAgain = 1; 
+if(menuState == 0) menuState = 1; else if(menuState == 1) menuState = 2;
+
+  menuState = (menuState + 1) % 3;
+
+  console.log(menuMousePressed)}
+//function menuMousePressed(){ //WRONG
   //hoverAgain = 1; 
 //if(menuState == 0) menuState = 1; else if(menuState == 1) menuState = 2;
 
-    switch (keyCode) {
-        case 82:
-            state = "wormwood";
-            wormwoodSetup();
-            break;
+    //switch (keyCode) {
+       // case 82:
+         //   state = "wormwood";
+          //  wormwoodSetup();
+           // break;
+//
+      //  case 71:
+         //   state = "swarm";
+         //   swarmSetup();
+           // break;
 
-        case 71:
-            state = "swarm";
-            swarmSetup();
-            break;
-
-        case 66:
-            state = "end";
-            endSetup();
-            break;
-    }
-}
+      //  case 66:
+          //  state = "end";
+         //   endSetup();
+          //  break;
+   // }
+//}
 function drawLineLocust() {
  console.log(drawLineLocust)
   for(let cell of lineGrid){
@@ -84,7 +90,7 @@ function drawMenuTitles(){
     }
 
     if(menuState == 2 && d < 80){
-      fill(255, 40, 40);
+      fill(255);
       text(t.name, t.x, t.y);
     }
   }
@@ -100,13 +106,15 @@ function menuSetup() {
   vert = floor(height / charHi);
 // locustsImg.resize(horz, vert);
   //locustsImg.loadPixels();
-
+ locustImg.loadPixels();
+  lineGrid = [];
+  
   for(let v = 0; v < vert; v++){
     for(let h = 0; h < horz; h++){
-      let idx = (v * locustsImg.width + h) * 4;
-      let r = locustsImg.pixels[idx];
-      let g = locustsImg.pixels[idx + 1];
-      let b = locustsImg.pixels[idx + 2];
+      let idx = (v * locustImg.width + h) * 4;
+      let r = locustImg.pixels[idx];
+      let g = locustImg.pixels[idx + 1];
+      let b = locustImg.pixels[idx + 2];
 
       let brightness = (r + g + b) / 3;
       let inv = 255 - brightness;

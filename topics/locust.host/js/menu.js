@@ -104,25 +104,17 @@ function menuMousePressed() {
 hoverAgain = 1; 
 //mousePressed();
 //if(menuState == 0) menuState = 1; else if(menuState == 1) menuState = 2;
-for (let t of titles) {
+for(let t of titles){
     let d = dist(mouseX, mouseY, t.x, t.y);
-    if (d < 50) {
-      if (t.name === "Wormwood") state = "wormwood";
-      else if (t.name === "Signs of the Swarm") state = "swarm";
-      else if (t.name === "The End Times") state = "end";
+    if(d < 80){
+      state = t.state;
+}
 
-    if (d < 80){
-    state = t.target; // set global state to target scene
-      // Call setup function of the scene
-      switch(state){
+switch(state){
         case "wormwood": wormwoodSetup(); break;
         case "swarm": swarmSetup(); break;
         case "end": endSetup(); break;
-      
-  } //Prettier deciding not to work 
-     return; //menuState = (menuState + 1) % 3;
-}
-}
-}
-}
-
+      }
+      return; // stop checking other titles
+    }
+  }

@@ -11,7 +11,10 @@ let charWid, charHi, horz, vert;
 let hoverAgain=0;
 let lineGrid = [];
 let menuState = 0;
+let wormFont;
+let wormerFont;
 let locustImg;
+
 let titles = [ //array of titles for the char index detection when clicking to turn both 
 // scripts(seperatestorylines) and colors
   {name:"Wormwood", sub:"Shaft of the Abyss, devastation", x:100, y:230},
@@ -20,7 +23,7 @@ let titles = [ //array of titles for the char index detection when clicking to t
 ];
 function preload() {
   locustImg = loadImage("assets/locust.png");
-    wormFont = loadFont("assets/meeska.ttf");
+     wormFont = loadFont("assets/mee.ttf");
      wormerFont = loadFont("assets/what.ttf");
 }
 

@@ -4,13 +4,10 @@
  * 
  * storyline 1 set up for the locust storlines
  */
-let wormFont;
-let wormerFont;
 
-function preload(){
-    wormFont = loadFont("meeska.ttf");
-     wormerFont = loadFont("what.ttf");
-}
+
+
+
 function wormwoodSetup() { }
 
 function wormwoodDraw() {

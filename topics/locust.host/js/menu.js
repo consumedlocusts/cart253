@@ -20,6 +20,8 @@ let titles = [ //array of titles for the char index detection when clicking to t
 ];
 function preload() {
   locustImg = loadImage("assets/locust.png");
+    wormFont = loadFont("assets/meeska.ttf");
+     wormerFont = loadFont("assets/what.ttf");
 }
 
 function menuSetup() { //similar setup to ASCII (billy.ball) array, counter(index), and 

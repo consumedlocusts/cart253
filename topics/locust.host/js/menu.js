@@ -12,7 +12,8 @@ let hoverAgain=0;
 let lineGrid = [];
 let menuState = 0;
 let locustImg;
-let titles = [
+let titles = [ //array of titles for the char index detection when clicking to turn both 
+// scripts(seperatestorylines) and colors
   {name:"Wormwood", sub:"Shaft of the Abyss, devastation", x:100, y:230},
   {name:"Signs of the Swarm", sub:"Destroyer, destruction", x:100, y:400},
   {name:"The End Times", sub:"God's hate, desolation", x:100, y:600}
@@ -36,6 +37,7 @@ locustImg.resize(horz, vert);
  locustImg.loadPixels();
   lineGrid = []; //turns any image into grided line art, using same "brightness" concept but 
   //cells and thickness of each line corresponds to each cell (pixel) of image
+//similar to ASCII art (using brightness which is the thickness of lines drawn to match the pixels picked up by indx)
 
   for(let v = 0; v < vert; v++){
     for(let h = 0; h < horz; h++){
@@ -69,12 +71,13 @@ function drawLineLocust() {
   for(let cell of lineGrid){
     let d = dist(mouseX, mouseY, cell.x, cell.y);
     if(d < 80){
-      cell.revealed = true; 
+      cell.revealed = true; //bolean instead of using this feature again in mousepressed
     }
     let displayThickness = hoverAgain === 1 ? map(cell.inv, 0, 255, 4, 0.3) : cell.thickness;
  stroke(255); // white lines, turn thicker when hovered over too
-  strokeWeight(cell.revealed ? displayThickness: 0.05);
+  strokeWeight(cell.revealed ? displayThickness: 0.05);//"if then else" used becasue of the "hoverAgain" (click to change the line thickness of locust whenever, mid draw or not, but must return true)
     line(cell.x, cell.y, cell.x + charWid*0.8, cell.y);
+    
     //let displayThickness = cell.thickness;
     //if (hoverAgain === 1) {
       //displayThickness = map(cell.inv, 0, 255, 4, 0.3);
@@ -88,6 +91,7 @@ function drawMenuTitles(){
    fill(255);
   textSize(32);
   textAlign(LEFT, BOTTOM);
+  //char ind array of title string for clicking the titles to work and not whenever user simply "clicks"
   for(let t of titles){
     fill(255); //color for titles, changed color when hovered over/press mouse 
     text(t.name, t.x, t.y);
@@ -104,6 +108,7 @@ function menuMousePressed() {
 hoverAgain = 1; 
 //mousePressed();
 //if(menuState == 0) menuState = 1; else if(menuState == 1) menuState = 2;
+//state/scripts changes
 for(let t of titles){
     let d = dist(mouseX, mouseY, t.x, t.y);
     if(d < 50){

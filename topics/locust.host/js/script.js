@@ -12,7 +12,7 @@ let state = "menu";
  let wormFont;
 let locustImg;
 let locustVid;
-
+let song;
 function preload() {
   locustImg = loadImage("assets/locust.png");
    wormFont = loadFont("assets/what.ttf");

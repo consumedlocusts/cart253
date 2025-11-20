@@ -4,14 +4,16 @@
  * 
  * storyline 2 set up for the locust storlines
  */
-let song;
+
 let fft; //from a youtube video, fft audio to animation of spectrums thing
 function swarmSetup() { }
 fft = new p5.FFT();
+
 function swarmDraw() {
+    let song;
  userStartAudio();
   song.play();
-  
+
   background(0);
 
   let spectrum = fft.analyze();

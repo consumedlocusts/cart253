@@ -9,6 +9,16 @@
 
 
 let state = "menu";
+ let wormFont;
+let locustImg;
+let locustVid;
+
+function preload() {
+  locustImg = loadImage("assets/locust.png");
+   wormFont = loadFont("assets/what.ttf");
+   locustVid = createVideo("assets/locusthost.mp4");
+locustVid.hide();
+}
 
 function setup() {
     createCanvas(800, 800);

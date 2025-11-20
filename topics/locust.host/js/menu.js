@@ -4,6 +4,8 @@
  * 
  * menu set up for the locust storlines
  */
+//sliders, slider library, json import
+//vectors??
 
 "use strict";
 
@@ -11,9 +13,6 @@ let charWid, charHi, horz, vert;
 let hoverAgain=0;
 let lineGrid = [];
 let menuState = 0;
-let wormFont;
-let wormerFont;
-let locustImg;
 
 let titles = [ //array of titles for the char index detection when clicking to turn both 
 // scripts(seperatestorylines) and colors
@@ -21,11 +20,7 @@ let titles = [ //array of titles for the char index detection when clicking to t
   {name:"Signs of the Swarm", sub:"Destroyer, destruction", x:100, y:400},
   {name:"The End Times", sub:"God's hate, desolation", x:100, y:600}
 ];
-function preload() {
-  locustImg = loadImage("assets/locust.png");
-     wormFont = loadFont("assets/mee.ttf");
-     wormerFont = loadFont("assets/what.ttf");
-}
+
 
 function menuSetup() { //similar setup to ASCII (billy.ball) array, counter(index), and 
 // and the brightness usage
@@ -92,7 +87,7 @@ function drawLineLocust() {
 }
 
 function drawMenuTitles(){
-   console.log(drawMenuTitles)
+   //console.log(drawMenuTitles)
    fill(255);
   textSize(32);
   textAlign(LEFT, BOTTOM);

@@ -16,7 +16,7 @@ let locustVid;
 function preload() {
   locustImg = loadImage("assets/locust.png");
    wormFont = loadFont("assets/what.ttf");
-   locustVid = createVideo("assets/locusthost.mp4");
+   locustVid = createVideo("assets/locusthost22.mp4");
 locustVid.hide();
 }
 

@@ -22,7 +22,7 @@ function wormwoodSetup() { helloObject=new hello (width/10, height/10)
   carH = 5;
   rizon = floor(width / carW); //rowws
   ticle = floor(height / carH);// columns
-locustVid.resize(700, 700);
+//locustVid.resize(700, 700);
   
 
 
@@ -46,7 +46,7 @@ function wormwoodDraw() {
       linelineGrid.push({
         x: h * carW, //each little row and column
         y: v * carH,
-        thickness: map(inv, 0, 255, 1, 0.05),
+        thickness: map(inv, 0, 255, 7, 0.05),
         inv: inv,
         revealed: false
       });
@@ -66,7 +66,7 @@ function wormwoodDraw() {
 }
 function wormwoodBorder(){
     push();
-  background("#4c587eff");
+
   fill(255);
   textFont(wormFont);
   textSize(32);

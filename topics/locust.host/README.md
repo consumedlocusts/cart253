@@ -28,8 +28,11 @@ This bit should attribute any code, assets or other elements used taken from oth
 > - x
 > - The song is written, played and edited by me using MIDI keyboard and garageband
 > - Source codes and tutorials: 
-FFT & sound tutotial:
+FFT & sound visuals tutotial:
 https://www.youtube.com/watch?v=8O5aCwdopLo 
+https://editor.p5js.org/pattvira/sketches/KB9supaPG
+
+"Open source" inspirations:
 
 
 ## License

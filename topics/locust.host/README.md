@@ -25,8 +25,12 @@ This bit should have some images of the program running so that the reader has a
 This bit should attribute any code, assets or other elements used taken from other sources. For example:
 
 > - This project uses [p5.js](https://p5js.org).
-> - The clown image is a capture of the clown from the Apple emoji character set.
-> - The barking sound effect is "single dog bark 1" by crazymonke9 from freesound.org: https://freesound.org/people/crazymonke9/sounds/418107/
+> - x
+> - The song is written, played and edited by me using MIDI keyboard and garageband
+> - Source codes and tutorials: 
+FFT & sound tutotial:
+https://www.youtube.com/watch?v=8O5aCwdopLo 
+
 
 ## License
 

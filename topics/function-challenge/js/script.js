@@ -1,0 +1,127 @@
+/**
+ * Bouncy Ball Ball Bonanza
+ * Pippin Barr
+ *
+ * The starting point for a ball-bouncing experience of
+ * epic proportions!
+ */
+
+"use strict";
+
+// Our ball
+const ball = {
+  x: 300,
+  y: 20,
+  width: 20,
+  height: 20,
+  velocity: {
+    x: 0,
+    y: 3,
+  },
+  acceleration: {
+    x: 0.02,
+    y: -0.02,
+  },
+};
+
+// Our paddle
+const paddle = {
+  x: 300,
+  y: 280,
+  width: 100,
+  height: 20,
+};
+
+/**
+ * Create the canvas
+ */
+function setup() {
+  createCanvas(600, 300);
+}
+
+/**
+ * Move and display the ball and paddle
+ */
+function draw() {
+  background("#000000ff");
+
+  movePaddle(paddle);
+  moveBall(ball);
+
+  handleBounce(ball, paddle);
+
+  drawPaddle(paddle);
+  drawBall(ball);
+}
+
+/**
+ * Moves the paddle
+ */
+function movePaddle(paddle) {
+  paddle.x = mouseX;
+}
+
+/**
+ * Moves the ball passed in as a parameter
+ */
+function moveBall(ball) {
+  ball.x = ball.x + ball.velocity.x + ball.acceleration.x;
+  ball.y = ball.y + ball.velocity.y + ball.acceleration.y;
+}
+
+/**
+ * Bounces the provided ball off the provided paddle
+ */
+
+function handleBounce(ball, paddle) {
+  if (checkOverlap(ball, paddle) === true) {
+    ball.velocity.y = -ball.velocity.y;
+  }
+  if (ball.y < 0) {
+    ball.velocity.y = -ball.velocity.y;
+    ball.y = 0;
+  }
+  if (ball.y > 300) {
+    ball.velocity.y = -ball.velocity.y;
+    ball.y = 300;
+  }
+}
+
+/**
+ * Draws the specified paddle on the canvas
+ */
+function drawPaddle(paddle) {
+  push();
+  rectMode(CENTER);
+  noStroke();
+  fill("green");
+  rect(paddle.x, paddle.y, paddle.width, paddle.height);
+  pop();
+}
+
+/**
+ * Draws the specified ball on the canvas
+ */
+function drawBall(ball) {
+  push();
+  rectMode(CENTER);
+  noStroke();
+  fill("brown");
+  rect(ball.x, ball.y, ball.width, ball.height);
+  pop();
+}
+
+/**
+ * Returns true if rectA and rectB overlap, and false otherwise
+ * Assumes rectA and rectB have properties x, y, width and height to describe
+ * their rectangles, and that rectA and rectB are displayed CENTERED on their
+ * x,y coordinates.
+ */
+function checkOverlap(rectA, rectB) {
+  return (
+    rectA.x + rectA.width / 2 > rectB.x - rectB.width / 2 &&
+    rectA.x - rectA.width / 2 < rectB.x + rectB.width / 2 &&
+    rectA.y + rectA.height / 2 > rectB.y - rectB.height / 2 &&
+    rectA.y - rectA.height / 2 < rectB.y + rectB.height / 2
+  );
+}

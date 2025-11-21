@@ -6,16 +6,16 @@
  */
 
 let fft; //from a youtube video, fft audio to animation of spectrums thing
-function swarmSetup() { }
-fft = new p5.FFT();
+function swarmSetup() {
+  song.play();
+  fft = new p5.FFT();
+ }
+
 
 function swarmDraw() {
-    let song;
  userStartAudio();
-  song.play();
-
   background(0);
-
+song.rate(0.2);
   let spectrum = fft.analyze();
 
   noStroke();

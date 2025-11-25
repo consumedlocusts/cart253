@@ -131,9 +131,29 @@ function setupWordFall(){
   for (let i = 0; i < words.length; i++) {
     let w = words[i];
     let tw = textWidth(w + " ");
+    if(x+tw >maxWidth){ //actual restrain on border string
+ x = width * 0.05;
+      y += lineHeight;
+    }
+   
+    
+fallWords.push({
+      word: w,
+      x: x,
+      y: -random(50, 200),
+      targetY: y,
+      landed: false,
+      trail:[]});
+      
+      x += tw; //which i dont know why the x pos is directed at the text width 
+}
+wordFallStart=true;
+}
+function wordFall(){
+    //drawing the trails and vines of text as they fall down
+    
+}
 
-}
-}
 function keyPressed() {
     if (wormState === 0 && wormwoodLettersToShow >= wormwoodString.length) {
       wormState =1;

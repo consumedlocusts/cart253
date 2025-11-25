@@ -66,6 +66,7 @@ function wormwoodDraw() {
    // console.log(cell.thickness);
   line(cell.x, cell.y, cell.x + carW*0.8, cell.y);
 }
+wormwoodBorder()
 }
 function wormwoodBorder(){
  

@@ -12,15 +12,22 @@ let linelineGrid = [];
 let helloObject;
 let helloObject2;
 
-// testing
+// testing first factor of type writer style generation
 let wormwoodStringTimer = 0;
 let wormwoodLettersToShow = 0;
 let wormwoodSpeedFactor = 3; //types 3 characters at a time, sourced from a code
 let wormwoodStarted = false; //for testbolean,not ready
 let wormwoodString = " And the fifth angel blew his trumpet, ";
 let wormState = 0
+
+//inspired from a word fall code, the ltters fall downwards an leave a trail
+let fallText = "and I saw a star fallen from heaven to earth, and he was given the key to the shaft of the bottomless pit";
+let fallWords = [];
+let particles = [];
+let wordFallStart = false;
+let trails = [];
+
 function wormwoodSetup() { 
-    
     helloObject=new hello (width/10, height/10) 
      helloObject2=new hello (width/1.1, height/1.1)
      locustVid.loop();
@@ -34,14 +41,14 @@ function wormwoodSetup() {
 //locustVid.resize(700, 700);
 
 }
+//likewise of gamestates
 function wormwoodDraw() {
    background(0)
   if (wormState === 0) {
     wormwoodOpening();
-  } if (wormState === 1) {
     wormwoodGrid();
-  } else if (wormState === 2) {
-    wormwoodBorder();
+  } else if (wormState === 1) {
+   wordFall();
   } //else if (gameState === 3) {
    //wormwoodMid2();
   //} else if (gameState === 4) {
@@ -108,24 +115,24 @@ function wormwoodGrid() {
 }
 
 }
-function wormwoodBorder(){
- 
-    push();
-  fill(255);
-  textFont(wormFont);
-  textSize(32);
-  textAlign(CENTER, CENTER);
-  text("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", width/2, height/10);
-  
-  
-  fill(255);
-  textFont(wormFont);
-  textSize(32);
-  textAlign(CENTER, CENTER);
-  text("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", width/2, height/1.1);
-pop();
- helloObject.drawHello()
- helloObject2.drawHello()
+function setupWordFall(){
+    //new function for word fall, styling it
+ textSize(26);
+  textAlign(LEFT, TOP);
+  fallWords = []; //per word in the string oh god im only on the second verse
+  trails = []; //array for the vine lines
+
+  //border for ye lines to not go out of bounds
+
+    let x = width * 0.05;
+  let y = height * 0.9;
+  let maxWidth = width * 0.9;
+  let lineHeight = 40;
+  for (let i = 0; i < words.length; i++) {
+    let w = words[i];
+    let tw = textWidth(w + " ");
+
+}
 }
 function keyPressed() {
     if (wormState === 0 && wormwoodLettersToShow >= wormwoodString.length) {

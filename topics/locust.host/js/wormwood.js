@@ -26,6 +26,7 @@ let fallWords = [];
 let wordFallStart = false;
 let trails = [];
 //third verse lol
+let pulseLinesArray = [];
 let particles=[];
 let textPit;
 let fade;
@@ -155,7 +156,7 @@ fallWords.push({
 wordFallStart=true;
 }
 function wordFall(){
-    updatePulseLInes();
+    updatePulseLines();
     //draw the lines before the rest as a backgroudn and the trails and vines of text as they fall down
     stroke(255);
     noFill();
@@ -203,7 +204,7 @@ function pulseWord(word){
     for (let i =0; i <nLines; i++){
 let startX = word.x + random(-20, textWidth(word.word) + 20); // start near but not too close to word
         let startY = word.targetY;
-    }
+    
     ///pulse line array
     let pulseLine = {
             points: [],
@@ -218,6 +219,7 @@ let startX = word.x + random(-20, textWidth(word.word) + 20); // start near but 
         //push push push opush pushpsushpsush
         pulseLinesArray.push(pulseLine);
 }
+}
 function updatePulseLines() {
 //you wouldnt be able to guess, this is for the reverse btw
 for (let i = pulseLinesArray.length - 1; i >= 0; i--) {
@@ -225,9 +227,27 @@ for (let i = pulseLinesArray.length - 1; i >= 0; i--) {
 line.currentY-=line.speed
 let timeOffset = frameCount * 0.02;
 let nx = noise(line.baseX * 0.008, line.currentY * 0.008, timeOffset + line.offsetSeed);
+let offsetX = map(nx, 0, 1, -60, 60); //so it moves at an angle ish on the horizon
+line.points.push({
+            x: line.baseX + offsetX,
+            y: line.currentY
+        });
+//limit nd fade out..
+if (line.points.length > 80) line.points.shift();
+ line.life -= 3;     
+//again, wild topographical pulse line
+        noFill();
+        stroke(255, line.life);
+        strokeWeight(line.thickness);
+        beginShape();
+        for (let p of line.points) {
+            curveVertex(p.x, p.y);
+        }
+        endShape();
+}
 
 }
-}
+
 function setupWordPit(){
     //var is accessed outside of these for loops, thats why my let wasnt working, im not used to it
     fade =0;

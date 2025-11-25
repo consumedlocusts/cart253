@@ -23,9 +23,13 @@ let wormState = 0
 //inspired from a word fall code, the ltters fall downwards an leave a trail
 let fallText = "and I saw a star fallen from heaven to earth, and he was given the key to the shaft of the bottomless pit";
 let fallWords = [];
-let particles = [];
 let wordFallStart = false;
 let trails = [];
+//third verse lol
+let particles=[];
+let textPit;
+let fade;
+let fadeAmount = 1
 
 function wormwoodSetup() { 
     helloObject=new hello (width/10, height/10) 
@@ -49,9 +53,9 @@ function wormwoodDraw() {
     wormwoodGrid();
   } else if (wormState === 1) {
    wordFall();
+  } else if (wormState === 2) {
+   wormWordPit();
   } //else if (gameState === 3) {
-   //wormwoodMid2();
-  //} else if (gameState === 4) {
     //wormwoodClosing();
   //} 
 }
@@ -155,7 +159,7 @@ function wordFall(){
     for (let w of fallWords){
         if (!w.landed){
             let prePosition = createVector(w.x,w.y); //i dont really understand how vector works 
-            w.y += 2 + random(0,6) //spped of falling 
+            w.y += 1 + random(0,7) //spped of falling 
             //noise 
 let nx = noise(w.x * 100, w.y * 200, frameCount * 200);
       let ny = noise(w.y * 100, w.x * 100, frameCount * 300);
@@ -183,7 +187,33 @@ fill(255);
         }
     }
 
-
+function setupWordPit(){
+    fade =0;
+    for(let i=0;i<width;i+=20){
+        for (let hole=0;hole<height;hole+=5){
+            particles.push({
+                x:1,
+                y:hole,
+                clr: color(mouseX*0.1,mouseY*0.5+frameCount,250,250)
+            
+            })
+        }
+    }
+}
+function wormWordPit(){
+    background(100,70,40,0.09);
+    for(let i=0; i<particles.length; i++){
+        let p=particles[i];
+        fill(mouseX*0.6,mouseY*0.5+frameCount,fade)
+        if (fade<0) fadeAmount=1;
+        if (fade>255) fadeAmount=-10;
+        fade+= fadeAmount
+        //later replace w the text string this is from an open proc code translated from browser to here hello
+ellipse(p.x+30 ,p.y+30 ,1);
+		 p.x+=(noise(p.x/200,p.y/200,3000)-0.6)*3;
+		 p.y+=(noise(p.x/200,p.y/200,30000)-0.5)*3;
+    }
+}
 function keyPressed() {
     if (wormState === 0 && wormwoodLettersToShow >= wormwoodString.length) {
       wormState =1;
@@ -191,6 +221,11 @@ function keyPressed() {
 //for now
 locustVid.pause(); // stopping the video if needed (right now yes)
     setupWordFall();
+  }
+  if (wormState === 1 && fallWords.every(w => w.landed)){
+wormState=2;
+setupWordPit();
+
   }
   //else if (
     //wormState === 1 &&

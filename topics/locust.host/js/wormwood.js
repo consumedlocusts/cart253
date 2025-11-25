@@ -30,7 +30,9 @@ let particles=[];
 let textPit;
 let fade;
 let fadeAmount = 1
-
+//wormwoodPitText=" He opened the shaft of the bottomless pit, 
+//and from the shaft rose smoke like the smoke of a great furnace, and the sun and the air were darkened with the smoke from the shaft.
+//"
 function wormwoodSetup() { 
     helloObject=new hello (width/10, height/10) 
      helloObject2=new hello (width/1.1, height/1.1)
@@ -153,7 +155,8 @@ fallWords.push({
 wordFallStart=true;
 }
 function wordFall(){
-    //drawing the trails and vines of text as they fall down
+    updatePulseLInes();
+    //draw the lines before the rest as a backgroudn and the trails and vines of text as they fall down
     stroke(255);
     noFill();
     for (let w of fallWords){
@@ -161,11 +164,12 @@ function wordFall(){
             let prePosition = createVector(w.x,w.y); //i dont really understand how vector works 
             w.y += 1 + random(0,7) //spped of falling 
             //noise 
-let nx = noise(w.x * 100, w.y * 200, frameCount * 200);
-      let ny = noise(w.y * 100, w.x * 100, frameCount * 300);
+            let timeOffset = frameCount *0.01; //test out these numbas later
+let nx = noise(w.x * 0.01, w.y * 0.01, timeOffset);
+      let ny = noise(w.y * 100, w.x * 100, timeOffset+100);
       //mapping and leaving a trail in form of offset 
-      let offsetX = map(nx, 0, 10, -20, 20);
-      let offsetY = map(ny, 0, 10, -10, 10);
+      let offsetX = map(nx, 0, 1, -40, 40);
+      let offsetY = map(ny, 0, 1, -15, 15);
       w.trail.push({x: w.x + offsetX, y: prePosition.y + offsetY});
       // limit trail length to end of the screeen
       if (w.trail.length > 600) w.trail.shift();
@@ -176,17 +180,54 @@ let nx = noise(w.x * 100, w.y * 200, frameCount * 200);
         w.landed = true;
       }
     }
-    //new thing "shapes" not like push pop
-    beginShape();
-    for (let p of w.trail) vertex(p.x, p.y);
-    endShape();
+    //draw organic curved lines instead of straight
+        noFill();
+        stroke(255, 180);
+        strokeWeight(1.5);
+        beginShape();
+        for (let p of w.trail) {
+            curveVertex(p.x, p.y); // curveVertex makes smoother organic curves, less ugly 
+        }
+        endShape();
 //word chiling above the lines
 fill(255);
     noStroke();
     text(w.word, w.x, w.y);
+    //pulsing lighting fast lines back up again 
+    //soon
         }
     }
+function pulseWord(word){
+    let nLines=floor(random(3,6));
+    //im so tired of i
+    for (let i =0; i <nLines; i++){
+let startX = word.x + random(-20, textWidth(word.word) + 20); // start near but not too close to word
+        let startY = word.targetY;
+    }
+    ///pulse line array
+    let pulseLine = {
+            points: [],
+            currentY: startY,
+            speed: random(8, 15), // faster upward movement
+            thickness: random(2, 5), // thicker wilder lines
+            offsetSeed: random(1000), // unique offset for each line
+            life: 255,
+            baseX: startX
+        };
+        pulseLine.points.push({x: startX, y: startY});
+        //push push push opush pushpsushpsush
+        pulseLinesArray.push(pulseLine);
+}
+function updatePulseLines() {
+//you wouldnt be able to guess, this is for the reverse btw
+for (let i = pulseLinesArray.length - 1; i >= 0; i--) {
+        let line = pulseLinesArray[i];
+line.currentY-=line.speed
+let timeOffset = frameCount * 0.02;
+let nx = noise(line.baseX * 0.008, line.currentY * 0.008, timeOffset + line.offsetSeed);
 
+}
+}
 function setupWordPit(){
     //var is accessed outside of these for loops, thats why my let wasnt working, im not used to it
     fade =0;
@@ -208,7 +249,7 @@ function wormWordPit(){
         if (fade<0) fadeAmount=1;
         if (fade>255) fadeAmount=-10;
         fade+= fadeAmount
-        //later replace w the text string this is from an open proc code translated from browser to here hello
+        //replace ellipse with the text string 
 ellipse(p.x+30 ,p.y+30 ,1);
 		 p.x+=(noise(p.x/200,p.y/200,300)-0.6)*3;
 		 p.y+=(noise(p.x/200,p.y/200,300)-0.5)*3;

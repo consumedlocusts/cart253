@@ -189,15 +189,17 @@ function keyPressed() {
     if (wormState === 0 && wormwoodLettersToShow >= wormwoodString.length) {
       wormState =1;
     wormwoodStringTimer = 0;
+//for now
+locustVid.pause(); // stopping the video if needed (right now yes)
+    setupWordFall();
   }
-  else if (
-    wormState === 1 &&
-   wormwoodGrid
-  ) {
+  //else if (
+    //wormState === 1 &&
+   //wormwoodGrid
+  //) {
 
- locustVid.loop();
-  }
-
+// locustVid.loop();
+  //}
 }
 function wormwoodMousePressed() {
   state = "menu";

@@ -12,6 +12,7 @@ let linelineGrid = [];
 let helloObject;
 let helloObject2;
 
+
 function wormwoodSetup() { 
     
     helloObject=new hello (width/10, height/10) 
@@ -27,8 +28,20 @@ function wormwoodSetup() {
 //locustVid.resize(700, 700);
 
 }
-
 function wormwoodDraw() {
+  if (wormState === 0) {
+    wormOpening();
+  } if (wormState === 1) {
+    wormwoodGrid();
+  } else if (wormState === 2) {
+    wormwoodBorder();
+  } else if (gameState === 3) {
+    wormwoodMid2();
+  } else if (gameState === 4) {
+    wormwoodClosing();
+  } 
+}
+function wormwoodGrid() {
     background(0);
 //wormwoodBorder();
 

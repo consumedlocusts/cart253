@@ -12,6 +12,12 @@ let linelineGrid = [];
 let helloObject;
 let helloObject2;
 
+// testing
+let falseAwakenStringTimer = 0;
+let falseAwakenLettersToShow = 0;
+let falseAwakenSpeedFactor = 3; //types 3 characters at a time, sourced from a code
+let phaseFalseAwakenStarted = false; //for testbolean,not ready
+let falseAwakenString = " And the fifth angel blew his trumpet, ";
 
 function wormwoodSetup() { 
     
@@ -29,20 +35,41 @@ function wormwoodSetup() {
 
 }
 function wormwoodDraw() {
+   background(0)
   if (wormState === 0) {
     wormOpening();
   } if (wormState === 1) {
     wormwoodGrid();
   } else if (wormState === 2) {
     wormwoodBorder();
-  } else if (gameState === 3) {
-    wormwoodMid2();
-  } else if (gameState === 4) {
-    wormwoodClosing();
-  } 
+  } //else if (gameState === 3) {
+   //wormwoodMid2();
+  //} else if (gameState === 4) {
+    //wormwoodClosing();
+  //} 
+}
+function wormwoodOpening(){ //based on a seperate code of mine that made a video player with "typewriter" animated text appearing
+//just a test
+    falseAwakenLettersToShow = floor(
+    falseAwakenStringTimer / falseAwakenSpeedFactor
+  );
+  falseAwakenLettersToShow = min(
+    falseAwakenLettersToShow,
+    falseAwakenString.length
+  );
+
+  text(
+    falseAwakenString.substring(0, falseAwakenLettersToShow),
+    width / 2,
+    height / 2
+  );
+
+  if (falseAwakenLettersToShow < falseAwakenString.length) {
+    falseAwakenStringTimer++;
+  }
 }
 function wormwoodGrid() {
-    background(0);
+    
 //wormwoodBorder();
 
     locustVid.loadPixels();
@@ -79,7 +106,7 @@ function wormwoodGrid() {
    // console.log(cell.thickness);
   line(cell.x, cell.y, cell.x + carW*0.8, cell.y);
 }
-wormwoodBorder()
+
 }
 function wormwoodBorder(){
  

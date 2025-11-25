@@ -151,8 +151,39 @@ wordFallStart=true;
 }
 function wordFall(){
     //drawing the trails and vines of text as they fall down
-    
-}
+    stroke(255);
+    noFill();
+    for (let w of fallWords){
+        if (!w.landed){
+            let prePosition = createVector(w.x,w.y); //i dont really understand how vector works 
+            w.y += 2 + random(0,2) //spped of falling 
+            //noise 
+let nx = noise(w.x * 100, w.y * 200, frameCount * 200);
+      let ny = noise(w.y * 100, w.x * 100, frameCount * 300);
+      //mapping and leaving a trail in form of offset 
+      let offsetX = map(nx, 0, 10, -20, 20);
+      let offsetY = map(ny, 0, 10, -10, 10);
+      w.trail.push({x: w.x + offsetX, y: prePosition.y + offsetY});
+      // limit trail length to end of the screeen
+      if (w.trail.length > 600) w.trail.shift();
+
+      // check landing
+      if (w.y >= w.targetY) {
+        w.y = w.targetY;
+        w.landed = true;
+      }
+    }
+    //new thing "shapes" not like push pop
+    beginShape();
+    for (let p of w.trail) vertex(p.x, p.y);
+    endShape();
+//word chiling above the lines
+fill(255);
+    noStroke();
+    text(w.word, w.x, w.y);
+        }
+    }
+
 
 function keyPressed() {
     if (wormState === 0 && wormwoodLettersToShow >= wormwoodString.length) {

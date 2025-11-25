@@ -25,15 +25,13 @@ function wormwoodSetup() {
   rizon = floor(width / carW); //rowws
   ticle = floor(height / carH);// columns
 //locustVid.resize(700, 700);
-  
-
 
 }
 
 function wormwoodDraw() {
     background(0);
-    
-wormwoodBorder();
+//wormwoodBorder();
+
     locustVid.loadPixels();
     linelineGrid=[];
    for(let v = 0; v < ticle; v++){
@@ -71,7 +69,6 @@ wormwoodBorder();
 function wormwoodBorder(){
  
     push();
-
   fill(255);
   textFont(wormFont);
   textSize(32);

@@ -18,7 +18,7 @@ let wormwoodLettersToShow = 0;
 let wormwoodSpeedFactor = 3; //types 3 characters at a time, sourced from a code
 let wormwoodStarted = false; //for testbolean,not ready
 let wormwoodString = " And the fifth angel blew his trumpet, ";
-
+let wormState = 0
 function wormwoodSetup() { 
     
     helloObject=new hello (width/10, height/10) 
@@ -37,7 +37,7 @@ function wormwoodSetup() {
 function wormwoodDraw() {
    background(0)
   if (wormState === 0) {
-    wormOpening();
+    wormwoodOpening();
   } if (wormState === 1) {
     wormwoodGrid();
   } else if (wormState === 2) {
@@ -126,6 +126,20 @@ function wormwoodBorder(){
 pop();
  helloObject.drawHello()
  helloObject2.drawHello()
+}
+function keyPressed() {
+    if (wormState === 0 && wormwoodLettersToShow >= wormwoodString.length) {
+      wormState =1;
+    wormwoodStringTimer = 0;
+  }
+  else if (
+    wormState === 1 &&
+   wormwoodGrid
+  ) {
+
+ locustVid.loop();
+  }
+
 }
 function wormwoodMousePressed() {
   state = "menu";

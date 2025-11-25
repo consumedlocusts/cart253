@@ -13,11 +13,11 @@ let helloObject;
 let helloObject2;
 
 // testing
-let falseAwakenStringTimer = 0;
-let falseAwakenLettersToShow = 0;
-let falseAwakenSpeedFactor = 3; //types 3 characters at a time, sourced from a code
-let phaseFalseAwakenStarted = false; //for testbolean,not ready
-let falseAwakenString = " And the fifth angel blew his trumpet, ";
+let wormwoodStringTimer = 0;
+let wormwoodLettersToShow = 0;
+let wormwoodSpeedFactor = 3; //types 3 characters at a time, sourced from a code
+let wormwoodStarted = false; //for testbolean,not ready
+let wormwoodString = " And the fifth angel blew his trumpet, ";
 
 function wormwoodSetup() { 
     
@@ -50,22 +50,22 @@ function wormwoodDraw() {
 }
 function wormwoodOpening(){ //based on a seperate code of mine that made a video player with "typewriter" animated text appearing
 //just a test
-    falseAwakenLettersToShow = floor(
-    falseAwakenStringTimer / falseAwakenSpeedFactor
+    wormwoodLettersToShow = floor(
+    wormwoodStringTimer / wormwoodSpeedFactor
   );
-  falseAwakenLettersToShow = min(
-    falseAwakenLettersToShow,
-    falseAwakenString.length
+  wormwoodLettersToShow = min(
+    wormwoodLettersToShow,
+    wormwoodString.length
   );
 
   text(
-    falseAwakenString.substring(0, falseAwakenLettersToShow),
+    wormwoodString.substring(0, wormwoodLettersToShow),
     width / 2,
     height / 2
   );
 
-  if (falseAwakenLettersToShow < falseAwakenString.length) {
-    falseAwakenStringTimer++;
+  if (wormwoodLettersToShow < wormwoodString.length) {
+    wormwoodStringTimer++;
   }
 }
 function wormwoodGrid() {

@@ -123,7 +123,7 @@ function setupWordFall(){
   trails = []; //array for the vine lines
 
   //border for ye lines to not go out of bounds
-
+let words = fallText.split(" "); //why
     let x = width * 0.05;
   let y = height * 0.9;
   let maxWidth = width * 0.9;
@@ -135,7 +135,6 @@ function setupWordFall(){
  x = width * 0.05;
       y += lineHeight;
     }
-   
     
 fallWords.push({
       word: w,
@@ -156,7 +155,7 @@ function wordFall(){
     for (let w of fallWords){
         if (!w.landed){
             let prePosition = createVector(w.x,w.y); //i dont really understand how vector works 
-            w.y += 2 + random(0,2) //spped of falling 
+            w.y += 2 + random(0,6) //spped of falling 
             //noise 
 let nx = noise(w.x * 100, w.y * 200, frameCount * 200);
       let ny = noise(w.y * 100, w.x * 100, frameCount * 300);
@@ -197,7 +196,6 @@ locustVid.pause(); // stopping the video if needed (right now yes)
     //wormState === 1 &&
    //wormwoodGrid
   //) {
-
 // locustVid.loop();
   //}
 }

@@ -6,14 +6,20 @@
  */
 
 let fft; //from a youtube video, fft audio to animation of spectrums thing
+let audioStarted= false;
+
 function swarmSetup() {
-  song.play();
-  fft = new p5.FFT();
+  if (!audioStarted) {
+    song.play();
+    fft = new p5.FFT();
+    audioStarted = true;
+  }
+
  }
 
 
 function swarmDraw() {
- userStartAudio();
+// audioStarted();
   background(0);
 song.rate(0.2);
   let spectrum = fft.analyze();
@@ -26,13 +32,15 @@ song.rate(0.2);
     rect(x, height - h, width / spectrum.length, h);
   }
 
-  fill("#9e1d1dff");
+  fill("#774949ff");
   textSize(32);
   textAlign(CENTER, CENTER);
   text("yyyy", width/2, height/2);
 }
 
 function swarmMousePressed() {
+    song.pause(); 
   state = "menu";
+  audioStarted = false;
   menuSetup();
 }

@@ -12,7 +12,9 @@ let linelineGrid = [];
 let helloObject;
 let helloObject2;
 
-function wormwoodSetup() { helloObject=new hello (width/10, height/10) 
+function wormwoodSetup() { 
+    
+    helloObject=new hello (width/10, height/10) 
      helloObject2=new hello (width/1.1, height/1.1)
      locustVid.loop();
      textSize(20);
@@ -30,6 +32,8 @@ function wormwoodSetup() { helloObject=new hello (width/10, height/10)
 
 function wormwoodDraw() {
     background(0);
+    
+wormwoodBorder();
     locustVid.loadPixels();
     linelineGrid=[];
    for(let v = 0; v < ticle; v++){
@@ -65,6 +69,7 @@ function wormwoodDraw() {
 }
 }
 function wormwoodBorder(){
+ 
     push();
 
   fill(255);
@@ -87,6 +92,7 @@ function wormwoodMousePressed() {
   state = "menu";
   menuSetup();
 }
+
 class hello {
     constructor(x,y){
         this.x=x

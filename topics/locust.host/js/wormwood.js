@@ -188,30 +188,30 @@ fill(255);
     }
 
 function setupWordPit(){
+    //var is accessed outside of these for loops, thats why my let wasnt working, im not used to it
     fade =0;
-    for(let i=0;i<width;i+=20){
-        for (let hole=0;hole<height;hole+=5){
+    for(var i=0;i<width;i+=20){
+        for (var hole=0;hole<height;hole+=5){
             particles.push({
                 x:1,
                 y:hole,
-                clr: color(mouseX*0.1,mouseY*0.5+frameCount,250,250)
-            
+                clr: color(mouseX*0.1,mouseY*0.4+frameCount,250,250)
             })
         }
     }
 }
 function wormWordPit(){
-    background(100,70,40,0.09);
-    for(let i=0; i<particles.length; i++){
-        let p=particles[i];
-        fill(mouseX*0.6,mouseY*0.5+frameCount,fade)
+    background(100,70,40,0.07);
+    for(var i=0; i<particles.length; i++){
+        var p=particles[i];
+        fill(mouseX*0.5,mouseY*0.5+frameCount,fade)
         if (fade<0) fadeAmount=1;
         if (fade>255) fadeAmount=-10;
         fade+= fadeAmount
         //later replace w the text string this is from an open proc code translated from browser to here hello
 ellipse(p.x+30 ,p.y+30 ,1);
-		 p.x+=(noise(p.x/200,p.y/200,3000)-0.6)*3;
-		 p.y+=(noise(p.x/200,p.y/200,30000)-0.5)*3;
+		 p.x+=(noise(p.x/200,p.y/200,300)-0.6)*3;
+		 p.y+=(noise(p.x/200,p.y/200,300)-0.5)*3;
     }
 }
 function keyPressed() {

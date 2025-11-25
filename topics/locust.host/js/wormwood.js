@@ -34,8 +34,9 @@ function wormwoodDraw() {
 
     locustVid.loadPixels();
     linelineGrid=[];
-   for(let v = 0; v < ticle; v++){
-    for(let h = 0; h < rizon; h++){
+    let step =3; //it processes pixels "per this many times" instead of ++ hense why im counting like += step instead of ++ pixels h and v
+   for(let v = 0; v < ticle;  v += step){
+    for(let h = 0; h < rizon;  h += step){
       let idx = (v * locustVid.width + h) * 4;
       let r = locustVid.pixels[idx];
       let g = locustVid.pixels[idx + 1];

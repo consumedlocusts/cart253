@@ -331,11 +331,21 @@ function wormWordPit() {
   } //haha tp
 }
 //lastMode LAST LAST LAST LAST LAST LAST
+function lastSetup() {
+  lastParticles = [];
+  lastTextParticles = [];
 
+  for (let i = 0; i < width; i += 20) {
+    for (let o = 0; o < height; o += 5) {
+      lastParticles.push({ x: i, y: o });
+    }
+  }
+  buildLastTextParticles();
+}
 function lastDraw() {
   background(0, 0);
-  if (lastMode === "normal") runNormalLastParticles();
-  else runLastTextParticles();
+  runNormalLastParticles();
+  runLastTextParticles();
 }
 function runNormalLastParticles() {
   for (let p of lastParticles) {
@@ -381,13 +391,13 @@ function buildLastTextParticles() {
 }
 function runLastTextParticles() {
   for (let tp of lastTextParticles) {
-    // Movement toward letter shapes
+    //movement toward letter shapes
     tp.x = lerp(tp.x, tp.tx, 0.08);
     tp.y = lerp(tp.y, tp.ty, 0.08);
-    // Faster fade-in
+    //faster fade-in
     if (tp.alpha < 255) tp.alpha += 8;
     fill(255, tp.alpha);
-    // Larger particle dots
+    //larger particle dots
     ellipse(tp.x, tp.y, 4);
   }
 }
@@ -403,12 +413,9 @@ function keyPressed() {
   if (wormState === 1 && fallWords.every((w) => w.landed)) {
     wormState = 2;
     setupWordPit();
+  } else if (wormState === 2) {
+    lastSetup();
   }
-  //else if (
-  //wormState === 2
-  //) {
-  //
-  //}
 }
 function wormwoodMousePressed() {
   state = "menu";

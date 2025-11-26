@@ -100,20 +100,21 @@ function drawMenuTitles(){
 if (d < 80) {
      fill(255, 40, 40); // hover color redoen
       text(t.sub, t.x + 20, t.y + 25);
-      
+      textStyle(ITALIC)
     }
-}
+
 
 }
-
+}
 function menuMousePressed() {
 hoverAgain = 1; 
 
 for(let t of titles){
     let d = dist(mouseX, mouseY, t.x, t.y);
-    if(d < 50){
+    if(d < 80){
      if(t.name === "Wormwood") {
         state = "wormwood";
+        textStyle(NORMAL)
         wormwoodSetup();
       } else if(t.name === "Signs of the Swarm") {
         state = "swarm";

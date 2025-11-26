@@ -332,6 +332,65 @@ function wormWordPit() {
     ellipse(tp.x, tp.y, 4); //particle ssize
   } //haha tp
 }
+function lastDraw() {
+  background(0, 0);
+  if (lastMode === "normal") runNormalParticles();
+  else runTextParticles();
+}
+function runNormalParticles() {
+  for (let p of lastParticles) {
+    fill(mouseX * 0.5, mouseY * 0.5 + frameCount, lastFade);
+    ellipse(p.x + 30, p.y + 30, 1);
+    p.x += (noise(p.x / 200, p.y / 200, 3000) - 0.6) * 3;
+    p.y += (noise(p.x / 200, p.y / 200, 30000) - 0.5) * 3;
+  }
+  lastFade += lastFadeAmount;
+  if (lastFade <= 0) {
+    lastFade = 0;
+    lastMode = "text";
+  }
+  //lastDraw();
+}
+function buildTextParticles() {
+  let pg = createGraphics(width, height);
+  pg.pixelDensity(1);
+  pg.background(0);
+  pg.fill(255);
+  pg.textSize(width / 25); // smaller text size so it fits
+  pg.textAlign(CENTER, CENTER);
+  let boxWidth = width * 0.1; // narrower box so text stays within bounds
+  pg.text(lastSentence, width / 2, height / 2, boxWidth);
+  pg.loadPixels();
+
+  // Higher density sampling
+  for (let x = 0; x < width; x += 3) {
+    for (let y = 0; y < height; y += 3) {
+      let idx = (x + y * width) * 4;
+      let brightness = pg.pixels[idx];
+      if (brightness > 150) {
+        lastTextParticles.push({
+          x: random(width),
+          y: random(height),
+          tx: x,
+          ty: y,
+          alpha: 0,
+        });
+      }
+    }
+  }
+}
+function runTextParticles() {
+  for (let tp of lastTextParticles) {
+    // Movement toward letter shapes
+    tp.x = lerp(tp.x, tp.tx, 0.08);
+    tp.y = lerp(tp.y, tp.ty, 0.08);
+    // Faster fade-in
+    if (tp.alpha < 255) tp.alpha += 8;
+    fill(255, tp.alpha);
+    // Larger particle dots
+    ellipse(tp.x, tp.y, 4);
+  }
+}
 
 function keyPressed() {
   if (wormState === 0 && wormwoodLettersToShow >= wormwoodString.length) {

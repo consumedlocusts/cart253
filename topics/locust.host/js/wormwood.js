@@ -24,21 +24,26 @@ let wormState = 0
 let fallText = "and I saw a star fallen from heaven to earth, and he was given the key to the shaft of the bottomless pit";
 let fallWords = [];
 let wordFallStart = false;
-let trails = [];
+let trails = []; //like particles but its not dots/ellipses its lines
 //third verse lol
 let pulseLinesArray = [];
 let particles=[];
 let textPit;
 let fade;
 let fadeAmount = 1
-//wormwoodPitText=" He opened the shaft of the bottomless pit, 
-//and from the shaft rose smoke like the smoke of a great furnace, and the sun and the air were darkened with the smoke from the shaft.
-//"
+
+//idk what to name it
+let pitText = "He opened the shaft of the bottomless pit,"
+let pitParticles = []; //too many particle duplicate names 
+let pitLetters = [];
+let pitWorm=0; //counts the worming letters 
+
+
 function wormwoodSetup() { 
     helloObject=new hello (width/10, height/10) 
      helloObject2=new hello (width/1.1, height/1.1)
      locustVid.loop();
-     textSize(20);
+    textSize(20);
   textAlign(LEFT, BOTTOM);
 
   carW = 5;
@@ -149,7 +154,8 @@ fallWords.push({
       y: -random(50, 200),
       targetY: y,
       landed: false,
-      trail:[]});
+      trail:[],
+    spawned: false}); //check spawns why not
       
       x += tw; //which i dont know why the x pos is directed at the text width 
 }
@@ -251,16 +257,18 @@ if (line.points.length > 80) line.points.shift();
 function setupWordPit(){
     //var is accessed outside of these for loops, thats why my let wasnt working, im not used to it
     fade =0;
-    for(var i=0;i<width;i+=20){
-        for (var hole=0;hole<height;hole+=5){
+    for(let i=0;i<width;i+=20){
+        for (let hole=0;hole<height;hole+=5){
             particles.push({
-                x:1,
+                x:i,
                 y:hole,
-                clr: color(mouseX*0.1,mouseY*0.4+frameCount,250,250)
+               // clr: color(mouseX*0.1,mouseY*0.4+frameCount,250,250)
             })
         }
     }
+    // buildTextParticles();
 }
+
 function wormWordPit(){
     background(100,70,40,0.07);
     for(var i=0; i<particles.length; i++){
@@ -275,6 +283,8 @@ ellipse(p.x+30 ,p.y+30 ,1);
 		 p.y+=(noise(p.x/200,p.y/200,300)-0.5)*3;
     }
 }
+
+
 function keyPressed() {
     if (wormState === 0 && wormwoodLettersToShow >= wormwoodString.length) {
       wormState =1;

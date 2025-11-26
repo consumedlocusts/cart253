@@ -276,7 +276,7 @@ function setupWordPit() {
   pg.textSize(width / 25); //smaller text size so it fits
   pg.textAlign(CENTER, CENTER); //ts does NOT center my text anyway, works for now i have no methods
   //evil bound box (text wrap)
-  let boxWidth = width * 0.7;
+  let boxWidth = width * 0.5;
   pg.text(pitText, width / 2, height / 2, boxWidth);
   pg.loadPixels();
   //again, same concept as char index of wormwood grid
@@ -314,6 +314,15 @@ function wormWordPit() {
   if (fade < 0) fade = 0;
   //text pARTICLES PARTICLS
   for (let tp of pitLetters) {
+    //lerp usage, moves them towards the letters as letter shapes
+    tp.x = lerp(tp.x, tp.tx, 0.08);
+    tp.y = lerp(tp.y, tp.ty, 0.08);
+    //"fades" into them
+    if (tp.alpha < 255) tp.alpha += 2; //speed of the fade in
+
+    fill(255, tp.alpha);
+    noStroke();
+    ellipse(tp.x, tp.y, 4); //particle ssize
   } //haha tp
 }
 

@@ -38,7 +38,14 @@ let pitText = "He opened the shaft of the bottomless pit,";
 let pitParticles = []; //too many particle duplicate names
 let pitLetters = [];
 let pitWorm = 0; //counts the worming letters
-
+//last text display thing test but ik its not gonna work cuz too many particles n fades
+let lastParticles = [];
+let lastTextParticles = [];
+let lastFade = 255;
+let lastFadeAmount = -5;
+let lastSentence =
+  "and from the shaft rose smoke like the smoke of a great furnace, and the sun and the air were darkened with the smoke from the shaft.";
+let lastMode = "normal";
 function wormwoodSetup() {
   helloObject = new hello(width / 10, height / 10);
   helloObject2 = new hello(width / 1.1, height / 1.1);
@@ -62,9 +69,9 @@ function wormwoodDraw() {
     wordFall();
   } else if (wormState === 2) {
     wormWordPit();
-  } //else if (gameState === 3) {
-  //wormwoodClosing();
-  //}
+  } else if (wormState === 3) {
+    lastDraw();
+  }
 }
 function wormwoodOpening() {
   //based on a seperate code of mine that made a video player with "typewriter" animated text appearing

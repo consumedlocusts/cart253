@@ -13,20 +13,20 @@ let charWid, charHi, horz, vert;
 let hoverAgain=0;
 let lineGrid = [];
 let menuState = 0;
-
+let menuTitle="locust.host";
 let titles = [ //array of titles for the char index detection when clicking to turn both 
 // scripts(seperatestorylines) and colors
   {name:"Wormwood", sub:"Shaft of the Abyss, devastation", x:100, y:230},
   {name:"Signs of the Swarm", sub:"Destroyer, destruction", x:100, y:400},
-  {name:"The End Times", sub:"God's hate, desolation", x:100, y:600}
+  {name:"The End Times", sub:"God's hate, desolation", x:100, y:600},
+  {name:"locust.host",x:800/1.3,y:800/1.05,textSize:20}
 ];
 
 
 function menuSetup() { //similar setup to ASCII (billy.ball) array, counter(index), and 
 // and the brightness usage
 
-  textSize(20);
-  textAlign(LEFT, BOTTOM);
+
 
   charWid = 6;
   charHi = 6;
@@ -88,6 +88,7 @@ function drawLineLocust() {
 
 function drawMenuTitles(){
    //console.log(drawMenuTitles)
+   
    fill(255);
   textSize(32);
   textAlign(LEFT, BOTTOM);
@@ -102,13 +103,12 @@ if (d < 80) {
       
     }
 }
+
 }
 
 function menuMousePressed() {
 hoverAgain = 1; 
-//mousePressed();
-//if(menuState == 0) menuState = 1; else if(menuState == 1) menuState = 2;
-//state/scripts changes
+
 for(let t of titles){
     let d = dist(mouseX, mouseY, t.x, t.y);
     if(d < 50){
@@ -122,6 +122,7 @@ for(let t of titles){
         state = "end";
         endSetup();
       }
+      
       return;
     }
   }

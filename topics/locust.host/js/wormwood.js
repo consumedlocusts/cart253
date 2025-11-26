@@ -78,13 +78,11 @@ function wormwoodOpening() {
   //i am using the type writer effect
   wormwoodLettersToShow = floor(wormwoodStringTimer / wormwoodSpeedFactor);
   wormwoodLettersToShow = min(wormwoodLettersToShow, wormwoodString.length);
-
   text(
     wormwoodString.substring(0, wormwoodLettersToShow),
     width / 2,
     height / 2
   );
-
   if (wormwoodLettersToShow < wormwoodString.length) {
     wormwoodStringTimer++;
   }
@@ -304,7 +302,7 @@ function setupWordPit() {
     }
   }
   // clr: color(mouseX*0.1,mouseY*0.4+frameCount,250,250) for later, reinsert in pitParticles.push
-  // buildTextParticles();
+  // buildLastTextParticles();
 }
 
 function wormWordPit() {
@@ -332,12 +330,14 @@ function wormWordPit() {
     ellipse(tp.x, tp.y, 4); //particle ssize
   } //haha tp
 }
+//lastMode LAST LAST LAST LAST LAST LAST
+
 function lastDraw() {
   background(0, 0);
-  if (lastMode === "normal") runNormalParticles();
-  else runTextParticles();
+  if (lastMode === "normal") runNormalLastParticles();
+  else runLastTextParticles();
 }
-function runNormalParticles() {
+function runNormalLastParticles() {
   for (let p of lastParticles) {
     fill(mouseX * 0.5, mouseY * 0.5 + frameCount, lastFade);
     ellipse(p.x + 30, p.y + 30, 1);
@@ -351,14 +351,14 @@ function runNormalParticles() {
   }
   //lastDraw();
 }
-function buildTextParticles() {
+function buildLastTextParticles() {
   let pg = createGraphics(width, height);
   pg.pixelDensity(1);
   pg.background(0);
   pg.fill(255);
   pg.textSize(width / 25); // smaller text size so it fits
   pg.textAlign(CENTER, CENTER);
-  let boxWidth = width * 0.1; // narrower box so text stays within bounds
+  let boxWidth = width * 0.7; // narrower box so text stays within bounds
   pg.text(lastSentence, width / 2, height / 2, boxWidth);
   pg.loadPixels();
 
@@ -379,7 +379,7 @@ function buildTextParticles() {
     }
   }
 }
-function runTextParticles() {
+function runLastTextParticles() {
   for (let tp of lastTextParticles) {
     // Movement toward letter shapes
     tp.x = lerp(tp.x, tp.tx, 0.08);
@@ -405,10 +405,9 @@ function keyPressed() {
     setupWordPit();
   }
   //else if (
-  //wormState === 1 &&
-  //wormwoodGrid
+  //wormState === 2
   //) {
-  // locustVid.loop();
+  //
   //}
 }
 function wormwoodMousePressed() {

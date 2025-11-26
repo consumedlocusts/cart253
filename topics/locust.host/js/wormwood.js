@@ -63,7 +63,7 @@ function wormwoodDraw() {
   //} 
 }
 function wormwoodOpening(){ //based on a seperate code of mine that made a video player with "typewriter" animated text appearing
-//just a test
+//i am using the type writer effect
     wormwoodLettersToShow = floor(
     wormwoodStringTimer / wormwoodSpeedFactor
   );
@@ -163,7 +163,7 @@ function wordFall(){
     for (let w of fallWords){
         if (!w.landed){
             let prePosition = createVector(w.x,w.y); //i dont really understand how vector works 
-            w.y += 1 + random(0,7) //spped of falling 
+            w.y += 1 + random(0,7) //speed of falling letters
             //noise 
             let timeOffset = frameCount *0.01; //test out these numbas later
 let nx = noise(w.x * 0.01, w.y * 0.01, timeOffset);
@@ -280,7 +280,7 @@ function keyPressed() {
       wormState =1;
     wormwoodStringTimer = 0;
 //for now
-locustVid.pause(); // stopping the video if needed (right now yes)
+//locustVid.pause(); 
     setupWordFall();
   }
   if (wormState === 1 && fallWords.every(w => w.landed)){

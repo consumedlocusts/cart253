@@ -357,7 +357,6 @@ function runNormalLastParticles() {
   lastFade += lastFadeAmount;
   if (lastFade <= 0) {
     lastFade = 0;
-    lastMode = "text";
   }
   //lastDraw();
 }
@@ -370,7 +369,7 @@ function buildLastTextParticles() {
   pg.textAlign(CENTER, CENTER);
   let boxWidth = width * 0.7; // narrower box so text stays within bounds
   pg.text(lastSentence, width / 2, height / 2, boxWidth);
-  pg.loadPixels();
+  //pg.loadPixels();
 
   // Higher density sampling
   for (let x = 0; x < width; x += 3) {
@@ -413,7 +412,7 @@ function keyPressed() {
   if (wormState === 1 && fallWords.every((w) => w.landed)) {
     wormState = 2;
     setupWordPit();
-  } else if (wormState === 2) {
+  } else if (wormState === 3) {
     lastSetup();
   }
 }

@@ -401,7 +401,8 @@ function runLastTextParticles() {
   }
 }
 
-function keyPressed() {
+function wormwoodPressed() {
+  console.log("hew");
   if (wormState === 0 && wormwoodLettersToShow >= wormwoodString.length) {
     wormState = 1;
     wormwoodStringTimer = 0;

@@ -79,7 +79,7 @@ function swarmSpectrum() {
   text(swarmSpectrumText, width / 2, height / 2);
 }
 
-function keyPressed() {
+function swarmPressed() {
   if (swarmState === 0 && swarmOpenerShow >= swarmOpenerText.length) {
     swarmState = 1;
     swarmOpenerTimer = 0;

@@ -193,7 +193,7 @@ function wordFall() {
     strokeWeight(1.5);
     beginShape();
     for (let p of w.trail) {
-      curveVertex(p.x, p.y); // curveVertex makes smoother organic curves, less ugly
+      curveVertex(p.x, p.y); //vector which is curveVertex makes smoother organic curves, less ugly
     }
     endShape();
     //word chiling above the lines
@@ -373,7 +373,6 @@ function buildLastTextParticles() {
   let boxWidth = width * 0.7; // narrower box so text stays within bounds
   pg.text(lastSentence, width / 2, height / 2, boxWidth);
   //pg.loadPixels();
-
   //higher density sampling
   for (let x = 0; x < width; x += 3) {
     for (let y = 0; y < height; y += 3) {

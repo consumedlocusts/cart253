@@ -41,10 +41,9 @@ function swarmDraw() {
     spectrum = fft.analyze();
     //swarmSwarm();
     swarmSpectrum();
-  } //else if (swarmState === 2) {
-  //spectrum = fft.analyze();
-  //();
-  //} else if (swarmState === 3) {
+  } else if (swarmState === 2) {
+    swarmSetUpHost();
+  } //else if (swarmState === 3) {
   //spectrum = fft.analyze();
   //lastDraw();
   // }
@@ -78,17 +77,41 @@ function swarmSpectrum() {
   textAlign(CENTER, CENTER);
   text(swarmSpectrumText, width / 2, height / 2);
 }
+//function swarmSetUpHost() {
+//  swarmHostDraw();
+//}
+function swarmHostDraw() {
+  let noiseLevel = 255;
+  let noiseScale = 0.009;
+
+  // Iterate from top to bottom.
+  for (let y = 0; y < height; y += 1) {
+    // Iterate from left to right.
+    for (let x = 0; x < width; x += 1) {
+      // Scale the input coordinates.
+      let nx = noiseScale * x;
+      let ny = noiseScale * y;
+      let nt = noiseScale * frameCount;
+
+      // Compute the noise value.
+      let c = noiseLevel * noise(nx, ny, nt);
+
+      // Draw the point.
+      stroke(c);
+      point(x, y);
+    }
+  }
+}
 
 function swarmPressed() {
   if (swarmState === 0 && swarmOpenerShow >= swarmOpenerText.length) {
     swarmState = 1;
     swarmOpenerTimer = 0;
   }
-  if (swarmState === 1) {
-    //swarmState = 2;
-    swarmSpectrum();
-  } else if (swarmState === 3) {
-    //}
+  if (swarmState === 1 && swarmSpectrum()) {
+    swarmState = 2;
+  } else if (swarmState === 2) {
+    swarmHostDraw();
   }
 }
 function swarmMousePressed() {

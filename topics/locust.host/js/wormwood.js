@@ -341,9 +341,12 @@ function lastSetup() {
     }
   }
   buildLastTextParticles();
+  runNormalLastParticles();
+  runLastTextParticles();
 }
 function lastDraw() {
-  background(0, 0);
+  //background(0, 0);
+  buildLastTextParticles();
   runNormalLastParticles();
   runLastTextParticles();
 }
@@ -371,7 +374,7 @@ function buildLastTextParticles() {
   pg.text(lastSentence, width / 2, height / 2, boxWidth);
   //pg.loadPixels();
 
-  // Higher density sampling
+  //higher density sampling
   for (let x = 0; x < width; x += 3) {
     for (let y = 0; y < height; y += 3) {
       let idx = (x + y * width) * 4;

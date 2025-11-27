@@ -8,6 +8,20 @@
 let fft; //from a youtube video, fft audio to animation of spectrums thing
 let audioStarted = false;
 let swarmState = 0;
+let swarmOpenerTimer = 0;
+let swarmOpenerShow = 0;
+let swarmOpenerSpeedFactor = 3; //types 3 characters at a time, sourced from a code
+let swarmOpenerStarted = false;
+let swarmOpenerText = "Then from the smoke came locusts on the earth,";
+
+let openWords = [];
+let openWordsStart = false;
+//help
+
+let swarmSpectrumText = "and they were given power like scorpions of the earth";
+let spectrumWords = [];
+let spectrumWordsStart = false;
+
 function swarmSetup() {
   if (!audioStarted) {
     song.play();
@@ -22,11 +36,11 @@ function swarmDraw() {
   song.rate(0.2);
 
   if (swarmState === 0) {
-    // swarmOpening();
+    openSwarm();
   } else if (swarmState === 1) {
     spectrum = fft.analyze();
     //swarmSwarm();
-    swarmOpening();
+    swarmSpectrum();
   } //else if (swarmState === 2) {
   //spectrum = fft.analyze();
   //();
@@ -36,7 +50,20 @@ function swarmDraw() {
   // }
   //}
 }
-function swarmOpening() {
+function openSwarm() {
+  fill("#ffffffff");
+  textSize(32);
+  textAlign(CENTER, CENTER);
+
+  swarmOpenerShow = floor(swarmOpenerTimer / swarmOpenerSpeedFactor);
+  swarmOpenerShow = min(swarmOpenerShow, swarmOpenerText.length);
+  text(swarmOpenerText.substring(0, swarmOpenerShow), width / 2, height / 2);
+  if (swarmOpenerShow < swarmOpenerText.length) {
+    swarmOpenerTimer++;
+  }
+}
+
+function swarmSpectrum() {
   let spectrum = fft.analyze();
   noStroke();
   fill(0, 200, 255);
@@ -49,17 +76,17 @@ function swarmOpening() {
   fill("#774949ff");
   textSize(32);
   textAlign(CENTER, CENTER);
-  text("yyyy", width / 2, height / 2);
+  text(swarmSpectrumText, width / 2, height / 2);
 }
 
 function keyPressed() {
-  if (swarmState === 0) {
+  if (swarmState === 0 && swarmOpenerShow >= swarmOpenerText.length) {
     swarmState = 1;
-    //swarmOpening();
+    swarmOpenerTimer = 0;
   }
   if (swarmState === 1) {
     //swarmState = 2;
-    swarmOpening();
+    swarmSpectrum();
   } else if (swarmState === 3) {
     //}
   }

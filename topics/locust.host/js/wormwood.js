@@ -256,7 +256,7 @@ function updatePulseLines() {
     endShape();
   }
 }
-
+//second SEOCN SECOND SECOND
 function setupWordPit() {
   //var is accessed outside of these for loops, thats why my let wasnt working, im not used to it
   pitParticles = [];
@@ -285,6 +285,8 @@ function setupWordPit() {
   pg.text(pitText, width / 2, height / 2, boxWidth);
   pg.loadPixels();
   //again, same concept as char index of wormwood grid
+  //to call individual ltters array to diffrentiate from the last mode
+  pitLetters = [];
   for (let x = 0; x < width; x += 3) {
     for (let y = 0; y < height; y += 3) {
       let idx = (x + y * width) * 4;
@@ -306,7 +308,7 @@ function setupWordPit() {
 }
 
 function wormWordPit() {
-  background(100, 70, 40, 0.07);
+  background(0, 0, 0, 0.07);
 
   for (let p of pitParticles) {
     fill(mouseX * 0.5, mouseY * 0.5 + frameCount, fade);
@@ -353,13 +355,15 @@ function lastDraw() {
   runLastTextParticles();
 }
 function runNormalLastParticles() {
+  if (wormState !== 3) return; //so fade only updates (again) while in state 3, so the texts dont blend
   for (let p of lastParticles) {
-    fill(mouseX * 0.5, mouseY * 0.5 + frameCount, lastFade);
+    //purple and blue scale mouse hovering (i wanted b&w originally, but this is better)
+    fill(mouseX * noise(p.x, 0.1), mouseY * noise(p.y, 0.1), lastFade);
     ellipse(p.x + 30, p.y + 30, 1);
     p.x += (noise(p.x / 200, p.y / 200, 3000) - 0.6) * 3;
     p.y += (noise(p.x / 200, p.y / 200, 30000) - 0.5) * 3;
   }
-  lastFade += lastFadeAmount;
+
   if (lastFade <= 0) {
     lastFade = 0;
     lastMode = "text";
@@ -371,12 +375,13 @@ function buildLastTextParticles() {
   pg.pixelDensity(1);
   pg.background(0);
   pg.fill(255);
+  //
   pg.textSize(width / 20); // smaller text size so it fits
   pg.textAlign(CENTER, CENTER);
-  let boxWidth = width * 0.6; // narrower box so text stays within bounds
+  let boxWidth = width * 0.4; // narrower box so text stays within bounds
   pg.text(lastSentence, width / 2, height / 2, boxWidth);
   pg.loadPixels();
-  //higher density sampling
+  //higher pixels density sampling
   //re-do the array again
   lastTextParticles = [];
   for (let x = 0; x < width; x += 3) {
@@ -398,11 +403,11 @@ function buildLastTextParticles() {
 function runLastTextParticles() {
   for (let tp of lastTextParticles) {
     //movement toward letter shapes
-    tp.x = lerp(tp.x, tp.tx, 0.08);
-    tp.y = lerp(tp.y, tp.ty, 0.08);
+    tp.x = lerp(tp.x, tp.tx, 0.06);
+    tp.y = lerp(tp.y, tp.ty, 0.06);
     //faster fade-in
     if (tp.alpha < 255) tp.alpha += 8;
-    fill(255, tp.alpha);
+    fill(164, tp.alpha);
     //larger particle dots
     ellipse(tp.x, tp.y, 4);
   }
@@ -420,7 +425,8 @@ function wormwoodPressed() {
   if (wormState === 1 && fallWords.every((w) => w.landed)) {
     wormState = 2;
     setupWordPit();
-  } else if (wormState === 3) {
+  } else if (wormState === 2) {
+    wormState = 3;
     lastSetup();
   }
 }

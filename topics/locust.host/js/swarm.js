@@ -22,6 +22,11 @@ let swarmSpectrumText = "and they were given power like scorpions of the earth";
 let spectrumWords = [];
 let spectrumWordsStart = false;
 
+let swarmParticleHostText =
+  "a day of darkness and gloom, a day of clouds and blackness";
+let swarmParticleWords = [];
+let swarmParticleWordsStart = false;
+
 function swarmSetup() {
   if (!audioStarted) {
     song.play();
@@ -77,31 +82,31 @@ function swarmSpectrum() {
   textAlign(CENTER, CENTER);
   text(swarmSpectrumText, width / 2, height / 2);
 }
-//function swarmSetUpHost() {
-//  swarmHostDraw();
-//}
-// function swarmHostDraw() {
-//   let noiseLevel = 255;
-//   let noiseScale = 0.009;
+function swarmParticleHost() {
+  swarmHostDraw();
+}
+function swarmHostDraw() {
+  let noiseLevel = 255;
+  let noiseScale = 0.009;
 
-//   // Iterate from top to bottom.
-//   for (let y = 0; y < height; y += 1) {
-//     // Iterate from left to right.
-//     for (let x = 0; x < width; x += 1) {
-//       // Scale the input coordinates.
-//       let nx = noiseScale * x;
-//       let ny = noiseScale * y;
-//       let nt = noiseScale * frameCount;
+  // Iterate from top to bottom.
+  for (let y = 0; y < height; y += 1) {
+    // Iterate from left to right.
+    for (let x = 0; x < width; x += 1) {
+      // Scale the input coordinates.
+      let nx = noiseScale * x;
+      let ny = noiseScale * y;
+      let nt = noiseScale * frameCount;
 
-//       // Compute the noise value.
-//       let c = noiseLevel * noise(nx, ny, nt);
+      // Compute the noise value.
+      let c = noiseLevel * noise(nx, ny, nt);
 
-//       // Draw the point.
-//       stroke(c);
-//       point(x, y);
-//     }
-//   }
-// }
+      // Draw the point.
+      stroke(c);
+      point(x, y);
+    }
+  }
+}
 
 function swarmPressed() {
   if (swarmState === 0 && swarmOpenerShow >= swarmOpenerText.length) {

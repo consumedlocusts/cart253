@@ -80,28 +80,28 @@ function swarmSpectrum() {
 //function swarmSetUpHost() {
 //  swarmHostDraw();
 //}
-function swarmHostDraw() {
-  let noiseLevel = 255;
-  let noiseScale = 0.009;
+// function swarmHostDraw() {
+//   let noiseLevel = 255;
+//   let noiseScale = 0.009;
 
-  // Iterate from top to bottom.
-  for (let y = 0; y < height; y += 1) {
-    // Iterate from left to right.
-    for (let x = 0; x < width; x += 1) {
-      // Scale the input coordinates.
-      let nx = noiseScale * x;
-      let ny = noiseScale * y;
-      let nt = noiseScale * frameCount;
+//   // Iterate from top to bottom.
+//   for (let y = 0; y < height; y += 1) {
+//     // Iterate from left to right.
+//     for (let x = 0; x < width; x += 1) {
+//       // Scale the input coordinates.
+//       let nx = noiseScale * x;
+//       let ny = noiseScale * y;
+//       let nt = noiseScale * frameCount;
 
-      // Compute the noise value.
-      let c = noiseLevel * noise(nx, ny, nt);
+//       // Compute the noise value.
+//       let c = noiseLevel * noise(nx, ny, nt);
 
-      // Draw the point.
-      stroke(c);
-      point(x, y);
-    }
-  }
-}
+//       // Draw the point.
+//       stroke(c);
+//       point(x, y);
+//     }
+//   }
+// }
 
 function swarmPressed() {
   if (swarmState === 0 && swarmOpenerShow >= swarmOpenerText.length) {
@@ -110,9 +110,10 @@ function swarmPressed() {
   }
   if (swarmState === 1 && swarmSpectrum()) {
     swarmState = 2;
-  } else if (swarmState === 2) {
-    swarmHostDraw();
   }
+  //else if (swarmState === 2) {
+  //   swarmHostDraw();
+  // }
 }
 function swarmMousePressed() {
   song.pause();

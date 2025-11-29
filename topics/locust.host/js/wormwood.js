@@ -334,6 +334,8 @@ function wormWordPit() {
 function lastSetup() {
   lastParticles = [];
   lastTextParticles = [];
+  lastFade = 255;
+  lastMode = "normal";
 
   for (let i = 0; i < width; i += 20) {
     for (let o = 0; o < height; o += 5) {
@@ -341,12 +343,12 @@ function lastSetup() {
     }
   }
   buildLastTextParticles();
-  runNormalLastParticles();
-  runLastTextParticles();
+  //runNormalLastParticles();
+  //runLastTextParticles();
 }
 function lastDraw() {
-  //background(0, 0);
-  buildLastTextParticles();
+  background(100, 70, 40, 0.07);
+  //buildLastTextParticles();
   runNormalLastParticles();
   runLastTextParticles();
 }
@@ -360,6 +362,7 @@ function runNormalLastParticles() {
   lastFade += lastFadeAmount;
   if (lastFade <= 0) {
     lastFade = 0;
+    lastMode = "text";
   }
   //lastDraw();
 }
@@ -368,12 +371,14 @@ function buildLastTextParticles() {
   pg.pixelDensity(1);
   pg.background(0);
   pg.fill(255);
-  pg.textSize(width / 25); // smaller text size so it fits
+  pg.textSize(width / 20); // smaller text size so it fits
   pg.textAlign(CENTER, CENTER);
-  let boxWidth = width * 0.7; // narrower box so text stays within bounds
+  let boxWidth = width * 0.6; // narrower box so text stays within bounds
   pg.text(lastSentence, width / 2, height / 2, boxWidth);
-  //pg.loadPixels();
+  pg.loadPixels();
   //higher density sampling
+  //re-do the array again
+  lastTextParticles = [];
   for (let x = 0; x < width; x += 3) {
     for (let y = 0; y < height; y += 3) {
       let idx = (x + y * width) * 4;

@@ -29,6 +29,19 @@ let swarmParticleHostText =
 //let swarmParticleWords = [];
 //let swarmParticleWordsStart = false;
 
+//from particle source
+const swarmParticles = [];
+const step = 4; // increase this later
+const pointSize = 4;
+const smoothstep = (edge0, edge1, x) => {
+  x = constrain((x - edge0) / (edge1 - edge0), 0, 1);
+  return x * x * (3 - 2 * x); //open process sketch math
+};
+let sentence =
+  "Like the dawn overspreading the mountains a great and strong army appears,";
+let sentenceParticles = [];
+let sentenceFormed = false; //tracks if text is fully formed by particles
+let hoverActive = false;
 function swarmSetup() {
   if (!audioStarted) {
     song.play();
@@ -54,6 +67,8 @@ function swarmDraw() {
     spectrum = fft.analyze();
     drawNewWave();
     //swarmParticleHost();
+  } else if (swarmState === 4) {
+    //
   }
   //}
 }
@@ -125,11 +140,11 @@ function drawNewWave() {
   //wil be clouds later, is just a rectangular form for now
   let spectrum = fft.analyze();
   let xStep = spectrum;
-  let xFreq = 0.003;
+  let xFreq = 0.003; //not tailored to the sound frequency as using both freq/step twice crashes system
   let yFreq = 0.005;
-  let amplitude = 200;
-  let velocity = 0.03;
-  let waveCount = 10;
+  let amplitude = 200; //how much its affected
+  let velocity = 0.03; //updownupdwon
+  let waveCount = 10; //not working, wanted more waves
   let yStep = height / waveCount;
   for (let y = 0; y <= height; y += yStep) {
     push();
@@ -141,7 +156,7 @@ function drawNewWave() {
       width,
       height / 2
     );
-    gradient.addColorStop(0, "#000000ff");
+    gradient.addColorStop(0, "#000000ff"); //p5 gradient effect
     gradient.addColorStop(1, "#2d2d2dff");
     drawingContext.fillStyle = gradient;
     //let noiseNo = noise(y * spectrum, frameCount * velocity) * amplitude;
@@ -152,11 +167,11 @@ function drawNewWave() {
       let newNoise =
         noise(x * xFreq, y * yFreq, frameCount * velocity) * amplitude;
       //vertex(x, height / -4 + newNoise);
-      vertex(x, newNoise);
+      vertex(x, newNoise); //remove this soon
     }
     vertex(width, height);
     vertex(0, height);
-    endShape(CLOSE);
+    endShape(CLOSE); //from noise tutorial, shapes
     pop();
   }
   swarmParticleHost();
@@ -181,7 +196,61 @@ function swarmParticleHost() {
   }
   //drawNewWave();
 }
-
+//using open processing code VVV
+function setupLocustTest() {
+  console.log("state 4 running");
+  for (let x = 0; x < width; x += step) {
+    for (let y = 0; y < height; y += step) {
+      const p = new SwarmParticle(
+        x + random(-4, 4),
+        y + random(-4, 4),
+        pointSize
+      );
+      swarmParticles.push(p);
+    }
+  }
+}
+//this is mine tailored to this, reverses the partical dispersal effect and instead sttracts them to lerp into a sentance
+function setupSentenceParticles() {
+  sentenceParticles = [];
+  let pg = createGraphics(width, height);
+  pg.pixelDensity(1);
+  pg.background(0);
+  pg.fill(255);
+  pg.textAlign(CENTER, CENTER);
+  pg.textSize(48); //basic particle graphics hidden stuff to wrap
+  //another evil bounding box to spend half the day adjusting
+  let boxW = width * 0.2;
+  let boxH = height * 0.5;
+  //the text
+  pg.text(sentence, width / 2, height / 2, boxW, boxH);
+  pg.loadPixels();
+  //brightness targeted poinnt pixel
+  let targetPs = [];
+  for (let x = 0; x < width; x += 4) {
+    for (let y = 0; y < height; y += 4) {
+      let idx = (x + y * width) * 4;
+      let bright = pg.pixels[idx]; //idx
+      if (bright > 128) {
+        //fun to change
+        targetPs.push({ x, y }); //same thing again and again and again and again and
+      }
+    }
+  }
+  //assign these brightness pixel targets to the upcoming random particles
+  let count = min(swarmParticles.length, targetPs.length);
+  //new p5 discovery of less ugly patterns using random
+  shuffle(targetPs, true); //simple "true"
+  //push the swarm pparticles now
+  for (let i = 0; i < count; i++) {
+    let t = targetPs[i];
+    let p = swarmParticles[i];
+    p.tx = t.x;
+    p.ty = t.y;
+    sentenceParticles.push(p);
+  }
+  //console.log("???eijudkquwde");
+}
 function swarmPressed() {
   if (swarmState === 0 && swarmOpenerShow >= swarmOpenerText.length) {
     swarmState = 1;

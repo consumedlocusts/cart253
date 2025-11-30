@@ -251,6 +251,37 @@ function setupSentenceParticles() {
   }
   //console.log("???eijudkquwde");
 }
+function drawLocustTest() {
+  //this has been a test this whole time btw
+  background(255);
+  swarmParticles.forEach((swarmParticle) => {
+    swarmParticle.update();
+    swarmParticle.show(pointSize);
+  });
+}
+//first use of class, provided by the source code
+class SwarmParticle {
+  constructor(x, y, size) {
+    this.pos = createVector(x, y);
+    this.size = size;
+    this.tx = undefined; //text loctaions
+    this.ty = undefined;
+  }
+  // update
+  update() {
+    //vector for mouse guy
+    let mouseVec = createVector(mouseX, mouseY);
+    let px = this.pos;
+    //move the text towards da mouse
+    if (!sentanceFormed && this.tx !== undefined) {
+      let d = dist(px.x, px.y, this.tx, this.ty);
+      if (d < 2) {
+        px.x = this.tx; //this automaticcaly wrote itself check to change later
+        px.y;
+      }
+    }
+  }
+}
 function swarmPressed() {
   if (swarmState === 0 && swarmOpenerShow >= swarmOpenerText.length) {
     swarmState = 1;

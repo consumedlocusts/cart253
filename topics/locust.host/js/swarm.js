@@ -50,6 +50,7 @@ function swarmDraw() {
     swarmSpectrum();
   } else if (swarmState === 3) {
     spectrum = fft.analyze();
+    //drawNewWave();
     swarmParticleHost();
   }
   //}
@@ -81,8 +82,25 @@ function swarmSpectrum() {
   textSize(32);
   textAlign(CENTER, CENTER);
   text(swarmSpectrumText, width / 2, height / 2);
-}
-
+} //idk
+// function drawNewWave() {
+//   //following a new turtorial on wave maker using noise and frequency , also vertex
+//   background(100);
+//   //let spectrum = fft.analyze();
+//   let xStep = 10;
+//   let xFreq = 0.002;
+//   let amplitude = 100;
+//   let velocity = 0.01;
+//   //let waveCount= 20
+//   beginShape();
+//   for (x = 0; x <= width; x += xStep) {
+//     let newNoise = noise(x * xFreq, frameCount * velocity) * amplitude;
+//     vertex(x, height / -2 + newNoise);
+//   }
+//   vertex(width, height);
+//   vertex(0, height);
+//   endShape(CLOSE);
+// }
 //SECOND, get ready to use sin() and more lerp().
 //lerp means linear interpolation!! insert/snap a this to a that by way of animation. lerp (start, end, speed amount). without lerp, the object would snap instantly to the final position
 //sin() returns vals that smoothly oscillate between -1 & 1, like a smooth turning wheel... one of those maths
@@ -115,6 +133,7 @@ function setupSwarmParticleHost() {
     });
     currentX += spacing;
   }
+  //drawNewWave();
 }
 function swarmParticleHost() {
   background(0);
@@ -135,7 +154,30 @@ function swarmParticleHost() {
     let xJitter = sin(frameCount * 0.1 + p.offset) * jitter;
     text(p.char, p.x + xJitter, p.y); //text drawn accordingly
   }
+  drawNewWave();
 }
+function drawNewWave() {
+  let yStep = spectrum;
+  let yFreq = 0.003;
+  let xStep = spectrum;
+  let xFreq = 0.001;
+  let amplitude = 100;
+  let velocity = 0.01;
+  //let waveCount= 20
+  beginShape();
+  for (x = 0; x <= width; x += xStep) {
+    let newNoise = noise(x * xFreq, frameCount * velocity) * amplitude;
+    vertex(x, height / -4 + newNoise);
+  }
+  for (let y = 0; y <= height; y += yStep) {
+    let noiseNo = noise(y * yFreq, frameCount * velocity) * amplitude;
+    vertex(y, width / 2 + noiseNo);
+  }
+  vertex(width, height);
+  vertex(width, height);
+  endShape(CLOSE);
+}
+
 function swarmPressed() {
   if (swarmState === 0 && swarmOpenerShow >= swarmOpenerText.length) {
     swarmState = 1;
@@ -146,6 +188,7 @@ function swarmPressed() {
   } else if (swarmState === 2) {
     swarmState = 3;
     setupSwarmParticleHost();
+    //setupNewWave();
   }
 }
 function swarmMousePressed() {

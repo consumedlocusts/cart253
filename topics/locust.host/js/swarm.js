@@ -47,7 +47,7 @@ function swarmDraw() {
     //swarmSwarm();
     swarmSpectrum();
   } else if (swarmState === 2) {
-    swarmSetUpHost();
+    swarmParticleHost();
   } //else if (swarmState === 3) {
   //spectrum = fft.analyze();
   //lastDraw();
@@ -82,30 +82,17 @@ function swarmSpectrum() {
   textAlign(CENTER, CENTER);
   text(swarmSpectrumText, width / 2, height / 2);
 }
-function swarmParticleHost() {
-  swarmHostDraw();
-}
-function swarmHostDraw() {
-  let noiseLevel = 255;
-  let noiseScale = 0.009;
 
-  // Iterate from top to bottom.
-  for (let y = 0; y < height; y += 1) {
-    // Iterate from left to right.
-    for (let x = 0; x < width; x += 1) {
-      // Scale the input coordinates.
-      let nx = noiseScale * x;
-      let ny = noiseScale * y;
-      let nt = noiseScale * frameCount;
+//secondd
+function setupSwarmParticleHost() {
+  //mapping lerping the text/letters to the frequenecy of the audio begins
+  let xOffset = 400;
+  let yOffset = 400; //where the bob centers
 
-      // Compute the noise value.
-      let c = noiseLevel * noise(nx, ny, nt);
+  let currentX = xOffset; //variable to be reused
+  let currentY = yOffset;
 
-      // Draw the point.
-      stroke(c);
-      point(x, y);
-    }
-  }
+  for (let i = 0; i < swarmParticleHostText.length; i++) {}
 }
 
 function swarmPressed() {

@@ -58,7 +58,7 @@ function openSwarm() {
   fill("#ffffffff");
   textSize(32);
   textAlign(CENTER, CENTER);
-
+  //text like typewriter h e l l o ... h . e . l . l . o etc. (used in many of my codes)
   swarmOpenerShow = floor(swarmOpenerTimer / swarmOpenerSpeedFactor);
   swarmOpenerShow = min(swarmOpenerShow, swarmOpenerText.length);
   text(swarmOpenerText.substring(0, swarmOpenerShow), width / 2, height / 2);
@@ -83,20 +83,25 @@ function swarmSpectrum() {
   text(swarmSpectrumText, width / 2, height / 2);
 }
 
-//secondd
+//secondd, get ready to use sin() and more lerp()
 function setupSwarmParticleHost() {
-  //mapping lerping the text/letters to the frequenecy of the audio begins
-  let xOffset = 400;
-  let yOffset = 400; //where the bob centers
+  //when i say bob i mean jitter
+  //lerping the text/letters to the frequenecy of the audio begins
+  let xOffset = 400; //this to assign bobbing, make sine wave for each letter so VVV
+  let yOffset = 400; // its where the bob centers, starts, how the letters wiggle diffirently:animation noise
+  let spacing = 21; //
+  let lineHeight = 40; //verticle spacig betwn lines
   let maxWidth = width - 50; //right margin of text paragraph stylr
-  let currentX = xOffset; //variable to be reused
-  let currentY = yOffset;
+  let currentX = xOffset; //where on screen (width/height) 2 draw the ACTUAL then NEXT letter:spatial VVV
+  let currentY = yOffset; //this changes with each letter's current offset because although the offset is set
+  //offset (doesnt change,its assigned to the audio, but appears random)
 
   for (let i = 0; i < swarmParticleHostText.length; i++) {
     let char = swarmParticleHostText[i];
     if (currentX > maxWidth) {
       //the xposition stays the same BUT the y of particles bob with the freq using line height
       currentX = xOffset;
+      currentY += lineHeight;
     }
   }
 }

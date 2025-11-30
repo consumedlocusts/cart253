@@ -4,7 +4,6 @@
  *
  * storyline 2 set up for the locust storlines
  */
-
 let fft; //from a youtube video, fft audio to animation of spectrums thing
 let audioStarted = false;
 let swarmState = 0;
@@ -13,7 +12,10 @@ let swarmOpenerShow = 0;
 let swarmOpenerSpeedFactor = 3; //types 3 characters at a time, sourced from a code
 let swarmOpenerStarted = false;
 let swarmOpenerText = "Then from the smoke came locusts on the earth,";
+//for wave tests
+//let yFreq = 0.003;
 
+//
 let openWords = [];
 let openWordsStart = false;
 //help
@@ -50,8 +52,8 @@ function swarmDraw() {
     swarmSpectrum();
   } else if (swarmState === 3) {
     spectrum = fft.analyze();
-    //drawNewWave();
-    swarmParticleHost();
+    drawNewWave();
+    //swarmParticleHost();
   }
   //}
 }
@@ -83,24 +85,7 @@ function swarmSpectrum() {
   textAlign(CENTER, CENTER);
   text(swarmSpectrumText, width / 2, height / 2);
 } //idk
-// function drawNewWave() {
-//   //following a new turtorial on wave maker using noise and frequency , also vertex
-//   background(100);
-//   //let spectrum = fft.analyze();
-//   let xStep = 10;
-//   let xFreq = 0.002;
-//   let amplitude = 100;
-//   let velocity = 0.01;
-//   //let waveCount= 20
-//   beginShape();
-//   for (x = 0; x <= width; x += xStep) {
-//     let newNoise = noise(x * xFreq, frameCount * velocity) * amplitude;
-//     vertex(x, height / -2 + newNoise);
-//   }
-//   vertex(width, height);
-//   vertex(0, height);
-//   endShape(CLOSE);
-// }
+
 //SECOND, get ready to use sin() and more lerp().
 //lerp means linear interpolation!! insert/snap a this to a that by way of animation. lerp (start, end, speed amount). without lerp, the object would snap instantly to the final position
 //sin() returns vals that smoothly oscillate between -1 & 1, like a smooth turning wheel... one of those maths
@@ -108,8 +93,8 @@ function setupSwarmParticleHost() {
   swarmTextParticles = []; //per particle, differs from text,
   //when i say bob i mean jitter
   //lerping the text/letters to the frequenecy of the audio begins
-  let xOffset = 400; //this to assign bobbing, make sine wave for each letter so VVV
-  let yOffset = 400; // its where the bob centers, starts, how the letters wiggle diffirently:animation noise
+  let xOffset = 300; //this to assign bobbing, make sine wave for each letter so VVV
+  let yOffset = 300; // its where the bob centers, starts, how the letters wiggle diffirently:animation noise
   let spacing = 21; //
   let lineHeight = 40; //verticle spacig betwn lines
   let maxWidth = width - 50; //right margin of text paragraph stylr
@@ -133,10 +118,50 @@ function setupSwarmParticleHost() {
     });
     currentX += spacing;
   }
-  //drawNewWave();
+  drawNewWave();
+}
+function drawNewWave() {
+  background(0);
+  //wil be clouds later, is just a rectangular form for now
+  let spectrum = fft.analyze();
+  let xStep = spectrum;
+  let xFreq = 0.003;
+  let yFreq = 0.005;
+  let amplitude = 200;
+  let velocity = 0.03;
+  let waveCount = 10;
+  let yStep = height / waveCount;
+  for (let y = 0; y <= height; y += yStep) {
+    push();
+    translate(0, y);
+    //creating gradient folder type sheild
+    let gradient = drawingContext.createLinearGradient(
+      0,
+      height / 2,
+      width,
+      height / 2
+    );
+    gradient.addColorStop(0, "#000000ff");
+    gradient.addColorStop(1, "#2d2d2dff");
+    drawingContext.fillStyle = gradient;
+    //let noiseNo = noise(y * spectrum, frameCount * velocity) * amplitude;
+    //vertex(y, noiseNo);
+
+    beginShape();
+    for (let x = 0; x <= width; x += xStep) {
+      let newNoise =
+        noise(x * xFreq, y * yFreq, frameCount * velocity) * amplitude;
+      //vertex(x, height / -4 + newNoise);
+      vertex(x, newNoise);
+    }
+    vertex(width, height);
+    vertex(0, height);
+    endShape(CLOSE);
+    pop();
+  }
+  swarmParticleHost();
 }
 function swarmParticleHost() {
-  background(0);
   //frequency now assigning appearing
   let spectrum = fft.analyze();
   noStroke();
@@ -154,28 +179,7 @@ function swarmParticleHost() {
     let xJitter = sin(frameCount * 0.1 + p.offset) * jitter;
     text(p.char, p.x + xJitter, p.y); //text drawn accordingly
   }
-  drawNewWave();
-}
-function drawNewWave() {
-  let yStep = spectrum;
-  let yFreq = 0.003;
-  let xStep = spectrum;
-  let xFreq = 0.001;
-  let amplitude = 100;
-  let velocity = 0.01;
-  //let waveCount= 20
-  beginShape();
-  for (x = 0; x <= width; x += xStep) {
-    let newNoise = noise(x * xFreq, frameCount * velocity) * amplitude;
-    vertex(x, height / -4 + newNoise);
-  }
-  for (let y = 0; y <= height; y += yStep) {
-    let noiseNo = noise(y * yFreq, frameCount * velocity) * amplitude;
-    vertex(y, width / 2 + noiseNo);
-  }
-  vertex(width, height);
-  vertex(width, height);
-  endShape(CLOSE);
+  //drawNewWave();
 }
 
 function swarmPressed() {
@@ -188,7 +192,7 @@ function swarmPressed() {
   } else if (swarmState === 2) {
     swarmState = 3;
     setupSwarmParticleHost();
-    //setupNewWave();
+    //drawNewWave();
   }
 }
 function swarmMousePressed() {

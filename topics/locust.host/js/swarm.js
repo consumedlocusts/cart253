@@ -88,11 +88,17 @@ function setupSwarmParticleHost() {
   //mapping lerping the text/letters to the frequenecy of the audio begins
   let xOffset = 400;
   let yOffset = 400; //where the bob centers
-
+  let maxWidth = width - 50; //right margin of text paragraph stylr
   let currentX = xOffset; //variable to be reused
   let currentY = yOffset;
 
-  for (let i = 0; i < swarmParticleHostText.length; i++) {}
+  for (let i = 0; i < swarmParticleHostText.length; i++) {
+    let char = swarmParticleHostText[i];
+    if (currentX > maxWidth) {
+      //the xposition stays the same BUT the y of particles bob with the freq using line height
+      currentX = xOffset;
+    }
+  }
 }
 
 function swarmPressed() {

@@ -256,11 +256,11 @@ function updatePulseLines() {
     endShape();
   }
 }
-//second SEOCN SECOND SECOND
+//pit of particles
 function setupWordPit() {
   //var is accessed outside of these for loops, thats why my let wasnt working, im not used to it
-  pitParticles = [];
-  pitLetters = [];
+  pitParticles = []; //background (where to go x,y) object array
+  pitLetters = []; //brightness array
   fade = 255;
   fadeAmount = -5;
   //o is solid partiles but i liked hollowed ellipses, next scene instead
@@ -273,13 +273,13 @@ function setupWordPit() {
       });
     }
   }
-  //text digi map style particles, zooming onto the screen
-  let pg = createGraphics(width, height); //pg = particle o graph
-  pg.pixelDensity(1); //change smaller later for thinner pixels maybe havent tried
-  pg.background(0); //hmm
+  //text digi map style particles, lerping groups onto the screen i chose
+  let pg = createGraphics(width, height); //pg is my hidden canvas using "p5.graphics" like a mini draw
+  pg.pixelDensity(1); //change smaller for thinner pixels
+  pg.background(0);
   pg.fill(255);
   pg.textSize(width / 25); //smaller text size so it fits
-  pg.textAlign(CENTER, CENTER); //ts does NOT center my text anyway, works for now i have no methods
+  pg.textAlign(CENTER, CENTER); //starts the text like a paragraph, the box bound determines the shape of this
   //evil bound box (text wrap)
   let boxWidth = width * 0.5;
   pg.text(pitText, width / 2, height / 2, boxWidth);
@@ -288,13 +288,13 @@ function setupWordPit() {
   //to call individual ltters array to diffrentiate from the last mode
   pitLetters = [];
   for (let x = 0; x < width; x += 3) {
+    //count every 3rd pixel running by width and height
     for (let y = 0; y < height; y += 3) {
       let idx = (x + y * width) * 4;
       let brightness = pg.pixels[idx]; //brightness as to shade letter sizes
       if (brightness > 150) {
-        //this isnt really working
         pitLetters.push({
-          x: random(width),
+          x: random(width), //randomizes the falling lines patterns
           y: random(height),
           tx: x,
           ty: y,
@@ -303,29 +303,29 @@ function setupWordPit() {
       }
     }
   }
-  // clr: color(mouseX*0.1,mouseY*0.4+frameCount,250,250) for later, reinsert in pitParticles.push
-  // buildLastTextParticles();
 }
 
 function wormWordPit() {
-  background(0, 0, 0, 0.07);
+  background(0, 0, 0, 0.07); //not needed, keeping for safety
 
   for (let p of pitParticles) {
+    //the color changes by the pos of the mouse, gradient
     fill(mouseX * 0.5, mouseY * 0.5 + frameCount, fade);
     //replace ellipse with the text string
     ellipse(p.x + 30, p.y + 30, 1);
     p.x += (noise(p.x / 200, p.y / 200, 300) - 0.6) * 3;
     p.y += (noise(p.x / 200, p.y / 200, 300) - 0.5) * 3;
   }
-  fade += fadeAmount;
+  fade += fadeAmount; //stablizes the fade by frame count (actullay appears as a fade)
   if (fade < 0) fade = 0;
-  //text pARTICLES PARTICLS
+  //text PARTICLES PARTICLES
   for (let tp of pitLetters) {
-    //lerp usage, moves them towards the letters as letter shapes
+    //lerp usage, moves the particles towards where letters would be as letter-like shapes
+    //^ places particles into the text string location
     tp.x = lerp(tp.x, tp.tx, 0.08);
     tp.y = lerp(tp.y, tp.ty, 0.08);
     //"fades" into them
-    if (tp.alpha < 255) tp.alpha += 2; //speed of the fade in
+    if (tp.alpha < 255) tp.alpha += 2; //speed of the fade in and out alpha rising
 
     fill(255, tp.alpha);
     noStroke();
@@ -334,10 +334,11 @@ function wormWordPit() {
 }
 //lastMode LAST LAST LAST LAST LAST LAST
 function lastSetup() {
-  lastParticles = [];
-  lastTextParticles = [];
-  lastFade = 255;
-  lastMode = "normal";
+  //same construction as above but edited
+  lastParticles = []; //array draws the simple background
+  lastTextParticles = []; //array of objects for each brightness of each text pixel
+  lastFade = 255; //alpha used in normallastparticles fill, determine when to run "normal" & "text" mode
+  lastMode = "normal"; //very local mode indication (normal is: text is:)
 
   for (let i = 0; i < width; i += 20) {
     for (let o = 0; o < height; o += 5) {
@@ -345,17 +346,14 @@ function lastSetup() {
     }
   }
   buildLastTextParticles();
-  //runNormalLastParticles();
-  //runLastTextParticles();
 }
 function lastDraw() {
-  background(100, 70, 40, 0.07);
-  //buildLastTextParticles();
+  background(100, 70, 40, 0.07); //RGBA background for low alpha/very transparent (the fade effect)
   runNormalLastParticles();
   runLastTextParticles();
 }
 function runNormalLastParticles() {
-  if (wormState !== 3) return; //so fade only updates (again) while in state 3, so the texts dont blend
+  if (wormState !== 3) return; //if this is not in state 3, stop
   for (let p of lastParticles) {
     //purple and blue scale mouse hovering (i wanted b&w originally, but this is better)
     fill(mouseX * noise(p.x, 0.1), mouseY * noise(p.y, 0.1), lastFade);
@@ -363,7 +361,7 @@ function runNormalLastParticles() {
     p.x += (noise(p.x / 200, p.y / 200, 3000) - 0.6) * 3;
     p.y += (noise(p.x / 200, p.y / 200, 30000) - 0.5) * 3;
   }
-
+  //NO FRAME COUNT FADE OUT, NO FADE AMOUNT! keep it going
   if (lastFade <= 0) {
     lastFade = 0;
     lastMode = "text";
@@ -371,6 +369,7 @@ function runNormalLastParticles() {
   //lastDraw();
 }
 function buildLastTextParticles() {
+  //again, "hidden canvas" for only text and particles to wrap with
   let pg = createGraphics(width, height);
   pg.pixelDensity(1);
   pg.background(0);
@@ -385,11 +384,15 @@ function buildLastTextParticles() {
   //re-do the array again
   lastTextParticles = [];
   for (let x = 0; x < width; x += 3) {
+    //width: every 3 pixels and not every 1 pixel to load faster, stop at the right edge of screen
     for (let y = 0; y < height; y += 3) {
-      let idx = (x + y * width) * 4;
-      let brightness = pg.pixels[idx];
+      //height: same thing as above
+      let idx = (x + y * width) * 4; //finds the specific pixel using RGBA of pixel (multiply x+y or basic parameter by 4 to find pixel area's beginning)
+      let brightness = pg.pixels[idx]; //readss the red val of pixel first as it is FIRST AND BRIGHTEST IN reallife
       if (brightness > 150) {
+        //if pixel is in that bright enough "redzone" (white) then its part of the text, so then make a particle for it or 3
         lastTextParticles.push({
+          //push them particles in to the array
           x: random(width),
           y: random(height),
           tx: x,

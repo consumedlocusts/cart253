@@ -24,8 +24,8 @@ let spectrumWordsStart = false;
 
 let swarmParticleHostText =
   "a day of darkness and gloom, a day of clouds and blackness";
-let swarmParticleWords = [];
-let swarmParticleWordsStart = false;
+//let swarmParticleWords = [];
+//let swarmParticleWordsStart = false;
 
 function swarmSetup() {
   if (!audioStarted) {
@@ -45,13 +45,13 @@ function swarmDraw() {
   } else if (swarmState === 1) {
     spectrum = fft.analyze();
     //swarmSwarm();
-    swarmSpectrum();
   } else if (swarmState === 2) {
+    spectrum = fft.analyze();
+    swarmSpectrum();
+  } else if (swarmState === 3) {
+    spectrum = fft.analyze();
     swarmParticleHost();
-  } //else if (swarmState === 3) {
-  //spectrum = fft.analyze();
-  //lastDraw();
-  // }
+  }
   //}
 }
 function openSwarm() {
@@ -83,8 +83,11 @@ function swarmSpectrum() {
   text(swarmSpectrumText, width / 2, height / 2);
 }
 
-//secondd, get ready to use sin() and more lerp()
+//SECOND, get ready to use sin() and more lerp().
+//lerp means linear interpolation!! insert/snap a this to a that by way of animation. lerp (start, end, speed amount). without lerp, the object would snap instantly to the final position
+//sin() returns vals that smoothly oscillate between -1 & 1, like a smooth turning wheel... one of those maths
 function setupSwarmParticleHost() {
+  swarmTextParticles = []; //per particle, differs from text,
   //when i say bob i mean jitter
   //lerping the text/letters to the frequenecy of the audio begins
   let xOffset = 400; //this to assign bobbing, make sine wave for each letter so VVV
@@ -103,20 +106,47 @@ function setupSwarmParticleHost() {
       currentX = xOffset;
       currentY += lineHeight;
     }
+    swarmTextParticles.push({
+      char: char,
+      x: currentX,
+      y: currentY,
+      baseY: currentY, //base of letter height
+      offset: random(1000),
+    });
+    currentX += spacing;
   }
 }
-
+function swarmParticleHost() {
+  background(0);
+  //frequency now assigning appearing
+  let spectrum = fft.analyze();
+  noStroke();
+  fill(255);
+  textSize(32);
+  for (let i = 0; i < swarmTextParticles.length; i++) {
+    let p = swarmTextParticles[i];
+    let freqIndex = floor(
+      map(i, 0, swarmTextParticles.length, 0, spectrum.length)
+    );
+    let energy = spectrum[freqIndex]; //fruitful energized object to spectrum jitters
+    let lift = map(energy, 0, 255, 0, -120); //map the it and allow for motion
+    let jitter = map(energy, 0, 255, 0, 6);
+    p.y = lerp(p.y, p.baseY + lift, 0.15);
+    let xJitter = sin(frameCount * 0.1 + p.offset) * jitter;
+    text(p.char, p.x + xJitter, p.y); //text drawn accordingly
+  }
+}
 function swarmPressed() {
   if (swarmState === 0 && swarmOpenerShow >= swarmOpenerText.length) {
     swarmState = 1;
     swarmOpenerTimer = 0;
   }
-  if (swarmState === 1 && swarmSpectrum()) {
+  if (swarmState === 1) {
     swarmState = 2;
+  } else if (swarmState === 2) {
+    swarmState = 3;
+    setupSwarmParticleHost();
   }
-  //else if (swarmState === 2) {
-  //   swarmHostDraw();
-  // }
 }
 function swarmMousePressed() {
   song.pause();

@@ -21,13 +21,28 @@ Sama Hojabri
 ## Attribution
 
 > - This project uses [p5.js](https://p5js.org).
-> - x
-> - The song is written, played and edited by me using MIDI keyboard and garageband
-> - Source codes and tutorials:
->   FFT & sound visuals tutotial:
->   https://www.youtube.com/watch?v=8O5aCwdopLo > https://editor.p5js.org/pattvira/sketches/KB9supaPG
+>   Titles, names, text:
+> - wormwood:
+> - title: this mode is named after "Wormwood", the described "fallen star" in Revelation 8:10-11.
+> - signs of the swarm:
+> - title: this mode is directly named after "Signs of the Swarm", an American deathcore band from Pittsburgh, Pennsylvania.
+> - audio & video:
+> - The song appearing in "signs of the swarm" is written, played and edited by me using a music box melody creator to write/edit custom music box melodies https://musicboxmaniacs.com. It was then further edited using a MIDI keyboard and garageband.
+> - the video appearing during the first state of "wormwood" was created from scratch using TouchDesigner.
 
-"Open source" inspirations:
+Source codes and tutorials:
+
+> - FFT & sound visuals tutotial:
+> - https://www.youtube.com/watch?v=8O5aCwdopLo > https://editor.p5js.org/pattvira/sketches/KB9supaPG
+
+"Openprocessing" inspirations & sourced codes.
+
+> - https://openprocessing.org/sketch/1462839
+> - https://openprocessing.org/sketch/2705181
+> - https://openprocessing.org/sketch/2729961
+> - https://openprocessing.org/sketch/1050677
+
+> -
 
 ## License
 

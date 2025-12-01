@@ -48,6 +48,8 @@ let locustTargets = [];
 let imageParticles = [];
 let state5Sentence =
   "such as never was of old, nor will ever be in ages to come.";
+let swarmTextParticles = [];
+let sentenceParticles = [];
 
 function swarmSetup() {
   if (!audioStarted) {
@@ -79,7 +81,7 @@ function swarmDraw() {
     drawLocustTest();
   } else if (swarmState === 5) {
     spectrum = fft.analyze();
-    drawLocustImageSwarm();
+    myHeadHurts();
   }
   //}
 }
@@ -149,8 +151,8 @@ function setupSwarmParticleHost() {
 function drawNewWave() {
   background(0);
   //wil be clouds later, is just a rectangular form for now
-  let spectrum = fft.analyze();
-  let xStep = spectrum;
+  //let spectrum = fft.analyze();
+  let xStep = 10;
   let xFreq = 0.003; //not tailored to the sound frequency as using both freq/step twice crashes system
   let yFreq = 0.005;
   let amplitude = 200; //how much its affected
@@ -174,11 +176,11 @@ function drawNewWave() {
     //vertex(y, noiseNo);
 
     beginShape();
+    let xStep = 10;
     for (let x = 0; x <= width; x += xStep) {
       let newNoise =
         noise(x * xFreq, y * yFreq, frameCount * velocity) * amplitude;
-      //vertex(x, height / -4 + newNoise);
-      vertex(x, newNoise); //remove this soon
+      vertex(x, newNoise);
     }
     vertex(width, height);
     vertex(0, height);
@@ -309,7 +311,7 @@ function drawLocustTest() {
   background(255);
   swarmParticles.forEach((swarmParticle) => {
     swarmParticle.update();
-    swarmParticle.show(pointSize);
+    swarmParticle.show();
   });
   noStroke();
   fill(0); //nevermind i dont want the particles to form text too tired
@@ -392,9 +394,10 @@ class SwarmParticle {
 }
 //state 5 is almost identical in construction to the 4th state but dif image + some little squares in the backgroudn
 function setupState5() {
-  sentenceFormed = false;
   locustTargets = [];
   imageParticles = [];
+  sentenceParticles = [];
+
   //new swarm particle from class!!!!!!!!
   swarmParticles.length = 0;
   for (let x = 0; x < width; x += step) {

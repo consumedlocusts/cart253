@@ -330,9 +330,10 @@ class SwarmParticle {
           done = false;
         }
       }
+      if (done) sentenceFormed = true; //again 95% of this is from source code and p5js
     }
   }
-  show(pointSize) {
+  show() {
     stroke(0);
     strokeWeight(this.size);
     point(this.pos.x, this.pos.y);

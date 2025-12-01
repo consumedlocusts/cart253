@@ -38,10 +38,10 @@ const smoothstep = (edge0, edge1, x) => {
   return x * x * (3 - 2 * x); //open process sketch math
 };
 let sentence =
-  "Like the dawn overspreading the mountains a great and strong army appears,";
+  "like the dawn overspreading the mountains a great and strong army appears,";
 let sentenceParticles = [];
 let sentenceFormed = false; //tracks if text is fully formed by particles
-let hoverActive = false;
+let hovering = false;
 function swarmSetup() {
   if (!audioStarted) {
     song.play();
@@ -199,7 +199,7 @@ function swarmParticleHost() {
 }
 //using open processing code VVV
 function setupLocustTest() {
-  console.log("state 4 running");
+  console.log("is");
   for (let x = 0; x < width; x += step) {
     for (let y = 0; y < height; y += step) {
       const p = new SwarmParticle(
@@ -218,11 +218,11 @@ function setupSentenceParticles() {
   pg.pixelDensity(1);
   pg.background(0);
   pg.fill(255);
-  pg.textAlign(CENTER, CENTER);
+  pg.textAlign(LEFT, BOTTOM);
   pg.textSize(48); //basic particle graphics hidden stuff to wrap
   //another evil bounding box to spend half the day adjusting
-  let boxW = width * 0.2;
-  let boxH = height * 0.5;
+  let boxW = width * 0.5;
+  let boxH = height * 0.4;
   //the text
   pg.text(sentence, width / 2, height / 2, boxW, boxH);
   pg.loadPixels();
@@ -279,29 +279,29 @@ class SwarmParticle {
   }
   // update horrendously
   update() {
-    let posVec = this.pos;
     let mouseVec = createVector(mouseX, mouseY); //idk where to put this vector
-    //move the text towards da mouse
+    let posVec = this.pos;
+    //I CANT SPELL SENTANCE
     if (
       hovering &&
-      !sentanceFormed &&
+      !sentenceFormed &&
       this.tx !== undefined &&
       this.ty !== undefined
     ) {
       let pTarg = createVector(this.tx, this.ty); //HELP ME i dont under stand
-      let d = posV.dist(pTarg);
+      let d = posVec.dist(pTarg);
       if (d < 2) {
-        posV.set(pTarg); //real snap to particless if closeclose
+        posVec.set(pTarg); //real snap to particless if closeclose
         //px.x = this.tx; //this automaticcaly wrote itself check to change later
         //px.y = this.ty; //ok i get it
-      } else if (d > 200) {
-        let snap = p5.Vector.sub(posVec, mouseVec).setMag(15);
+      } else if (d > 80) {
+        let snap = p5.Vector.sub(pTarg, posVec).setMag(10);
         //snap.setMag(15); //"magnitude" or force of particle dispersing, some p5 thing
         posVec.add(snap); //move vector by adding MORE vector like "go some more over here" if pos=(100,200) and snap=(10,-5), then the updated pos =(110,195)
       }
       //pull particles to mouse if its that far away quickklly
       else {
-        posVec.lerp(pTarg, 0.21);
+        posVec.lerp(pTarg, 0.2);
       }
       //what am i supposed ro do
     } else if (
@@ -309,18 +309,20 @@ class SwarmParticle {
       this.tx !== undefined &&
       this.ty !== undefined
     ) {
-      let d = dist(mouseVec);
+      let d = posVec.dist(mouseVec);
       let snap = p5.Vector.sub(posVec, mouseVec).normalize(); //from the soruce code, not sure how sub works other than subtracting vectors from one another b
       let f = 5 * smoothstep(120, 0, d);
       posVec.add(snap.mult(f)); //soruce code's main function to multiply and drive particles away from mouse
     } else {
       //allow the rest of the particles not attached to the text in the meantime drift in nice mathy patterns
       let looseOnes =
-        noise(posVec.x * 0.01, posVec.y * 0.01, frameCount * 0.07) * TWO_PI * 2;
+        noise(posVec.x * 0.01, posVec.y * 0.01, frameCount * 0.001) *
+        TWO_PI *
+        2;
       //sin...cos
-      posVec.x += cos(looseOnes) * 1; //what is cookie store
-      posVec.y += sin(looseOnes) * 1;
-    }
+      posVec.x += cos(looseOnes) * 1.5; //what is cookie store
+      posVec.y += sin(looseOnes) * 1.5;
+    } //change numbers around so the entire thing doesnt explode
     //two PI is 360 or double the amunt of pi , this controls the angle s of the particels pattern fpr loose floaters
 
     if (hovering && !sentenceFormed && sentenceParticles.length > 0) {
@@ -328,6 +330,7 @@ class SwarmParticle {
       for (let p of sentenceParticles) {
         if (dist(p.pos.x, p.pos.y, p.tx, p.ty) > 1) {
           done = false;
+          break; //redit
         }
       }
       if (done) sentenceFormed = true; //again 95% of this is from source code and p5js

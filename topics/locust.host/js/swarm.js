@@ -269,32 +269,48 @@ class SwarmParticle {
   }
   // update horrendously
   update() {
-    let px = this.pos;
+    let posV = this.pos;
     let mouseVec = createVector(mouseX, mouseY); //idk where to put this vector
     //move the text towards da mouse
     if (!sentanceFormed && this.tx !== undefined && this.ty !== undefined) {
       let pTarg = createVector(this.tx, this.ty); //HELP ME i dont under stand
-      let d = px.dist(pTarg);
+      let d = posV.dist(pTarg);
       if (d < 2) {
-        px.x = this.tx; //this automaticcaly wrote itself check to change later
-        px.y = this.ty; //ok i get it
+        posV.set(pTarg); //real snap to particless if closeclose
+        //px.x = this.tx; //this automaticcaly wrote itself check to change later
+        //px.y = this.ty; //ok i get it
       } else if (d > 200) {
-        let snap = createVector(this.tx, -px.x, this.ty, -px.y);
-        snap.setMag(15); //"magnitude" or force of particle dispersing, some p5 thing
-        px.add(snap); //move vector by adding MORE vector like "go some more over here" if pos=(100,200) and snap=(10,-5), then the updated pos =(110,195)
+        let snap = p5.Vector.sub(posVec, mouseVec).setMag(15);
+        //snap.setMag(15); //"magnitude" or force of particle dispersing, some p5 thing
+        posVec.add(snap); //move vector by adding MORE vector like "go some more over here" if pos=(100,200) and snap=(10,-5), then the updated pos =(110,195)
       }
       //pull particles to mouse if its that far away quickklly
-    } else {
-      px.lerp(this.tx, this.ty, 0.21);
-    } //below 1
-
-    //after my sentacne done it should go back to wild particles
-    if (sentenceFormed && this.tx !== undefined) {
+      else {
+        posVec.lerp(this.tx, this.ty, 0.21);
+      }
+      //what am i supposed ro do
+    } else if (sentenceFormed && this.tx !== undefined) {
       let d = dist(px.x, px, y, mouseVec);
-      let repelForce = map(d, 0, 120, 6, 0, true); //
+      let snap = p5.Vector.sub(posVec, mouseVec).normalize(); //from the soruce code, not sure how sub works other than subtracting vectors from one another b
+      let f = 5 * smoothstep(120, 0, d);
+      posVec.add(dir.mult(f)); //soruce code's main function to multiply and drive particles away from mouse
+    } else {
+      //allow the rest of the particles not attached to the text in the meantime drift in nice mathy patterns
+      let looseOnes =
+        noise(posVec.x * 0.01, posVec.y * 0.01, 0.07) * TWO_PI * 2;
+      //sin...cos
+      posVec.x += cos(looseOnes) * 1; //what is cookie store
+      posVec.y += sin(looseOnes) * 1;
     }
+    //two PI is 360 or double the amunt of pi , this controls the angle s of the particels pattern fpr loose floaters
+  }
+  show(pointSize) {
+    stroke(0);
+    strokeWeight(this.size);
+    point(this.pos.x, this.pos.y);
   }
 }
+
 function swarmPressed() {
   if (swarmState === 0 && swarmOpenerShow >= swarmOpenerText.length) {
     swarmState = 1;

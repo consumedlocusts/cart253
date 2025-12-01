@@ -251,6 +251,14 @@ function setupSentenceParticles() {
   }
   //console.log("???eijudkquwde");
 }
+function hoverSwarmParticles() {
+  let hoverRadius = createVector(width / 2, height / 2);
+  //hover begins at the center of canavas
+  let mouseV = createVector(mouseX, mouseY); //2nd one belongs outside of class to check if hovering
+  let d = hoverRadius.dist(mouseV);
+  if (d < width / 2) hovering = true;
+  else hovering = false;
+}
 function drawLocustTest() {
   //this has been a test this whole time btw
   background(255);

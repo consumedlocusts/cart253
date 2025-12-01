@@ -42,6 +42,8 @@ let sentence =
 let sentenceParticles = [];
 let sentenceFormed = false; //tracks if text is fully formed by particles
 let hovering = false;
+let mountainImg;
+
 function swarmSetup() {
   if (!audioStarted) {
     song.play();
@@ -96,7 +98,7 @@ function swarmSpectrum() {
     rect(x, height - h, width / spectrum.length, h);
   }
 
-  fill("#774949ff");
+  fill("#e3e2e2ff");
   textSize(32);
   textAlign(CENTER, CENTER);
   text(swarmSpectrumText, width / 2, height / 2);
@@ -177,6 +179,7 @@ function drawNewWave() {
   }
   swarmParticleHost();
 }
+//text for state 3 STATE THREE
 function swarmParticleHost() {
   //frequency now assigning appearing
   let spectrum = fft.analyze();
@@ -197,7 +200,7 @@ function swarmParticleHost() {
   }
   //drawNewWave();
 }
-//using open processing code VVV
+//using open processing code VVV state 4
 function setupLocustTest() {
   console.log("is");
   for (let x = 0; x < width; x += step) {
@@ -251,6 +254,37 @@ function setupSentenceParticles() {
     sentenceParticles.push(p);
   }
   //console.log("???eijudkquwde");
+}
+function imageTargetParticles() {
+  //new addition; sync the particles to image brightness
+  //"mg" mountain graphics
+  let mg = creatGraphics(width, height);
+  mg.pixelDensity(0);
+  mg.background(255);
+  mg.image(mountainImg, 0, 0, width, height); //ofe canvas and its og size
+  mg.loadPixels();
+  let imageTps = []; //image targetted as particle path
+  for (let x = 0; x < width; x += 4) {
+    //same old indexes
+    for (let y = 0; y < height; y += 4) {
+      let idx = (x + y * width) * 4;
+      let r = mg.pixels[idx];
+      if (r < 128) imageTps.push({ x, y });
+    }
+  }
+  //shuffle again but for image pixels, exact same as above
+  shuffle(imageTps, true);
+  //instead appply this appearenace of pixely movements as a "filter"
+
+  let freeParticles = swarmParticles.filter((p) => p.tx === undefined);
+  let freeCount = min(freeParticles.length, imageTps.length);
+  for (let i = 0; i < freeCount; i++) {
+    let t = imageTps[i];
+    let p = freeParticles[i];
+    p.tx = t.x;
+    p.ty = t.y;
+    //the end
+  }
 }
 function hoverSwarmParticles() {
   let hoverRadius = createVector(width / 2, height / 2);
@@ -319,7 +353,7 @@ class SwarmParticle {
         noise(posVec.x * 0.01, posVec.y * 0.01, frameCount * 0.001) *
         TWO_PI *
         2;
-      //sin...cos
+      //sin...cos for varied patterns and what can be returned from whole
       posVec.x += cos(looseOnes) * 1.5; //what is cookie store
       posVec.y += sin(looseOnes) * 1.5;
     } //change numbers around so the entire thing doesnt explode

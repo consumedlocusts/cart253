@@ -353,13 +353,29 @@ function lastDraw() {
   runLastTextParticles();
 }
 function runNormalLastParticles() {
-  if (wormState !== 3) return; //if this is not in state 3, stop
+  if (wormState !== 3) return;
+  //some detail to this state because its boring
+  let centerX = width / 2;
+  let centerY = height * 0.8;
+  let pull = 0.0003;
+  let swirl = 0.05;
+  let twist = -0.003;
+  //lastFade = 255; // stop fading out
   for (let p of lastParticles) {
     //purple and blue scale mouse hovering (i wanted b&w originally, but this is better)
     fill(mouseX * noise(p.x, 0.1), mouseY * noise(p.y, 0.1), lastFade);
     ellipse(p.x + 30, p.y + 30, 1);
-    p.x += (noise(p.x / 200, p.y / 200, 3000) - 0.6) * 3;
-    p.y += (noise(p.x / 200, p.y / 200, 30000) - 0.5) * 3;
+    let n = noise(p.x * 0.002, p.y * 0.002, 255 * 0.001);
+    let dxNoise = map(n, 0, 1, -0.4, 0.4);
+    let dyNoise = map(n, 0, 1, -0.4, 0.4); //mapped less noisely
+    // p.x += (noise(p.x / 200, p.y / 200, 3000) - 0.6) * 3;
+    // p.y += (noise(p.x / 200, p.y / 200, 30000) - 0.5) * 3;
+    //redo
+    let dx = centerX - p.x;
+    let dy = centerY - p.y;
+    let fakeDist = dx * dx + dy * dy; //so i can pass these variabes somehow it works
+    let pullX = dx * pullStrength;
+    let pullY = dy * pullStrength;
   }
   //NO FRAME COUNT FADE OUT, NO FADE AMOUNT! keep it going
   if (lastFade <= 0) {

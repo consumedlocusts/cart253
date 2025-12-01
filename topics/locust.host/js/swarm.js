@@ -31,7 +31,7 @@ let swarmParticleHostText =
 
 //from particle source
 const swarmParticles = [];
-const step = 4; // increase this later
+const step = 4; // reduce this later
 const pointSize = 4;
 const smoothstep = (edge0, edge1, x) => {
   x = constrain((x - edge0) / (edge1 - edge0), 0, 1);
@@ -39,8 +39,8 @@ const smoothstep = (edge0, edge1, x) => {
 };
 let sentence =
   "like the dawn overspreading the mountains a great and strong army appears,";
-let sentenceParticles = [];
-let sentenceFormed = false; //tracks if text is fully formed by particles
+//let sentenceParticles = [];
+let sentenceFormed = false; //tracks if text is fully formed by particles, im keeping it because it bugs in the class without sentanceFormed and im too behind to fix this
 let hovering = false;
 let mountainImg;
 
@@ -256,10 +256,11 @@ function setupSentenceParticles() {
   //console.log("???eijudkquwde");
 }
 function imageTargetParticles() {
+  if (!mountainImg) return;
   //new addition; sync the particles to image brightness
-  //"mg" mountain graphics
-  let mg = creatGraphics(width, height);
-  mg.pixelDensity(0);
+  //"mg" mountain graphics r u fr
+  let mg = createGraphics(width, height);
+  mg.pixelDensity(1); //dude
   mg.background(255);
   mg.image(mountainImg, 0, 0, width, height); //ofe canvas and its og size
   mg.loadPixels();
@@ -287,12 +288,12 @@ function imageTargetParticles() {
   }
 }
 function hoverSwarmParticles() {
-  let hoverRadius = createVector(width / 2, height / 2);
-  //hover begins at the center of canavas
-  let mouseV = createVector(mouseX, mouseY); //2nd one belongs outside of class to check if hovering
-  let d = hoverRadius.dist(mouseV);
-  if (d < width / 2) hovering = true;
-  else hovering = false;
+  //too much happening return to original from docs
+  let mouseV = createVector(mouseX, mouseY);
+  let center = createVector(width / 2, height / 2);
+  let d = center.dist(mouseV);
+
+  hovering = d < width / 2;
 }
 function drawLocustTest() {
   //this has been a test this whole time btw
@@ -302,8 +303,13 @@ function drawLocustTest() {
     swarmParticle.update();
     swarmParticle.show(pointSize);
   });
+  noStroke();
+  fill(0); //nevermind i dont want the particles to form text too tired
+  textAlign(CENTER, CENTER);
+  textSize(32);
+  text(sentence, 0, height - 80, width, 80);
 }
-//first use of class, provided by the source code
+//first use of class, provided by the source code Particleses classss
 class SwarmParticle {
   constructor(x, y, size) {
     this.pos = createVector(x, y);
@@ -349,13 +355,13 @@ class SwarmParticle {
       posVec.add(snap.mult(f)); //soruce code's main function to multiply and drive particles away from mouse
     } else {
       //allow the rest of the particles not attached to the text in the meantime drift in nice mathy patterns
-      let looseOnes =
+      let loose =
         noise(posVec.x * 0.01, posVec.y * 0.01, frameCount * 0.001) *
         TWO_PI *
         2;
       //sin...cos for varied patterns and what can be returned from whole
-      posVec.x += cos(looseOnes) * 1.5; //what is cookie store
-      posVec.y += sin(looseOnes) * 1.5;
+      posVec.x += cos(loose) * 1.5; //what is cookie store
+      posVec.y += sin(loose) * 1.5;
     } //change numbers around so the entire thing doesnt explode
     //two PI is 360 or double the amunt of pi , this controls the angle s of the particels pattern fpr loose floaters
 
@@ -392,6 +398,7 @@ function swarmPressed() {
     swarmState = 4;
     setupLocustTest();
     setupSentenceParticles();
+    imageTargetParticles();
     //drawNewWave();
   }
 }

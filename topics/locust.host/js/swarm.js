@@ -267,18 +267,31 @@ class SwarmParticle {
     this.tx = undefined; //text loctaions
     this.ty = undefined;
   }
-  // update
+  // update horrendously
   update() {
-    //vector for mouse guy
-    let mouseVec = createVector(mouseX, mouseY);
     let px = this.pos;
+    let mouseVec = createVector(mouseX, mouseY); //idk where to put this vector
     //move the text towards da mouse
-    if (!sentanceFormed && this.tx !== undefined) {
-      let d = dist(px.x, px.y, this.tx, this.ty);
+    if (!sentanceFormed && this.tx !== undefined && this.ty !== undefined) {
+      let pTarg = createVector(this.tx, this.ty); //HELP ME i dont under stand
+      let d = px.dist(pTarg);
       if (d < 2) {
         px.x = this.tx; //this automaticcaly wrote itself check to change later
-        px.y;
+        px.y = this.ty; //ok i get it
+      } else if (d > 200) {
+        let snap = createVector(this.tx, -px.x, this.ty, -px.y);
+        snap.setMag(15); //"magnitude" or force of particle dispersing, some p5 thing
+        px.add(snap); //move vector by adding MORE vector like "go some more over here" if pos=(100,200) and snap=(10,-5), then the updated pos =(110,195)
       }
+      //pull particles to mouse if its that far away quickklly
+    } else {
+      px.lerp(this.tx, this.ty, 0.21);
+    } //below 1
+
+    //after my sentacne done it should go back to wild particles
+    if (sentenceFormed && this.tx !== undefined) {
+      let d = dist(px.x, px, y, mouseVec);
+      let repelForce = map(d, 0, 120, 6, 0, true); //
     }
   }
 }

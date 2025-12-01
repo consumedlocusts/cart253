@@ -20,6 +20,7 @@ function preload() {
   song = loadSound("assets/bruhwhat.mp3");
   locustVid.hide();
   mountainImg = loadImage("assets/mount.png");
+  locustImg2 = loadImage("assets/hi.png");
 }
 
 function setup() {

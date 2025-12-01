@@ -43,6 +43,11 @@ let sentence =
 let sentenceFormed = false; //tracks if text is fully formed by particles, im keeping it because it bugs in the class without sentanceFormed and im too behind to fix this
 let hovering = false;
 let mountainImg;
+let locustImg2;
+let locustTargets = [];
+let imageParticles = [];
+let state5Sentence =
+  "such as never was of old, nor will ever be in ages to come.";
 
 function swarmSetup() {
   if (!audioStarted) {
@@ -72,6 +77,9 @@ function swarmDraw() {
   } else if (swarmState === 4) {
     spectrum = fft.analyze();
     drawLocustTest();
+  } else if (swarmState === 5) {
+    spectrum = fft.analyze();
+    drawLocustImageSwarm();
   }
   //}
 }
@@ -382,7 +390,81 @@ class SwarmParticle {
     point(this.pos.x, this.pos.y);
   }
 }
+//state 5 is almost identical in construction to the 4th state but dif image + some little squares in the backgroudn
+function setupState5() {
+  sentenceFormed = false;
+  locustTargets = [];
+  imageParticles = [];
+  //new swarm particle from class!!!!!!!!
+  swarmParticles.length = 0;
+  for (let x = 0; x < width; x += step) {
+    for (let y = 0; y < height; y += step) {
+      swarmParticles.push(
+        new SwarmParticle(x + random(-4, 4), y + random(-4, 4), pointSize)
+      );
+    }
+  }
+  myHeadHurts();
+  buildState5SentenceParticles();
+}
+//overlay
+function buildState5SentenceParticles() {
+  // overlay text after image-forming particles
+  let pg = createGraphics(width, height);
+  pg.pixelDensity(1);
+  pg.background(0);
+  pg.fill(255);
+  pg.textAlign(LEFT, TOP);
+  pg.textSize(40);
 
+  let boxW = width * 0.7;
+  let boxH = height * 0.4;
+
+  pg.text(
+    state5Sentence,
+    width / 2 - boxW / 2,
+    height / 2 - boxH / 2,
+    boxW,
+    boxH
+  );
+  pg.loadPixels();
+
+  let targets = [];
+  for (let x = 0; x < width; x += 4) {
+    for (let y = 0; y < height; y += 4) {
+      let idx = (x + y * width) * 4;
+      if (pg.pixels[idx] > 150) {
+        targets.push({ x, y });
+      }
+    }
+  }
+  shuffle(targets, true);
+
+  let count = min(swarmParticles.length, targets.length);
+  for (let i = 0; i < count; i++) {
+    let t = targets[i];
+    imageParticles.push({
+      p: swarmParticles[i],
+      tx: t.x,
+      ty: t.y,
+    });
+  }
+}
+function myHeadHurts() {
+  //show the pic
+  //interesting fact use the class again
+  background(0);
+  swarmParticles.forEach((p) => {
+    p.update();
+    p.show();
+  });
+  //yay text
+  noStroke();
+  fill(255);
+  textAlign(CENTER, CENTER);
+  textSize(26);
+  text(state5Sentence, width / 2, height - 100);
+}
 function swarmPressed() {
   if (swarmState === 0 && swarmOpenerShow >= swarmOpenerText.length) {
     swarmState = 1;
@@ -400,11 +482,16 @@ function swarmPressed() {
     setupSentenceParticles();
     imageTargetParticles();
     //drawNewWave();
+  } else if (swarmState === 4) {
+    swarmState = 5;
+    setupState5();
   }
 }
 function swarmMousePressed() {
-  song.pause();
-  state = "menu";
-  audioStarted = false;
-  menuSetup();
+  if (state === 5) {
+    song.pause();
+    state = "menu";
+    audioStarted = false;
+    menuSetup();
+  }
 }

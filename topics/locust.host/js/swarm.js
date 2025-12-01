@@ -68,7 +68,8 @@ function swarmDraw() {
     drawNewWave();
     //swarmParticleHost();
   } else if (swarmState === 4) {
-    //
+    spectrum = fft.analyze();
+    drawLocustTest();
   }
   //}
 }
@@ -261,6 +262,7 @@ function hoverSwarmParticles() {
 }
 function drawLocustTest() {
   //this has been a test this whole time btw
+  hoverSwarmParticles();
   background(255);
   swarmParticles.forEach((swarmParticle) => {
     swarmParticle.update();
@@ -277,10 +279,15 @@ class SwarmParticle {
   }
   // update horrendously
   update() {
-    let posV = this.pos;
+    let posVec = this.pos;
     let mouseVec = createVector(mouseX, mouseY); //idk where to put this vector
     //move the text towards da mouse
-    if (!sentanceFormed && this.tx !== undefined && this.ty !== undefined) {
+    if (
+      hovering &&
+      !sentanceFormed &&
+      this.tx !== undefined &&
+      this.ty !== undefined
+    ) {
       let pTarg = createVector(this.tx, this.ty); //HELP ME i dont under stand
       let d = posV.dist(pTarg);
       if (d < 2) {
@@ -294,23 +301,36 @@ class SwarmParticle {
       }
       //pull particles to mouse if its that far away quickklly
       else {
-        posVec.lerp(this.tx, this.ty, 0.21);
+        posVec.lerp(pTarg, 0.21);
       }
       //what am i supposed ro do
-    } else if (sentenceFormed && this.tx !== undefined) {
-      let d = dist(px.x, px, y, mouseVec);
+    } else if (
+      sentenceFormed &&
+      this.tx !== undefined &&
+      this.ty !== undefined
+    ) {
+      let d = dist(mouseVec);
       let snap = p5.Vector.sub(posVec, mouseVec).normalize(); //from the soruce code, not sure how sub works other than subtracting vectors from one another b
       let f = 5 * smoothstep(120, 0, d);
-      posVec.add(dir.mult(f)); //soruce code's main function to multiply and drive particles away from mouse
+      posVec.add(snap.mult(f)); //soruce code's main function to multiply and drive particles away from mouse
     } else {
       //allow the rest of the particles not attached to the text in the meantime drift in nice mathy patterns
       let looseOnes =
-        noise(posVec.x * 0.01, posVec.y * 0.01, 0.07) * TWO_PI * 2;
+        noise(posVec.x * 0.01, posVec.y * 0.01, frameCount * 0.07) * TWO_PI * 2;
       //sin...cos
       posVec.x += cos(looseOnes) * 1; //what is cookie store
       posVec.y += sin(looseOnes) * 1;
     }
     //two PI is 360 or double the amunt of pi , this controls the angle s of the particels pattern fpr loose floaters
+
+    if (hovering && !sentenceFormed && sentenceParticles.length > 0) {
+      let done = true;
+      for (let p of sentenceParticles) {
+        if (dist(p.pos.x, p.pos.y, p.tx, p.ty) > 1) {
+          done = false;
+        }
+      }
+    }
   }
   show(pointSize) {
     stroke(0);
@@ -329,6 +349,11 @@ function swarmPressed() {
   } else if (swarmState === 2) {
     swarmState = 3;
     setupSwarmParticleHost();
+    //drawNewWave();
+  } else if (swarmState === 3) {
+    swarmState = 4;
+    setupLocustTest();
+    setupSentenceParticles();
     //drawNewWave();
   }
 }

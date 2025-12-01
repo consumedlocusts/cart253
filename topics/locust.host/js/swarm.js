@@ -404,10 +404,43 @@ function setupState5() {
       );
     }
   }
-  myHeadHurts();
+  targetLocustImg();
   buildState5SentenceParticles();
+  mapParticlesToImage();
 }
+function targetLocustImg() {
+  if (!locustImg2) return;
+  //just renamed all the stuff above tto match thus one if needed
+  let pg = createGraphics(width, height);
+  pg.pixelDensity(1);
+  pg.background(0);
+  pg.image(locustImg2, 0, 0, width, height);
+  pg.loadPixels();
+
+  locustTargets = [];
+  for (let x = 0; x < width; x += 4) {
+    for (let y = 0; y < height; y += 4) {
+      let idx = (x + y * width) * 4;
+      let brightness = pg.pixels[idx];
+      if (brightness < 128) {
+        locustTargets.push({ x, y });
+      }
+    }
+  } //shufflin
+  shuffle(locustTargets, true);
+}
+
 //overlay
+function mapParticlesToImage() {
+  //simplified vers of the other one gonna tweak later
+  let count = min(swarmParticles.length, locustTargets.length);
+
+  for (let i = 0; i < count; i++) {
+    swarmParticles[i].tx = locustTargets[i].x;
+    swarmParticles[i].ty = locustTargets[i].y;
+  }
+}
+
 function buildState5SentenceParticles() {
   // overlay text after image-forming particles
   let pg = createGraphics(width, height);

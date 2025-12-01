@@ -342,7 +342,7 @@ function lastSetup() {
 
   for (let i = 0; i < width; i += 20) {
     for (let o = 0; o < height; o += 5) {
-      lastParticles.push({ x: i, y: o });
+      lastParticles.push({ x: i, y: o, vx: 0, vy: 0 }); //required FORGOT
     }
   }
   buildLastTextParticles();
@@ -354,36 +354,61 @@ function lastDraw() {
 }
 function runNormalLastParticles() {
   if (wormState !== 3) return;
+
   //some detail to this state because its boring
   let centerX = width / 2;
   let centerY = height * 0.8;
-  let pull = 0.0003;
-  let swirl = 0.05;
-  let twist = -0.003;
-  //lastFade = 255; // stop fading out
+  let pull = 0.02;
+  let swirl = 0.03;
+  let twist = 0.002;
+
+  lastFade = 255; // stop fading out
   for (let p of lastParticles) {
     //purple and blue scale mouse hovering (i wanted b&w originally, but this is better)
     fill(mouseX * noise(p.x, 0.1), mouseY * noise(p.y, 0.1), lastFade);
     ellipse(p.x + 30, p.y + 30, 1);
-    let n = noise(p.x * 0.002, p.y * 0.002, 255 * 0.001);
-    let dxNoise = map(n, 0, 1, -0.4, 0.4);
-    let dyNoise = map(n, 0, 1, -0.4, 0.4); //mapped less noisely
+    let n = noise(p.x * 0.002, p.y * 0.002, frameCount * 0.001);
+    let dxNoise = map(n, 0, 1, -0.5, 0.5);
+    let dyNoise = map(n, 0, 1, -0.5, 0.5); //mapped less noisely
     // p.x += (noise(p.x / 200, p.y / 200, 3000) - 0.6) * 3;
     // p.y += (noise(p.x / 200, p.y / 200, 30000) - 0.5) * 3;
     //redo
     let dx = centerX - p.x;
     let dy = centerY - p.y;
     let fakeDist = dx * dx + dy * dy; //so i can pass these variabes somehow it works
-    let pullX = dx * pullStrength;
-    let pullY = dy * pullStrength;
+    let pullX = dx * pull;
+    let pullY = dy * pull;
+    //swirlie vortex help (perpendicular)
+    let swirlX = -dy * swirl;
+    let swirlY = dx * swirl;
+    //swirl upwards
+    let upX = 0;
+    let upY = twist;
+    //forces combo to a really fast velo
+    p.vx += dxNoise + pullX + swirlX + upX;
+    p.vy += dyNoise + pullY + swirlY + upY;
+    //revamp
+    p.vx *= 0.87;
+    p.vy *= 0.87;
+    //apply again? idk source code interpol
+    p.x += p.vx;
+    p.y += p.vy;
+    //recyle the cyclone vortex idk particle throne
+    if (p.y < -40) {
+      p.x = centerX + random(-200, 200);
+      p.y = centerY + random(0, 80);
+      p.vx = 0;
+      p.vy = 0;
+    }
   }
-  //NO FRAME COUNT FADE OUT, NO FADE AMOUNT! keep it going
-  if (lastFade <= 0) {
-    lastFade = 0;
-    lastMode = "text";
-  }
-  //lastDraw();
 }
+//NO FRAME COUNT FADE OUT, NO FADE AMOUNT! keep it going
+// if (lastFade <= 0) {
+//   lastFade = 0;
+//   lastMode = "text";
+// }
+//lastDraw();
+
 function buildLastTextParticles() {
   //again, "hidden canvas" for only text and particles to wrap with
   let pg = createGraphics(width, height);

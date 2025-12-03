@@ -14,7 +14,9 @@ let endOpenerStarted = false;
 let endOpenerText = "They were allowed to torment them, but not to kill them";
 //globalls for the chaos equations
 const DT = 0.002;
-
+const r = 20;
+const dots = 5000; //too many, no more than 10K
+//paramses to random
 const P = 3;
 const O = 2.7;
 const Q = 1.7;
@@ -35,14 +37,12 @@ function endDraw() {
     setupEndString();
   } else if (endState === 1) {
     //spectrum = fft.analyze();
-    //swarmSwarm();
-  } // else if (endState === 2) {
-
-  //} else if (endState === 3) {
-
-  //  } else if (endState === 4) {
-
-  //}
+  } else if (endState === 2) {
+    endAtmosphereDrawChaos();
+  } else if (endState === 3) {
+    //  } else if (endState === 4) {
+    //}
+  }
 }
 function setupEndString() {
   background("#9f0000ff");
@@ -72,13 +72,25 @@ function endAtmosphereChaos() {
   //dots;num of partics dt;smoothening motion r;scale of clouds p,o,q,c,e;params for systme, l;line0=points,1=lines s;strokeweight mode?,per;projection plane (ie xy)
   //nx[], ny[], nz[]; derivatives (results), x[], y[], z[]; current pos, px[], py[], pz[]; prev frame pos.
   //gonna try a class
+  //new class particle incomng, want to try seeds
+  for (let i = 0; i < dots; i++) {
+    let x = random(-10, 10);
+    let y = random(-10, 10);
+    let z = random(-10, 10);
+    particles.push(new AtmosParticle(x, y, z));
+  }
 }
 
 function endAtmosphereDrawChaos() {
-  //breh
+  fill(0, 20);
+  noStroke();
+  for (let p of particles) {
+    p.update();
+    p.draw();
+  }
 }
-class AttractorParticle {
-  constructor(x, y, z, hue) {
+class AtmosParticle {
+  constructor(x, y, z, colors) {
     this.x = x;
     this.y = y;
     this.z = z;
@@ -104,7 +116,35 @@ class AttractorParticle {
     this.y += dy * DT;
     this.z += dz * DT;
   }
-  draw() {}
+  draw() {
+    stroke(255);
+    let px, py;
+    if (project === "xy") {
+      px = map(this.x, -r, r, 0, width);
+      py = map(this.y, -r, r, height, 0);
+    } else if (project === "xz") {
+      px = map(this.x, -r, r, 0, width);
+      py = map(this.z, -r, r, height, 0);
+    } else {
+      //return to yz
+      px = map(this.y, -r, r, 0, width);
+      py = map(this.z, -r, r, height, 0);
+    }
+    //this is accordig to the codes og math how the radius of the strokeweight as poits are determined to add depth
+    if (cStroke === 1) {
+      if (project === "xy") {
+        strokeWeight(map(this.z, -r / 3, r / 3, 2, 3)); //swoop
+      } else if (project === "xz") {
+        strokeWeight(map(this.y, -r / 3, r / 3, 3, 2));
+      } else {
+        strokeWeight(map(this.x, -r / 3, r / 3, 2, 3));
+      }
+    } else {
+      strokeWeight(1);
+    }
+    point(px, py);
+  }
+  //point(px, py);
 }
 
 function endPressed() {
@@ -115,9 +155,10 @@ function endPressed() {
 
   if (endState === 1) {
     endState = 2;
-  } //else if (endState === 2) {
-  //endState = 3;
-  //}
+    endAtmosphereChaos();
+  } else if (endState === 2) {
+    endState = 3;
+  }
 }
 function endMousePressed() {
   state = "menu";

@@ -408,13 +408,13 @@ function setupState5() {
   virus = [];
   //i dont want to break anything so im just gonna make a seperate cloud of particles (called floaters..I SHOULDVE NAMED THEM VIRUS)
   //named them virus..
-  for (let i = 0; i < 150; i++) {
-    //chnage 150 later
+  for (let i = 0; i < 600; i++) {
+    //chnage 150 later for density
     virus.push({
       x: random(width),
       y: random(height),
       offset: random(1000),
-      size: random(1, 5),
+      size: random(0.5, 5),
     });
   }
   //new swarm particle from class!!!!!!!!
@@ -434,17 +434,17 @@ function targetLocustImg() {
   console.log("pls");
   if (!locustImg2) return;
   //just renamed all the stuff above tto match thus one if needed
-  let lg = createGraphics(width, height);
-  lg.pixelDensity(1);
-  lg.background(0);
-  lg.image(locustImg2, 0, 0, width, height);
-  lg.loadPixels();
+  let pg = createGraphics(width, height);
+  pg.pixelDensity(1);
+  pg.background(0);
+  pg.image(locustImg2, 0, 0, width, height);
+  pg.loadPixels();
 
   locustTargets = [];
   for (let x = 0; x < width; x += 4) {
     for (let y = 0; y < height; y += 4) {
       let idx = (x + y * width) * 4;
-      let brightness = lg.pixels[idx];
+      let brightness = pg.pixels[idx];
       if (brightness < 120) {
         locustTargets.push({ x, y });
       }

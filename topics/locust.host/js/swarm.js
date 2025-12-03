@@ -529,11 +529,6 @@ function myHeadHurts() {
 
   hovering = true;
   background("brown");
-
-  swarmParticles.forEach((p) => {
-    p.update();
-    p.show();
-  });
   noStroke();
   fill("#e2e2d0ff");
   for (let f of virus) {
@@ -549,6 +544,10 @@ function myHeadHurts() {
     if (f.y > height) f.y = 0;
     ellipse(f.x, f.y, f.size);
   }
+  swarmParticles.forEach((p) => {
+    p.update();
+    p.show();
+  });
 
   //yay text
   noStroke();

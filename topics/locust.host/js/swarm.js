@@ -304,8 +304,8 @@ function imageTargetParticles() {
   shuffle(imageTps, true);
   //instead appply this appearenace of pixely movements as a "filter"
 
-  let freeParticles = swarmParticles.filter((p) => p.tx === undefined);
-  let freeCount = min(freeParticles.length, imageTps.length);
+  let freeParticles = swarmParticles.filter((p) => p.tx === undefined); //particle filter effect for image
+  let freeCount = min(freeParticles.length, imageTps.length); //allow free virus floaters to correspond to and with image when not active
   for (let i = 0; i < freeCount; i++) {
     let t = imageTps[i];
     let p = freeParticles[i];
@@ -539,7 +539,7 @@ function buildState5SentenceParticles() {
     }
   }
   shuffle(targets, true);
-
+  //ok filter goes here afte for the free particles
   let count = min(swarmParticles.length, targets.length);
   for (let i = 0; i < count; i++) {
     let t = targets[i];
@@ -562,7 +562,7 @@ function myHeadHurts() {
   hovering = true;
   background("brown");
   noStroke();
-  fill("#e2e2d0ff");
+  fill("#e5ce00ff");
   for (let f of virus) {
     let n = noise(f.x * 0.01, f.y * 0.01, frameCount * 0.001) * TWO_PI * 2;
     //sin...cos for varied patterns and what can be returned from whole

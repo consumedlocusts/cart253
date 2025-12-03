@@ -43,13 +43,14 @@ let sentence =
 let sentenceFormed = false; //tracks if text is fully formed by particles, im keeping it because it bugs in the class without sentanceFormed and im too behind to fix this
 let hovering = false;
 let mountainImg;
-let locustImg2;
+
 let locustTargets = [];
 let imageParticles = [];
 let state5Sentence =
   "such as never was of old, nor will ever be in ages to come.";
 let swarmTextParticles = [];
 let sentenceParticles = [];
+let locustImg2;
 
 function swarmSetup() {
   if (!audioStarted) {
@@ -212,7 +213,7 @@ function swarmParticleHost() {
 }
 //using open processing code VVV state 4
 function setupLocustTest() {
-  console.log("is");
+  //see the refrence code for further explaination
   for (let x = 0; x < width; x += step) {
     for (let y = 0; y < height; y += step) {
       const p = new SwarmParticle(
@@ -298,11 +299,10 @@ function imageTargetParticles() {
   }
 }
 function hoverSwarmParticles() {
-  //too much happening return to original from docs
+  //too much happening return to original simple
   let mouseV = createVector(mouseX, mouseY); //it all ties together, thid vector represents the current position of the cursor on the screen
   let center = createVector(width / 2, height / 2); //exact middle of SKETCH canvas not pg canvas
-  let d = center.dist(mouseV); //
-
+  let d = center.dist(mouseV); //calculates euclidean distance(pythagorean theorem)between distance of center of canvas and mouseVec position to then
   hovering = d < width / 2; //important: checks if the calculated distance d is less than half the canvas width, for smooth integration and also IF ITS NOT something cool happens #bolean
 }
 function drawLocustTest() {
@@ -310,26 +310,26 @@ function drawLocustTest() {
   hoverSwarmParticles();
   background(255);
   swarmParticles.forEach((swarmParticle) => {
-    swarmParticle.update();
+    swarmParticle.update(); //BIG AWESOME CLASS (can be used again ! and again...)
     swarmParticle.show();
   });
   noStroke();
   fill(0); //nevermind i dont want the particles to form text too tired
   textAlign(CENTER, CENTER);
   textSize(32);
-  text(sentence, 0, height - 80, width, 80);
+  text(sentence, 0, height - 80, width, 80); //keep this form? is it readable at this level??
 }
 //first use of class, provided by the source code Particleses classss
 class SwarmParticle {
   constructor(x, y, size) {
     this.pos = createVector(x, y); //active update
-    this.size = size;
+    this.size = size; //i wonder
     this.tx = undefined; //text loctaions
     this.ty = undefined;
   }
   // update horrendously
   update() {
-    let mouseVec = createVector(mouseX, mouseY); //idk where to put this vector
+    let mouseVec = createVector(mouseX, mouseY); //stop useless commenting bruh
     let posVec = this.pos;
     //I CANT SPELL SENTANCE
     if (
@@ -346,14 +346,13 @@ class SwarmParticle {
         //px.y = this.ty; //ok i get it
       } else if (d > 80) {
         let snap = p5.Vector.sub(pTarg, posVec).setMag(10);
-        //snap.setMag(15); //"magnitude" or force of particle dispersing, some p5 thing
-        posVec.add(snap); //move vector by adding MORE vector like "go some more over here" if pos=(100,200) and snap=(10,-5), then the updated pos =(110,195)
+        //snap.setMag(15); //"magnitude" or force of particle dispersing
+        posVec.add(snap); //move vector by adding MORE vector like "go some more over here" if pos=(100,200) and snap=(10,-5), then the updated pos =(110,195): thus a smooth stepping effect
       }
-      //pull particles to mouse if its that far away quickklly
+      //pull particles to mouse if its that far away quickly
       else {
         posVec.lerp(pTarg, 0.2);
       }
-      //what am i supposed ro do
     } else if (
       sentenceFormed &&
       this.tx !== undefined &&
@@ -417,6 +416,7 @@ function setupState5() {
   mapParticlesToImage();
 }
 function targetLocustImg() {
+  console.log("setupLocustTest()");
   if (!locustImg2) return;
   //just renamed all the stuff above tto match thus one if needed
   let pg = createGraphics(width, height);
@@ -495,6 +495,15 @@ function myHeadHurts() {
   //show the pic
   //interesting fact use the class again
   background(0);
+  //forgot to assign target frame per every frame my bad
+  //TEST
+  for (let i = 0; i < swarmParticles.length; i++) {
+    let p = swarmParticles[i];
+    if (p.tx !== undefined && p.ty !== undefined) {
+      let target = createVector(p.tx, p.ty); //again rec the vec
+      p.pos.lerp(target, 0.08);
+    }
+  }
   swarmParticles.forEach((p) => {
     p.update();
     p.show();

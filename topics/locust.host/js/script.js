@@ -10,6 +10,7 @@
 let state = "menu";
 let wormFont;
 let locustImg;
+let locustImg2;
 let locustVid;
 let song;
 

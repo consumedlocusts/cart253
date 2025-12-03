@@ -21,7 +21,8 @@ function preload() {
   locustVid = createVideo("assets/locusthost22.mp4");
   locusteats = createVideo("assets/locusteats.mp4");
   locusteats.hide();
-  //locusteats2Vid = createVideo("assets/locusteats2.mp4");
+  locusteats2 = createVideo("assets/locusteats2.mp4");
+  locusteats2.hide();
   //locusteats3Vid = createVideo("assets/idk.mp4");
   song = loadSound("assets/bruhwhat.mp3");
   locustVid.hide();

@@ -47,6 +47,13 @@ let lastSentence =
 let lastMode = "normal";
 let locusteats;
 
+let locustChewingTextTimer = 0;
+let locustChewingTextShow = 3;
+let locustChewingTextSpeed = 3; //types 3 characters at a time, sourced from a code
+let locustChewingTextStarted = false; //for testbolean,not ready
+let locustChewingText =
+  "What the chewing locust left, the swarming locust has eaten";
+
 function wormwoodSetup() {
   helloObject = new hello(width / 10, height / 10);
   helloObject2 = new hello(width / 1.1, height / 1.1);
@@ -72,7 +79,8 @@ function wormwoodDraw() {
     wormWordPit();
   } else if (wormState === 3) {
     lastDraw();
-  } else if (wormState === 3) {
+  } else if (wormState === 4) {
+    locusteatsCloser();
     locustEating();
   }
 }
@@ -459,9 +467,30 @@ function runLastTextParticles() {
     ellipse(tp.x, tp.y, 4);
   }
 }
+function locusteatsCloser() {
+  console.log("m");
+  //based on a seperate code of mine that made a video player with "typewriter" animated text appearing
+  //i am using the type writer effect
+  //locustEating();
+  locustChewingTextShow = floor(
+    locustChewingTextTimer / locustChewingTextSpeed
+  );
+  locustChewingTextShow = min(locustChewingTextShow, locustChewingText.length);
+  text(
+    locustChewingText.substring(0, locustChewingTextShow),
+    width / 2,
+    height / 2
+  );
+  if (locustChewingTextShow < locustChewingText.length) {
+    locustChewingTextTimer++;
+  }
+}
 function locustEating() {
   //locusteats.loadPixels();
   image(locusteats, 0, 0, width, height);
+  textSize(20);
+  textAlign(LEFT, BOTTOM);
+  text(locustChewingText, 268, 100);
 
   //locusteats.hide();
 }
@@ -483,9 +512,12 @@ function wormwoodPressed() {
     lastSetup();
   } else if (wormState === 3) {
     wormState = 4;
-    //locustEating();
+    locustChewingTextShow >= locustChewingText.length;
+    locustChewingTextTimer = 0;
+    //locusteatsCloser();
     locusteats.loop();
-  }
+    locusteats.hide();
+  } else if (wormState === 4) wormState = 5;
 }
 function wormwoodMousePressed() {
   state = "menu";

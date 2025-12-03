@@ -52,6 +52,9 @@ let swarmTextParticles = [];
 let sentenceParticles = [];
 let locustImg2;
 let virus = [];
+let locusteats2;
+let locustChewingText2 =
+  "What the swarming locust left, the crawling locust has eaten";
 
 function swarmSetup() {
   if (!audioStarted) {
@@ -84,6 +87,8 @@ function swarmDraw() {
   } else if (swarmState === 5) {
     spectrum = fft.analyze();
     myHeadHurts();
+  } else if (swarmState === 6) {
+    locustEating2();
   }
   //}
 }
@@ -565,6 +570,14 @@ function myHeadHurts() {
   textSize(26);
   text(state5Sentence, width / 2, height - 100);
 }
+
+function locustEating2() {
+  //locusteats.loadPixels();
+  image(locusteats2, 0, 0, width, height);
+  textSize(20);
+  textAlign(LEFT, BOTTOM);
+  text(locustChewingText2, 268, 100);
+}
 function swarmPressed() {
   if (swarmState === 0 && swarmOpenerShow >= swarmOpenerText.length) {
     swarmState = 1;
@@ -589,10 +602,14 @@ function swarmPressed() {
     //targetLocustImg();
   } else if (swarmState === 5) {
     swarmState = 6;
+    locusteats.loop();
+    //locusteats.hide();
+  } else if (swarmState === 6) {
+    swarmState = 7;
   }
 }
 function swarmMousePressed() {
-  if (swarmState === 6) {
+  if (swarmState === 7) {
     song.pause();
     state = "menu";
     audioStarted = false;

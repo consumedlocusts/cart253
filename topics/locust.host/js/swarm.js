@@ -58,10 +58,9 @@ let locustChewingTextTimer2 = 0;
 let locustChewingTextShow2 = 3;
 let locustChewingTextSpeed2 = 3; //types 3 characters at a time, sourced from a code
 let locustChewingTextStarted2 = false; //for testbolean,not ready
-
 let locustChewingText2 =
   "What the swarming locust left, the crawling locust has eaten";
-
+let progress = "mousePress to exit";
 function swarmSetup() {
   if (!audioStarted) {
     song.play();
@@ -94,7 +93,12 @@ function swarmDraw() {
     spectrum = fft.analyze();
     myHeadHurts();
   } else if (swarmState === 6) {
-    locustEating2();
+    spectrum = fft.analyze();
+    locusteatsCloser2();
+    locustEatsGrid2();
+  } else if (swarmState === 7) {
+    spectrum = fft.analyze();
+    enough();
   }
   //}
 }
@@ -623,8 +627,8 @@ function locusteatsCloser2() {
   }
 }
 //i had to sorry
-function locustEatsGrid() {
-  locustEating();
+function locustEatsGrid2() {
+  locustEating2();
   locusteats2.loadPixels();
   linelineGrid = [];
   let step = 3;
@@ -658,6 +662,15 @@ function locustEatsGrid() {
     line(cell.x, cell.y, cell.x + carW * 0.8, cell.y);
   }
 }
+function enough() {
+  background("#a9000073");
+
+  fill(0);
+  textAlign(CENTER, CENTER);
+  textSize(22);
+  text(progress, 400, 400);
+}
+
 function swarmPressed() {
   if (swarmState === 0 && swarmOpenerShow >= swarmOpenerText.length) {
     swarmState = 1;
@@ -682,10 +695,13 @@ function swarmPressed() {
     //targetLocustImg();
   } else if (swarmState === 5) {
     swarmState = 6;
-    locusteats2.loop();
+    //locusteats2.loop();
     //locusteats2.hide();
   } else if (swarmState === 6) {
     swarmState = 7;
+    textAlign(CENTER, CENTER);
+    textSize(22);
+    text(progress, 400, 400);
   }
 }
 function swarmMousePressed() {

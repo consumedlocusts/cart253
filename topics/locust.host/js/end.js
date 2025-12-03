@@ -52,6 +52,11 @@ function endDrawString1() {
   textAlign(CENTER, CENTER);
   text(endOpenerText, width / 2, height / 2);
 }
+
+function endAtmosphere() {}
+
+function endAtmosphereDraw() {}
+
 function endPressed() {
   if (endState === 0 && endOpenerShow >= endOpenerText.length) {
     endState = 1;

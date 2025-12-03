@@ -43,7 +43,7 @@ let lastTextParticles = [];
 let lastFade = 255;
 let lastFadeAmount = -5;
 let lastSentence =
-  "and from the shaft rose smoke like the smoke of a great furnace, and the sun and the air were darkened with the smoke from the shaft.";
+  "and from the shaft rose smoke like the smoke of a great furnace, and the sun and the air were darkened with the smoke";
 let lastMode = "normal";
 let locusteats;
 
@@ -53,7 +53,7 @@ let locustChewingTextSpeed = 3; //types 3 characters at a time, sourced from a c
 let locustChewingTextStarted = false; //for testbolean,not ready
 let locustChewingText =
   "What the chewing locust left, the swarming locust has eaten";
-
+let progress1 = "mousePress to exit";
 function wormwoodSetup() {
   helloObject = new hello(width / 10, height / 10);
   helloObject2 = new hello(width / 1.1, height / 1.1);
@@ -81,10 +81,12 @@ function wormwoodDraw() {
   } else if (wormState === 3) {
     lastDraw();
   } else if (wormState === 4) {
-    locusteatsCloser();
+    //locusteatsCloser();
     //locustEating();
     locusteatsCloser();
     locustEatsGrid();
+  } else if (wormState === 5) {
+    enough1();
   }
 }
 function wormwoodOpening() {
@@ -541,7 +543,14 @@ function locustEatsGrid() {
     line(cell.x, cell.y, cell.x + carW * 0.8, cell.y);
   }
 }
+function enough1() {
+  background("#a9000073");
 
+  fill(0);
+  textAlign(CENTER, CENTER);
+  textSize(22);
+  text(progress1, 400, 400);
+}
 function wormwoodPressed() {
   console.log("hew");
   if (wormState === 0 && wormwoodLettersToShow >= wormwoodString.length) {
@@ -563,12 +572,24 @@ function wormwoodPressed() {
     locustChewingTextTimer = 0;
     //locusteatsCloser();
     locusteats.show();
+    //locusteats.trail();
     //locusteats.volume(0);
-  } else if (wormState === 4) wormState = 5;
+  } else if (wormState === 4) {
+    wormState = 5;
+    locusteats.hide();
+    locusteats.pause();
+    textAlign(CENTER, CENTER);
+    textSize(22);
+    text(progress1, 400, 400);
+  }
 }
 function wormwoodMousePressed() {
-  state = "menu";
-  menuSetup();
+  if (wormState === 5) {
+    //song.pause();
+    state = "menu";
+    //audioStarted = false;
+    menuSetup();
+  }
 }
 
 class hello {

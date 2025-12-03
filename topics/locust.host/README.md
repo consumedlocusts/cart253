@@ -36,7 +36,7 @@ Sama Hojabri
 
 > source codes and tutorials:
 >
-> - FFT & sound visuals tutotial:
+> - FFT & sound visuals tutorial:
 > - https://www.youtube.com/watch?v=8O5aCwdopLo > https://editor.p5js.org/pattvira/sketches/KB9supaPG
 
 > "Openprocessing" inspirations, tutorials & sourced codes.
@@ -45,6 +45,9 @@ Sama Hojabri
 > - https://openprocessing.org/sketch/2705181
 > - https://openprocessing.org/sketch/2729961
 > - https://openprocessing.org/sketch/1050677
+> - https://openprocessing.org/sketch/2308471
+> - https://openprocessing.org/sketch/2791327
+> -
 
 > - https://openprocessing.org/sketch/1776463/#page-8
 

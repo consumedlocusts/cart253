@@ -320,6 +320,10 @@ function drawLocustTest() {
   textSize(32);
   text(sentence, 0, height - 80, width, 80); //keep this form? is it readable at this level??
 }
+////////////////////
+////seperating ti avoid confusion and refer back to this
+/////////////
+/////////////////////
 //first use of class, provided by the source code Particleses classss
 class SwarmParticle {
   constructor(x, y, size) {
@@ -399,6 +403,11 @@ class SwarmParticle {
     strokeWeight(this.size);
     point(this.pos.x, this.pos.y);
   }
+  ////////////////////
+  ////seperating ti avoid confusion and refer back to this
+  /////////////
+  /////////////////////
+  ////////////hi
 }
 //state 5 is almost identical in construction to the 4th state but dif image + some little squares in the backgroudn
 function setupState5() {
@@ -497,7 +506,7 @@ function buildState5SentenceParticles() {
   );
   pg.loadPixels();
 
-  let targets = [];
+  let targets = []; //eberytime u see a 4 in these contexts is either RGBA related or pixel
   for (let x = 0; x < width; x += 4) {
     for (let y = 0; y < height; y += 4) {
       let idx = (x + y * width) * 4;

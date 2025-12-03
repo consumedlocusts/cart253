@@ -338,17 +338,17 @@ function lastSetup() {
   lastParticles = []; //array draws the simple background
   lastTextParticles = []; //array of objects for each brightness of each text pixel
   lastFade = 255; //alpha used in normallastparticles fill, determine when to run "normal" & "text" mode
-  lastMode = "normal"; //very local mode indication (normal is: text is:)
+  //lastMode = "normal"; //very local mode indication (normal is: text is:)
 
-  for (let i = 0; i < width; i += 20) {
-    for (let o = 0; o < height; o += 5) {
+  for (let i = 0; i < width; i += 4) {
+    for (let o = 0; o < height; o += 4) {
       lastParticles.push({ x: i, y: o, vx: 0, vy: 0 }); //required FORGOT
     }
   }
   buildLastTextParticles();
 }
 function lastDraw() {
-  background(100, 70, 40, 0.07); //RGBA background for low alpha/very transparent (the fade effect)
+  background(100, 70, 40, 0.08); //RGBA background for low alpha/very transparent (the fade effect)
   runNormalLastParticles();
   runLastTextParticles();
 }
@@ -357,7 +357,7 @@ function runNormalLastParticles() {
 
   //some detail to this state because its boring
   let centerX = width / 2;
-  let centerY = height * 0.8;
+  let centerY = height / 2;
   let pull = 0.02;
   let swirl = 0.03;
   let twist = 0.002;
@@ -375,14 +375,14 @@ function runNormalLastParticles() {
     //redo
     let dx = centerX - p.x;
     let dy = centerY - p.y;
-    let fakeDist = dx * dx + dy * dy; //so i can pass these variabes somehow it works
+    //let fakeDist = dx * dx + dy * dy; //so i can pass these variabes somehow it works
     let pullX = dx * pull;
     let pullY = dy * pull;
     //swirlie vortex help (perpendicular)
     let swirlX = -dy * swirl;
     let swirlY = dx * swirl;
     //swirl upwards
-    let upX = 0;
+    let upX = swirl;
     let upY = twist;
     //forces combo to a really fast velo
     p.vx += dxNoise + pullX + swirlX + upX;
@@ -430,7 +430,7 @@ function buildLastTextParticles() {
       //height: same thing as above
       let idx = (x + y * width) * 4; //finds the specific pixel using RGBA of pixel (multiply x+y or basic parameter by 4 to find pixel area's beginning)
       let brightness = pg.pixels[idx]; //readss the red val of pixel first as it is FIRST AND BRIGHTEST IN reallife
-      if (brightness > 150) {
+      if (brightness > 100) {
         //if pixel is in that bright enough "redzone" (white) then its part of the text, so then make a particle for it or 3
         lastTextParticles.push({
           //push them particles in to the array

@@ -535,10 +535,12 @@ function swarmPressed() {
   } else if (swarmState === 4) {
     swarmState = 5;
     setupState5();
+  } else if (swarmState === 5) {
+    swarmState = 6;
   }
 }
 function swarmMousePressed() {
-  if (state === 5) {
+  if (swarmState === 6) {
     song.pause();
     state = "menu";
     audioStarted = false;

@@ -10,7 +10,7 @@
 let state = "menu";
 let wormFont;
 let locustImg;
-let locustImg2;
+//let locustImg2;
 let locustVid;
 let song;
 
@@ -22,6 +22,7 @@ function preload() {
   locustVid.hide();
   mountainImg = loadImage("assets/mount.png");
   locustImg2 = loadImage("assets/hi.png");
+  console.log("STATE5 IMAGE LOADED"); //do not pmo
 }
 
 function setup() {

@@ -11,7 +11,7 @@ let endOpenerTimer = 0;
 let endOpenerShow = 0;
 let endOpenerSpeedFactor = 3; // types 3 characters at a time
 let endOpenerStarted = false;
-let endOpenerText = "They were allowed to torment them, but not to kill them";
+let endOpenerText = "Here at the edge of this world";
 //globalls for the chaos equations
 const DT = 0.002;
 const r = 20;

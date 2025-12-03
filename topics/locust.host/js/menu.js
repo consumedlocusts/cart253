@@ -13,14 +13,14 @@ let charWid, charHi, horz, vert;
 let hoverAgain = 0;
 let lineGrid = [];
 let menuState = 0;
-let menuTitle = "locust.host";
+///let menuTitle = "locust.host";
 let titles = [
   //array of titles for the char index detection when clicking to turn both
   // scripts(seperatestorylines) and colors
   { name: "Wormwood", sub: "Shaft of the Abyss, devastation", x: 100, y: 230 },
   { name: "Signs of the Swarm", sub: "Destroyer, destruction", x: 100, y: 400 },
   { name: "The End Times", sub: "God's hate, desolation", x: 100, y: 600 },
-  { name: "locust.host", x: 800 / 1.3, y: 800 / 1.05, textSize: 20 },
+  { name: "locust.host", x: 800 / 1.4, y: 800 / 0.99, textSize: 20 },
 ];
 
 function menuSetup() {

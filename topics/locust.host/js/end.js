@@ -12,6 +12,18 @@ let endOpenerShow = 0;
 let endOpenerSpeedFactor = 3; // types 3 characters at a time
 let endOpenerStarted = false;
 let endOpenerText = "They were allowed to torment them, but not to kill them";
+//globalls for the chaos equations
+const DT = 0.002;
+
+const P = 3;
+const O = 2.7;
+const Q = 1.7;
+const C = 2;
+const E = 9;
+let particleChaos = [];
+let dLines = false; //like 0=points, false = pts, true =lines like 1=lines
+let cStroke = true; //strokeweight changes w depth to add .. depth
+let project = "xz"; //any of them really
 
 function endSetup() {}
 function endDraw() {
@@ -53,9 +65,47 @@ function endDrawString1() {
   text(endOpenerText, width / 2, height / 2);
 }
 
-function endAtmosphere() {}
+function endAtmosphereChaos() {
+  //source code CHAOS equations
+  //what is going on : millions of particles in a fake 3d space, projected into as 2d pts using XY,Xz,Yz etc.
+  //depending on the outcome, dots or lines or both (most common)
+  //dots;num of partics dt;smoothening motion r;scale of clouds p,o,q,c,e;params for systme, l;line0=points,1=lines s;strokeweight mode?,per;projection plane (ie xy)
+  //nx[], ny[], nz[]; derivatives (results), x[], y[], z[]; current pos, px[], py[], pz[]; prev frame pos.
+  //gonna try a class
+}
 
-function endAtmosphereDraw() {}
+function endAtmosphereDrawChaos() {
+  //breh
+}
+class AttractorParticle {
+  constructor(x, y, z, hue) {
+    this.x = x;
+    this.y = y;
+    this.z = z;
+
+    this.prevX = x;
+    this.prevY = y;
+    this.prevZ = z;
+
+    this.colors = colors;
+  }
+
+  update() {
+    //storage for previous thingies
+    this.prevX = this.x;
+    this.prevY = this.y;
+    this.prevZ = this.z;
+    //what i learnt from bad youtube ex: dx, dy, dz mean he direction + speed to move along the x/y/z axis this frame
+    const dx = this.y - P * this.x + O * this.y * this.z;
+    const dy = Q * this.y - this.x * this.z + this.z;
+    const dz = C * this.x * this.y - E * this.z;
+    //always mult by the DT
+    this.x += dx * DT;
+    this.y += dy * DT;
+    this.z += dz * DT;
+  }
+  draw() {}
+}
 
 function endPressed() {
   if (endState === 0 && endOpenerShow >= endOpenerText.length) {

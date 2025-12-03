@@ -352,14 +352,14 @@ class SwarmParticle {
     let mouseVec = createVector(mouseX, mouseY); //stop useless commenting bruh
     let posVec = this.pos;
     //I CANT SPELL SENTANCE
-    //yes move to target
+
     if (
       hovering &&
       !sentenceFormed &&
       this.tx !== undefined &&
       this.ty !== undefined
     ) {
-      let pTarg = createVector(this.tx, this.ty); //HELP ME i dont under stand
+      let pTarg = createVector(this.tx, this.ty);
       let d = posVec.dist(pTarg);
       if (d < 2) {
         posVec.set(pTarg); //real snap to particless if closeclose
@@ -463,7 +463,7 @@ function setupState5() {
   mapParticlesToImage();
 }
 function targetLocustImg() {
-  console.log("pls");
+  //console.log("pls");
   if (!locustImg2) return;
   //just renamed all the stuff above tto match thus one if needed
   let pg = createGraphics(width, height);
@@ -498,9 +498,9 @@ function targetLocustImg() {
 function mapParticlesToImage() {
   //simplified vers of the other one gonna tweak later
   let count = min(swarmParticles.length, locustTargets.length);
-  // let mouseV = createVector(mouseX, mouseY); //it all ties together, thid vector represents the current position of the cursor on the screen
-  // let center = createVector(width / 2, height / 2); //exact middle of SKETCH canvas not pg canvas
-  // let d = center.dist(mouseV); //calculates euclidean distance(pythagorean theorem)between distance of center of canvas and mouseVec position to then
+  // let mouseV = createVector(mouseX, mouseY); **//it all ties together, thid vector represents the current position of the cursor on the screen
+  // let center = createVector(width / 2, height / 2); **//exact middle of SKETCH canvas not pg canvas
+  // let d = center.dist(mouseV); **//calculates euclidean distance(pythagorean theorem)between distance of center of canvas and mouseVec position to then
   // hovering = d < width / 2;
   for (let i = 0; i < count; i++) {
     swarmParticles[i].tx = locustTargets[i].x;

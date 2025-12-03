@@ -299,11 +299,11 @@ function imageTargetParticles() {
 }
 function hoverSwarmParticles() {
   //too much happening return to original from docs
-  let mouseV = createVector(mouseX, mouseY);
-  let center = createVector(width / 2, height / 2);
-  let d = center.dist(mouseV);
+  let mouseV = createVector(mouseX, mouseY); //it all ties together, thid vector represents the current position of the cursor on the screen
+  let center = createVector(width / 2, height / 2); //exact middle of SKETCH canvas not pg canvas
+  let d = center.dist(mouseV); //
 
-  hovering = d < width / 2;
+  hovering = d < width / 2; //important: checks if the calculated distance d is less than half the canvas width, for smooth integration and also IF ITS NOT something cool happens #bolean
 }
 function drawLocustTest() {
   //this has been a test this whole time btw
@@ -322,7 +322,7 @@ function drawLocustTest() {
 //first use of class, provided by the source code Particleses classss
 class SwarmParticle {
   constructor(x, y, size) {
-    this.pos = createVector(x, y);
+    this.pos = createVector(x, y); //active update
     this.size = size;
     this.tx = undefined; //text loctaions
     this.ty = undefined;
@@ -359,21 +359,26 @@ class SwarmParticle {
       this.tx !== undefined &&
       this.ty !== undefined
     ) {
-      let d = posVec.dist(mouseVec);
-      let snap = p5.Vector.sub(posVec, mouseVec).normalize(); //from the soruce code, not sure how sub works other than subtracting vectors from one another b
-      let f = 5 * smoothstep(120, 0, d);
-      posVec.add(snap.mult(f)); //soruce code's main function to multiply and drive particles away from mouse
+      //scattered comments
+      let d = posVec.dist(mouseVec); //NORMALIZE: This scales that difference vector down so it has a length (magnitude) of exactly 1. This gives you only the direction of the "snap"
+      let snap = p5.Vector.sub(posVec, mouseVec).normalize(); //researhced SUB: this NEW VECTOR** is created by SUBtracting the mouse VECcoordinates from the objectVECcoordinates:
+      //result vector points from the mouse towards the objectVVVV
+      let f = 5 * smoothstep(120, 0, d); //smoothste p calculates the force (f) of the attraction, smoothly allowing force increase of distance 120 the max value is caoped at 5*the smoothstepping result
+      //creates the snapping, ATTRACTION EFFECT;between posVec or position vector and mosue vector:the strength of the attraction dependent on the distance between them(BY SUBIng)
+      posVec.add(snap.mult(f)); //soruce code's main function to multiply and drive particles away from mouse butVV
+      //^^^ addsthis force (f) vector to the object's current position vector updating its location to move it toward the mouse
     } else {
-      //allow the rest of the particles not attached to the text in the meantime drift in nice mathy patterns
+      //allow the rest of the particles not attached to the text in the meantime drift in nice mathy patterns:smooth randomized but organically geometrical..
       let loose =
         noise(posVec.x * 0.01, posVec.y * 0.01, frameCount * 0.001) *
         TWO_PI *
         2;
       //sin...cos for varied patterns and what can be returned from whole
-      posVec.x += cos(loose) * 1.5; //what is cookie store
-      posVec.y += sin(loose) * 1.5;
+      posVec.x += cos(loose) * 1.5; //UPDATOR ANGLES:the cosine of the angle is giving the horizontal direction/magnitude (change in Xof "loose" partilces) and speed of 1.5
+      posVec.y += sin(loose) * 1.5; //sine is this ^^ but verticle
     } //change numbers around so the entire thing doesnt explode
-    //two PI is 360 or double the amunt of pi , this controls the angle s of the particels pattern fpr loose floaters
+    //this is my best way to describe use of PI and noise etc:VVV
+    //*twoPi *2 calculates random but geometrical angles using perlin noise, the output of the noise is scaled to 0-4Pi (360 around a cricle)to get the full rng of directional value (hense floaters)
 
     if (hovering && !sentenceFormed && sentenceParticles.length > 0) {
       let done = true;

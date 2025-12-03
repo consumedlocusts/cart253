@@ -52,7 +52,13 @@ let swarmTextParticles = [];
 let sentenceParticles = [];
 let locustImg2;
 let virus = [];
+
 let locusteats2;
+let locustChewingTextTimer2 = 0;
+let locustChewingTextShow2 = 3;
+let locustChewingTextSpeed2 = 3; //types 3 characters at a time, sourced from a code
+let locustChewingTextStarted2 = false; //for testbolean,not ready
+
 let locustChewingText2 =
   "What the swarming locust left, the crawling locust has eaten";
 
@@ -94,7 +100,7 @@ function swarmDraw() {
 }
 function openSwarm() {
   fill("#ffffffff");
-  textSize(32);
+  textSize(20);
   textAlign(CENTER, CENTER);
   //text like typewriter h e l l o ... h . e . l . l . o etc. (used in many of my codes)
   swarmOpenerShow = floor(swarmOpenerTimer / swarmOpenerSpeedFactor);
@@ -116,7 +122,7 @@ function swarmSpectrum() {
   }
 
   fill("#e3e2e2ff");
-  textSize(32);
+  textSize(22);
   textAlign(CENTER, CENTER);
   text(swarmSpectrumText, width / 2, height / 2);
 } //idk
@@ -322,7 +328,7 @@ function drawLocustTest() {
   noStroke();
   fill(0); //nevermind i dont want the particles to form text too tired
   textAlign(CENTER, CENTER);
-  textSize(32);
+  textSize(22);
   text(sentence, 0, height - 80, width, 80); //keep this form? is it readable at this level??
 }
 ////////////////////
@@ -416,6 +422,14 @@ class SwarmParticle {
 }
 //state 5 is almost identical in construction to the 4th state but dif image + some little squares in the backgroudn
 function setupState5() {
+  //swarmParticles.length = 0;
+  //clear the mountain oartcicals or it wont WORK
+  for (let p of swarmParticles) {
+    p.tx = undefined;
+    p.ty = undefined;
+  }
+  sentenceFormed = false;
+  hovering = false;
   locustTargets = [];
   imageParticles = [];
   sentenceParticles = [];
@@ -567,16 +581,82 @@ function myHeadHurts() {
   noStroke();
   fill(255);
   textAlign(CENTER, CENTER);
-  textSize(26);
+  textSize(20);
   text(state5Sentence, width / 2, height - 100);
 }
 
+//topics/locust.host/js/wormwood.js
 function locustEating2() {
-  //locusteats.loadPixels();
+  background(0);
+
+  locusteats2.loop();
+
   image(locusteats2, 0, 0, width, height);
   textSize(20);
   textAlign(LEFT, BOTTOM);
-  text(locustChewingText2, 268, 100);
+  text(locustChewingText2, 99, 100);
+  carW = 3;
+  carH = 3;
+  rizon = floor(width / carW);
+  ticle = floor(height / carH);
+  //locustEatsGrid();
+}
+function locusteatsCloser2() {
+  //console.log("m");
+  //based on a seperate code of mine that made a video player with "typewriter" animated text appearing
+  //i am using the type writer effect
+  //locustEating();
+  locustChewingTextShow2 = floor(
+    locustChewingTextTimer2 / locustChewingTextSpeed2
+  );
+  locustChewingTextShow2 = min(
+    locustChewingTextShow2,
+    locustChewingText2.length
+  );
+  text(
+    locustChewingText2.substring(0, locustChewingTextShow2),
+    width / 2,
+    height / 2
+  );
+  if (locustChewingTextShow2 < locustChewingText2.length) {
+    locustChewingTextTimer2++;
+  }
+}
+//i had to sorry
+function locustEatsGrid() {
+  locustEating();
+  locusteats2.loadPixels();
+  linelineGrid = [];
+  let step = 3;
+  //renamed all this in google docs cuz nah
+  //let step = 3;
+
+  for (let v = 0; v < ticle; v += step) {
+    for (let h = 0; h < rizon; h += step) {
+      let idx = (v * locusteats2.width + h) * 4;
+      let r = locusteats2.pixels[idx];
+      let g = locusteats2.pixels[idx + 1];
+      let b = locusteats2.pixels[idx + 2];
+
+      let brightness = (r + g + b) / 3; //i want to add alpha channel anf try something else soon
+      //let inv = 255 - brightness; //might change this to normal ...
+
+      linelineGrid.push({
+        x: map(h, 0, locusteats2.width, 0, width), //mapp h, min 0, to new vid wid,0 smallest on canvas, outted asheight
+        y: map(v, 0, locusteats2.height, 0, height),
+        thickness: map(brightness, 0, 255, 7, 0.05),
+        //inv: inv,
+        revealed: false,
+      });
+    }
+  }
+
+  for (let cell of linelineGrid) {
+    cell.revealed = true;
+    stroke(255);
+    strokeWeight(cell.thickness);
+    line(cell.x, cell.y, cell.x + carW * 0.8, cell.y);
+  }
 }
 function swarmPressed() {
   if (swarmState === 0 && swarmOpenerShow >= swarmOpenerText.length) {
@@ -602,8 +682,8 @@ function swarmPressed() {
     //targetLocustImg();
   } else if (swarmState === 5) {
     swarmState = 6;
-    locusteats.loop();
-    //locusteats.hide();
+    locusteats2.loop();
+    //locusteats2.hide();
   } else if (swarmState === 6) {
     swarmState = 7;
   }

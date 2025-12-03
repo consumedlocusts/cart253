@@ -12,12 +12,12 @@ let wormFont;
 let locustImg;
 //let locustImg2;
 let locustVid;
-
+let fontForAll;
 let song;
 
 function preload() {
   locustImg = loadImage("assets/locust.png");
-  wormFont = loadFont("assets/what.ttf");
+  //wormFont = loadFont("assets/what.ttf");
   locustVid = createVideo("assets/locusthost22.mp4");
   locusteats = createVideo("assets/locusteats.mp4");
   locusteats.hide();
@@ -29,12 +29,14 @@ function preload() {
   mountainImg = loadImage("assets/mount.png");
   locustImg2 = loadImage("assets/hi.png");
   console.log("STATE5 IMAGE LOADED"); //do not pmo
+
+  fontForAll = loadFont("assets/what.ttf");
 }
 
 function setup() {
   createCanvas(800, 800);
   menuSetup();
-
+  textFont(fontForAll);
   console.log(setup);
 
   //locustImg.loadPixels();

@@ -58,6 +58,7 @@ function wormwoodSetup() {
   helloObject = new hello(width / 10, height / 10);
   helloObject2 = new hello(width / 1.1, height / 1.1);
   locustVid.loop();
+  //locusteats.size(width, height);
   textSize(20);
   textAlign(LEFT, BOTTOM);
 
@@ -81,7 +82,9 @@ function wormwoodDraw() {
     lastDraw();
   } else if (wormState === 4) {
     locusteatsCloser();
-    locustEating();
+    //locustEating();
+    locusteatsCloser();
+    locustEatsGrid();
   }
 }
 function wormwoodOpening() {
@@ -91,7 +94,7 @@ function wormwoodOpening() {
   wormwoodLettersToShow = min(wormwoodLettersToShow, wormwoodString.length);
   text(
     wormwoodString.substring(0, wormwoodLettersToShow),
-    width / 2,
+    width / 3,
     height / 2
   );
   if (wormwoodLettersToShow < wormwoodString.length) {
@@ -103,7 +106,8 @@ function wormwoodGrid() {
 
   locustVid.loadPixels();
   linelineGrid = [];
-  let step = 3; //it processes pixels "per this many times" instead of ++ hense why im counting like += step instead of ++ pixels h and v
+  let step = 3; //it processes pixels "per this many times"
+  // instead of ++ hense why im counting like += step instead of ++ pixels h and v
   for (let v = 0; v < ticle; v += step) {
     for (let h = 0; h < rizon; h += step) {
       let idx = (v * locustVid.width + h) * 4;
@@ -138,7 +142,7 @@ function wormwoodGrid() {
 }
 function setupWordFall() {
   //new function for word fall, styling it
-  textSize(26);
+  textSize(22);
   textAlign(LEFT, TOP);
   fallWords = []; //per word in the string oh god im only on the second verse
   trails = []; //array for the vine lines
@@ -146,7 +150,7 @@ function setupWordFall() {
   //border for ye lines to not go out of bounds
   let words = fallText.split(" "); //why
   let x = width * 0.05;
-  let y = height * 0.9;
+  let y = height * 0.8;
   let maxWidth = width * 0.9;
   let lineHeight = 40;
   for (let i = 0; i < words.length; i++) {
@@ -289,6 +293,7 @@ function setupWordPit() {
   pg.pixelDensity(1); //change smaller for thinner pixels
   pg.background(0);
   pg.fill(255);
+  //pg.textFont(fontForAll);
   pg.textSize(width / 25); //smaller text size so it fits
   pg.textAlign(CENTER, CENTER); //starts the text like a paragraph, the box bound determines the shape of this
   //evil bound box (text wrap)
@@ -467,8 +472,23 @@ function runLastTextParticles() {
     ellipse(tp.x, tp.y, 4);
   }
 }
+function locustEating() {
+  background(0);
+
+  locusteats.loop();
+
+  image(locusteats, 0, 0, width, height);
+  textSize(20);
+  textAlign(LEFT, BOTTOM);
+  text(locustChewingText, 99, 100);
+  carW = 3;
+  carH = 3;
+  rizon = floor(width / carW);
+  ticle = floor(height / carH);
+  //locustEatsGrid();
+}
 function locusteatsCloser() {
-  console.log("m");
+  //console.log("m");
   //based on a seperate code of mine that made a video player with "typewriter" animated text appearing
   //i am using the type writer effect
   //locustEating();
@@ -485,14 +505,41 @@ function locusteatsCloser() {
     locustChewingTextTimer++;
   }
 }
-function locustEating() {
-  //locusteats.loadPixels();
-  image(locusteats, 0, 0, width, height);
-  textSize(20);
-  textAlign(LEFT, BOTTOM);
-  text(locustChewingText, 268, 100);
+//i had to sorry
+function locustEatsGrid() {
+  locustEating();
+  locusteats.loadPixels();
+  linelineGrid = [];
+  let step = 3;
+  //renamed all this in google docs cuz nah
+  //let step = 3;
 
-  //locusteats.hide();
+  for (let v = 0; v < ticle; v += step) {
+    for (let h = 0; h < rizon; h += step) {
+      let idx = (v * locusteats.width + h) * 4;
+      let r = locusteats.pixels[idx];
+      let g = locusteats.pixels[idx + 1];
+      let b = locusteats.pixels[idx + 2];
+
+      let brightness = (r + g + b) / 3; //i want to add alpha channel anf try something else soon
+      let inv = 255 - brightness; //might change this to normal ...
+
+      linelineGrid.push({
+        x: map(h, 0, locusteats.width, 0, width), //mapp h, min 0, to new vid wid,0 smallest on canvas, outted asheight
+        y: map(v, 0, locusteats.height, 0, height),
+        thickness: map(inv, 0, 255, 7, 0.05),
+        inv: inv,
+        revealed: false,
+      });
+    }
+  }
+
+  for (let cell of linelineGrid) {
+    cell.revealed = true;
+    stroke(255);
+    strokeWeight(cell.thickness);
+    line(cell.x, cell.y, cell.x + carW * 0.8, cell.y);
+  }
 }
 
 function wormwoodPressed() {
@@ -512,11 +559,11 @@ function wormwoodPressed() {
     lastSetup();
   } else if (wormState === 3) {
     wormState = 4;
-    locustChewingTextShow >= locustChewingText.length;
+    //locustChewingTextShow >= locustChewingText.length;
     locustChewingTextTimer = 0;
     //locusteatsCloser();
-    locusteats.loop();
-    locusteats.hide();
+    locusteats.show();
+    //locusteats.volume(0);
   } else if (wormState === 4) wormState = 5;
 }
 function wormwoodMousePressed() {

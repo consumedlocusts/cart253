@@ -12,6 +12,9 @@ let endOpenerShow = 0;
 let endOpenerSpeedFactor = 3; // types 3 characters at a time
 let endOpenerStarted = false;
 let endOpenerText = "Here at the edge of this world";
+let endSentence = " if this grand panorama before me is what you call God...";
+let contText = "...Then God is not dead";
+let progress2 = "mousePress to exit";
 //globalls for the chaos equations
 const DT = 0.002;
 const r = 20;
@@ -40,12 +43,14 @@ function endDraw() {
   } else if (endState === 2) {
     endAtmosphereDrawChaos();
   } else if (endState === 3) {
-    //  } else if (endState === 4) {
-    //}
+    continueLater();
+  } else if (endState === 4) {
+    enough2();
   }
 }
+
 function setupEndString() {
-  background("#9f0000ff");
+  background("#a9000073");
   fill(255);
   textSize(32);
   textAlign(CENTER, CENTER);
@@ -84,11 +89,18 @@ function endAtmosphereChaos() {
 function endAtmosphereDrawChaos() {
   fill(0, 20);
   noStroke();
+
   for (let p of particles) {
     p.update();
     p.draw();
   }
+  noStroke();
+  fill(255);
+  textAlign(CENTER, CENTER);
+  textSize(20);
+  text(endSentence, width / 2, height - 100);
 }
+
 class AtmosParticle {
   constructor(x, y, z, colors) {
     this.x = x;
@@ -146,7 +158,21 @@ class AtmosParticle {
   }
   //point(px, py);
 }
+//ranout of time but I think this is a good way to end it for now
+function continueLater() {
+  fill(255);
+  textSize(32);
+  textAlign(CENTER, CENTER);
+  text(contText, width / 2, height / 2);
+}
+function enough2() {
+  background("#a9000073");
 
+  fill(255);
+  textAlign(CENTER, CENTER);
+  textSize(22);
+  text(progress2, 400, 400);
+}
 function endPressed() {
   if (endState === 0 && endOpenerShow >= endOpenerText.length) {
     endState = 1;
@@ -158,9 +184,22 @@ function endPressed() {
     endAtmosphereChaos();
   } else if (endState === 2) {
     endState = 3;
+  } else if (endState === 3) {
+    endState = 4;
+    //wormState = 5;
+    //locusteats.hide();
+    //locusteats.pause();
+    fill(0);
+    textAlign(CENTER, CENTER);
+    textSize(24);
+    text(progress2, 400, 400);
   }
 }
 function endMousePressed() {
-  state = "menu";
-  menuSetup();
+  if (endState === 4) {
+    //song.pause();
+    state = "menu";
+    //audioStarted = false;
+    menuSetup();
+  }
 }

@@ -596,7 +596,8 @@ function locustEating2() {
   locusteats2.loop();
 
   image(locusteats2, 0, 0, width, height);
-  textSize(20);
+  textSize(19);
+  fill("#000000ff");
   textAlign(LEFT, BOTTOM);
   text(locustChewingText2, 99, 100);
   carW = 3;
@@ -657,7 +658,7 @@ function locustEatsGrid2() {
 
   for (let cell of linelineGrid) {
     cell.revealed = true;
-    stroke(255);
+    stroke("#ffffffa9");
     strokeWeight(cell.thickness);
     line(cell.x, cell.y, cell.x + carW * 0.8, cell.y);
   }
@@ -695,6 +696,7 @@ function swarmPressed() {
     //targetLocustImg();
   } else if (swarmState === 5) {
     swarmState = 6;
+    locustChewingTextTimer2 = 0;
     //locusteats2.loop();
     //locusteats2.hide();
   } else if (swarmState === 6) {

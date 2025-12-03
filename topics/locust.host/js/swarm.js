@@ -51,6 +51,7 @@ let state5Sentence =
 let swarmTextParticles = [];
 let sentenceParticles = [];
 let locustImg2;
+let virus = [];
 
 function swarmSetup() {
   if (!audioStarted) {
@@ -332,6 +333,7 @@ class SwarmParticle {
     let mouseVec = createVector(mouseX, mouseY); //stop useless commenting bruh
     let posVec = this.pos;
     //I CANT SPELL SENTANCE
+    //yes move to target
     if (
       hovering &&
       !sentenceFormed &&
@@ -353,6 +355,7 @@ class SwarmParticle {
       else {
         posVec.lerp(pTarg, 0.2);
       }
+      //noo repel from mouse
     } else if (
       sentenceFormed &&
       this.tx !== undefined &&
@@ -367,6 +370,7 @@ class SwarmParticle {
       posVec.add(snap.mult(f)); //soruce code's main function to multiply and drive particles away from mouse butVV
       //^^^ addsthis force (f) vector to the object's current position vector updating its location to move it toward the mouse
     } else {
+      //this is drifting behavior (noise)
       //allow the rest of the particles not attached to the text in the meantime drift in nice mathy patterns:smooth randomized but organically geometrical..
       let loose =
         noise(posVec.x * 0.01, posVec.y * 0.01, frameCount * 0.001) *
@@ -378,7 +382,7 @@ class SwarmParticle {
     } //change numbers around so the entire thing doesnt explode
     //this is my best way to describe use of PI and noise etc:VVV
     //*twoPi *2 calculates random but geometrical angles using perlin noise, the output of the noise is scaled to 0-4Pi (360 around a cricle)to get the full rng of directional value (hense floaters)
-
+    //
     if (hovering && !sentenceFormed && sentenceParticles.length > 0) {
       let done = true;
       for (let p of sentenceParticles) {
@@ -401,7 +405,18 @@ function setupState5() {
   locustTargets = [];
   imageParticles = [];
   sentenceParticles = [];
-
+  virus = [];
+  //i dont want to break anything so im just gonna make a seperate cloud of particles (called floaters..I SHOULDVE NAMED THEM VIRUS)
+  //named them virus..
+  for (let i = 0; i < 150; i++) {
+    //chnage 150 later
+    virus.push({
+      x: random(width),
+      y: random(height),
+      offset: random(1000),
+      size: random(1, 5),
+    });
+  }
   //new swarm particle from class!!!!!!!!
   swarmParticles.length = 0;
   for (let x = 0; x < width; x += step) {
@@ -416,33 +431,45 @@ function setupState5() {
   mapParticlesToImage();
 }
 function targetLocustImg() {
-  console.log("setupLocustTest()");
+  console.log("pls");
   if (!locustImg2) return;
   //just renamed all the stuff above tto match thus one if needed
-  let pg = createGraphics(width, height);
-  pg.pixelDensity(1);
-  pg.background(0);
-  pg.image(locustImg2, 0, 0, width, height);
-  pg.loadPixels();
+  let lg = createGraphics(width, height);
+  lg.pixelDensity(1);
+  lg.background(0);
+  lg.image(locustImg2, 0, 0, width, height);
+  lg.loadPixels();
 
   locustTargets = [];
   for (let x = 0; x < width; x += 4) {
     for (let y = 0; y < height; y += 4) {
       let idx = (x + y * width) * 4;
-      let brightness = pg.pixels[idx];
-      if (brightness < 128) {
+      let brightness = lg.pixels[idx];
+      if (brightness < 120) {
         locustTargets.push({ x, y });
       }
     }
   } //shufflin
   shuffle(locustTargets, true);
+  let freeLocParticles = swarmParticles.filter((p) => p.tx === undefined);
+  let libreCount = min(freeLocParticles.length, locustTargets.length);
+  for (let i = 0; i < libreCount; i++) {
+    let t = locustTargets[i];
+    let p = freeLocParticles[i];
+    p.tx = t.x;
+    p.ty = t.y;
+    //the end
+  }
 }
 
 //overlay
 function mapParticlesToImage() {
   //simplified vers of the other one gonna tweak later
   let count = min(swarmParticles.length, locustTargets.length);
-
+  // let mouseV = createVector(mouseX, mouseY); //it all ties together, thid vector represents the current position of the cursor on the screen
+  // let center = createVector(width / 2, height / 2); //exact middle of SKETCH canvas not pg canvas
+  // let d = center.dist(mouseV); //calculates euclidean distance(pythagorean theorem)between distance of center of canvas and mouseVec position to then
+  // hovering = d < width / 2;
   for (let i = 0; i < count; i++) {
     swarmParticles[i].tx = locustTargets[i].x;
     swarmParticles[i].ty = locustTargets[i].y;
@@ -492,22 +519,37 @@ function buildState5SentenceParticles() {
   }
 }
 function myHeadHurts() {
+  //uh
+  // for (let i = 0; i < 5; i++) {
+  //   console.log(i, swarmParticles[i].pos.x, swarmParticles[i].tx);
+  // }
   //show the pic
   //interesting fact use the class again
-  background(0);
-  //forgot to assign target frame per every frame my bad
-  //TEST
-  for (let i = 0; i < swarmParticles.length; i++) {
-    let p = swarmParticles[i];
-    if (p.tx !== undefined && p.ty !== undefined) {
-      let target = createVector(p.tx, p.ty); //again rec the vec
-      p.pos.lerp(target, 0.08);
-    }
-  }
+  //MORE floaters (sorry i dont have a better name lmaoo)
+
+  hovering = true;
+  background("brown");
+
   swarmParticles.forEach((p) => {
     p.update();
     p.show();
   });
+  noStroke();
+  fill("#e2e2d0ff");
+  for (let f of virus) {
+    let n = noise(f.x * 0.01, f.y * 0.01, frameCount * 0.001) * TWO_PI * 2;
+    //sin...cos for varied patterns and what can be returned from whole
+    f.x += cos(n) * 1.5; //UPDATOR ANGLES:the cosine of the angle is giving the horizontal direction/magnitude (change in Xof "loose" partilces) and speed of 1.5
+    f.y += sin(n) * 1.5;
+    //might make the speeed align to music ^^
+    //wrap around screen, could i constrain instead .. i havent used const more than like once...
+    if (f.x < 0) f.x = width;
+    if (f.x > width) f.x = 0;
+    if (f.y < 0) f.y = height;
+    if (f.y > height) f.y = 0;
+    ellipse(f.x, f.y, f.size);
+  }
+
   //yay text
   noStroke();
   fill(255);
@@ -535,6 +577,8 @@ function swarmPressed() {
   } else if (swarmState === 4) {
     swarmState = 5;
     setupState5();
+    //buildState5SentenceParticles();
+    //targetLocustImg();
   } else if (swarmState === 5) {
     swarmState = 6;
   }

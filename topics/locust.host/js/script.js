@@ -12,15 +12,17 @@ let wormFont;
 let locustImg;
 //let locustImg2;
 let locustVid;
+
 let song;
 
 function preload() {
   locustImg = loadImage("assets/locust.png");
   wormFont = loadFont("assets/what.ttf");
   locustVid = createVideo("assets/locusthost22.mp4");
-  locusteatsVid = createVideo("assets/locusteats.mp4");
-  locusteats2Vid = createVideo("assets/locusteats2.mp4");
-  locusteats3Vid = createVideo("assets/idk.mp4");
+  locusteats = createVideo("assets/locusteats.mp4");
+  locusteats.hide();
+  //locusteats2Vid = createVideo("assets/locusteats2.mp4");
+  //locusteats3Vid = createVideo("assets/idk.mp4");
   song = loadSound("assets/bruhwhat.mp3");
   locustVid.hide();
   mountainImg = loadImage("assets/mount.png");

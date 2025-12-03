@@ -8,7 +8,6 @@
 let carW, carH, rizon, ticle;
 
 let linelineGrid = [];
-
 let helloObject;
 let helloObject2;
 
@@ -46,6 +45,8 @@ let lastFadeAmount = -5;
 let lastSentence =
   "and from the shaft rose smoke like the smoke of a great furnace, and the sun and the air were darkened with the smoke from the shaft.";
 let lastMode = "normal";
+let locusteats;
+
 function wormwoodSetup() {
   helloObject = new hello(width / 10, height / 10);
   helloObject2 = new hello(width / 1.1, height / 1.1);
@@ -71,6 +72,8 @@ function wormwoodDraw() {
     wormWordPit();
   } else if (wormState === 3) {
     lastDraw();
+  } else if (wormState === 3) {
+    locustEating();
   }
 }
 function wormwoodOpening() {
@@ -456,6 +459,12 @@ function runLastTextParticles() {
     ellipse(tp.x, tp.y, 4);
   }
 }
+function locustEating() {
+  //locusteats.loadPixels();
+  image(locusteats, 0, 0, width, height);
+
+  //locusteats.hide();
+}
 
 function wormwoodPressed() {
   console.log("hew");
@@ -472,6 +481,10 @@ function wormwoodPressed() {
   } else if (wormState === 2) {
     wormState = 3;
     lastSetup();
+  } else if (wormState === 3) {
+    wormState = 4;
+    //locustEating();
+    locusteats.loop();
   }
 }
 function wormwoodMousePressed() {

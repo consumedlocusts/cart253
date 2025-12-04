@@ -416,7 +416,7 @@ class SwarmParticle {
   show() {
     stroke(0);
     strokeWeight(this.size);
-    point(this.pos.x, this.pos.y);
+    point(this.pos.x, this.pos.y); //pts position is all of this code
   }
   ////////////////////
   ////seperating ti avoid confusion and refer back to this

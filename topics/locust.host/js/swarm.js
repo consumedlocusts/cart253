@@ -218,9 +218,9 @@ function swarmParticleHost() {
     let freqIndex = floor(
       map(i, 0, swarmTextParticles.length, 0, spectrum.length)
     );
-    let energy = spectrum[freqIndex]; //fruitful energized object to spectrum jitters
+    let energy = spectrum[freqIndex]; //fruitful energized object to spectrum jitters, mapped to the frequency of song (spectrum freqIndx)
     let lift = map(energy, 0, 255, 0, -120); //map the it and allow for motion
-    let jitter = map(energy, 0, 255, 0, 6);
+    let jitter = map(energy, 0, 255, 0, 6); //use of energy everywhere that requires showing the music bobbing effct
     p.y = lerp(p.y, p.baseY + lift, 0.15);
     let xJitter = sin(frameCount * 0.1 + p.offset) * jitter;
     text(p.char, p.x + xJitter, p.y); //text drawn accordingly

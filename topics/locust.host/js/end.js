@@ -102,6 +102,7 @@ function endAtmosphereDrawChaos() {
 }
 
 class AtmosParticle {
+  //love contructors
   constructor(x, y, z, colors) {
     this.x = x;
     this.y = y;
@@ -130,6 +131,7 @@ class AtmosParticle {
   }
   draw() {
     stroke(255);
+    //points are mapped likewise of the constructors directions, creats that infininity look
     let px, py;
     if (project === "xy") {
       px = map(this.x, -r, r, 0, width);
@@ -142,7 +144,7 @@ class AtmosParticle {
       px = map(this.y, -r, r, 0, width);
       py = map(this.z, -r, r, height, 0);
     }
-    //this is accordig to the codes og math how the radius of the strokeweight as poits are determined to add depth
+    //this is accordig to the codes og math how the radius of the strokeweight as poits are determined to add depth to the loop appearnce(create a fake 3d enviroment by assigning z)
     if (cStroke === 1) {
       if (project === "xy") {
         strokeWeight(map(this.z, -r / 3, r / 3, 2, 3)); //swoop
@@ -186,9 +188,6 @@ function endPressed() {
     endState = 3;
   } else if (endState === 3) {
     endState = 4;
-    //wormState = 5;
-    //locusteats.hide();
-    //locusteats.pause();
     fill(0);
     textAlign(CENTER, CENTER);
     textSize(24);

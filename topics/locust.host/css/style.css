@@ -18,9 +18,9 @@ body {
   height: 100vh; /* Body is the height of the viewport */
   overflow: hidden; /* Hide anything that goes off the window size */
 }
-/* canvas {
-  width: 800px;
-  height: 800px;
+canvas {
+  width: 390px;
+  height: 390px;
   max-width: 100vw;
   max-height: 100vh;
-} */
+}

@@ -706,6 +706,10 @@ function swarmPressed() {
     text(progress, 400, 400);
   }
 }
+function swarmTouched() {
+  swarmPressed();
+  return false;
+}
 function swarmMousePressed() {
   if (swarmState === 7) {
     song.pause();

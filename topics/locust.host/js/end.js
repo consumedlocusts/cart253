@@ -180,7 +180,6 @@ function endPressed() {
     endState = 1;
     endOpenerTimer = 0;
   }
-
   if (endState === 1) {
     endState = 2;
     endAtmosphereChaos();
@@ -193,6 +192,10 @@ function endPressed() {
     textSize(24);
     text(progress2, 400, 400);
   }
+}
+function endTouched() {
+  endPressed();
+  return false;
 }
 function endMousePressed() {
   if (endState === 4) {

@@ -74,6 +74,22 @@ function keyPressed() {
       break;
   }
 }
+function touchStarted() {
+  switch (state) {
+    case "menu":
+      menuTouched();
+      break;
+    case "wormwood":
+      wormwoodTouched();
+      break;
+    case "swarm":
+      swarmTouched();
+      break;
+    case "end":
+      endTouched();
+      break;
+  }
+}
 function mousePressed() {
   switch (state) {
     case "menu":

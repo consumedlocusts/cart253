@@ -583,6 +583,10 @@ function wormwoodPressed() {
     text(progress1, 400, 400);
   }
 }
+function wormwoodTouched() {
+  wormwoodPressed();
+  return false;
+}
 function wormwoodMousePressed() {
   if (wormState === 5) {
     //song.pause();

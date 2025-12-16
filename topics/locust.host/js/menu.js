@@ -122,3 +122,7 @@ function menuMousePressed() {
     }
   }
 }
+function menuTouched() {
+  menuMousePressed();
+  //return false;
+}

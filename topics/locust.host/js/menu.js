@@ -124,5 +124,5 @@ function menuMousePressed() {
 }
 function menuTouched() {
   menuMousePressed();
-  //return false;
+  return false;
 }

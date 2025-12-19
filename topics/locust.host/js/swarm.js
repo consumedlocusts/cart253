@@ -341,6 +341,7 @@ function drawLocustTest() {
 /////////////////////
 //first use of class, provided by the source code Particleses classss
 class SwarmParticle {
+  //for needed
   constructor(x, y, size) {
     this.pos = createVector(x, y); //active update
     this.size = size; //i wonder
@@ -404,13 +405,15 @@ class SwarmParticle {
     //
     if (hovering && !sentenceFormed && sentenceParticles.length > 0) {
       let done = true;
+
       for (let p of sentenceParticles) {
         if (dist(p.pos.x, p.pos.y, p.tx, p.ty) > 1) {
           done = false;
           break; //redit
         }
       }
-      if (done) sentenceFormed = true; //again 95% of this is from source code and p5js
+      if (done) sentenceFormed = true;
+      //for (let i = p)
     }
   }
   show() {
@@ -422,7 +425,7 @@ class SwarmParticle {
   ////seperating ti avoid confusion and refer back to this
   /////////////
   /////////////////////
-  ////////////hi
+  ////////////hi GO FIX CLASS
 }
 //state 5 is almost identical in construction to the 4th state but dif image + some little squares in the backgroudn
 function setupState5() {
@@ -507,7 +510,7 @@ function mapParticlesToImage() {
     swarmParticles[i].ty = locustTargets[i].y;
   }
 }
-
+//DO NOT FORGET SPLICE PLS edit the class
 function buildState5SentenceParticles() {
   // overlay text after image-forming particles
   let pg = createGraphics(width, height);
@@ -568,6 +571,7 @@ function myHeadHurts() {
     //sin...cos for varied patterns and what can be returned from whole
     f.x += cos(n) * 1.5; //UPDATOR ANGLES:the cosine of the angle is giving the horizontal direction/magnitude (change in Xof "loose" partilces) and speed of 1.5
     f.y += sin(n) * 1.5;
+    //NEED TO ADD SPLICE
     //might make the speeed align to music ^^
     //wrap around screen, could i constrain instead .. i havent used const more than like once...
     if (f.x < 0) f.x = width;

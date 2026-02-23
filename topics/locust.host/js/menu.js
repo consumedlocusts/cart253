@@ -17,9 +17,9 @@ let menuState = 0;
 let titles = [
   //array of titles for the char index detection when clicking to turn both
   // scripts(seperatestorylines) and colors
-  { name: "Wormwood", sub: "Shaft of the Abyss, devastation", x: 100, y: 230 },
-  { name: "Signs of the Swarm", sub: "Destroyer, destruction", x: 100, y: 400 },
-  { name: "The End Times", sub: "God's hate, desolation", x: 100, y: 600 },
+  { name: "Wormwood", sub: "Devastation", x: 100, y: 230 },
+  { name: "Signs of the Swarm", sub: "Destruction", x: 100, y: 400 },
+  { name: "The End Times", sub: "Desolation", x: 100, y: 600 },
   { name: "locust.host", x: 800 / 1.4, y: 800 / 0.99, textSize: 20 },
 ];
 

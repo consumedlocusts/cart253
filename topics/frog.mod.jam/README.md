@@ -2,7 +2,7 @@
 
 A game about shooting aliens
 
-[Play it!]( https://consumedlocusts.github.io/cart253/topics/frog.mod.jamdex.html)
+[Play it!](https://consumedlocusts.github.io/cart253/topics/frog.mod.jam/)
 
 - [Ideas](./frogfrogfrog-ideas.md)
 - [Planning](./planning.md)
@@ -23,9 +23,9 @@ References
 > - This project uses [p5.js](https://p5js.org).
 > - The animated (sprite) gifs are freehand drawn by me using https://www.piskelapp.com
 > - reference youtube videos: https://www.youtube.com/watch?v=GusFmfBmJmc
-https://youtu.be/GusFmfBmJmc?si=mWE4r5BkkCpU65ik
-https://www.youtube.com/watch?v=i95fzz8p8f8
+>   https://youtu.be/GusFmfBmJmc?si=mWE4r5BkkCpU65ik
+>   https://www.youtube.com/watch?v=i95fzz8p8f8
 
 > - reference codes: https://editor.p5js.org/_SIDDHU_/sketches/epGClQAh0
-https://editor.p5js.org/ethanfrier/sketches/Sz8fGi37K 
-https://editor.p5js.org/megamitts/sketches/L9NjBIo0G 
+>   https://editor.p5js.org/ethanfrier/sketches/Sz8fGi37K
+>   https://editor.p5js.org/megamitts/sketches/L9NjBIo0G
